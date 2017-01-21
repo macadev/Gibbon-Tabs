@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "NiceTab",
+  "description": "The Chrome tab manager you always wanted.",
+  "version": "1.0",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "commands": {
+    "show_tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Brings a window that displays all the tabs."
+    }
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
