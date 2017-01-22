@@ -1,3 +1,11 @@
+// Close the popup when the escape key is pressed
+document.onkeydown = function(event) {
+  event = event || window.event;
+  if (event.keyCode == 27) {
+    window.close();
+  }
+};
+
 function getAllTabs(callback) {
   // Query filter to be passed to chrome.tabs.query - see
   // https://developer.chrome.com/extensions/tabs#method-query
