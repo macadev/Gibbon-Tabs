@@ -1,0 +1,28 @@
+Possible Names:
+
+Cheetabs -> Ok
+GibbonTabs -> Pretty great
+Fastabs -> 
+Nimbletabs
+Funtabs
+lightrun
+quicktab
+searchfast
+fuzzytabs -> Good
+salsatabs
+dopetabs
+
+TODO:
+
+- Reload fuzzy when tabs are created while popup is open (unlikely to be used)
+- Add arrow keys functionality, numbering shortcuts?
+- Maybe don't use an input field, rather just type in front of window!
+- Number of open tabs displayed on corner?
+- Think about multi window support?
+- Build simple "make tab active, close popup functionality!"
+
+TODO's for far from today:
+
+- Logo
+- Gifs
+- Good presentation
