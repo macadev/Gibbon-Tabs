@@ -19,13 +19,40 @@ function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
 
+function searchTabs() {
+  var searchText = document.getElementById('search_box').value;
+  var results = fuse.search(searchText);
+  var resText = "";
+  for (let result of results) {
+    resText = resText + "Title: " + result.title + "\nurl: " + result.url + "\n\n";
+    renderStatus(resText);
+  }
+}
+
+var fuse;
 document.addEventListener('DOMContentLoaded', function() {
   console.log("getting all tabs");
+  
+  // Add event handler to input box
+  var inputBox = document.getElementById('search_box');
+  inputBox.addEventListener('keyup', searchTabs);
+
   getAllTabs(function(tabs) {
     var urls = "";
+    var tabsToSearch = [];
     for (let tab of tabs) {
+      tabsToSearch.push({
+        title: tab.title,
+        url: tab.url
+      })
       urls = urls + tab.url + "\n";
     }
-    renderStatus(urls);
+    
+    var searchOpts = {
+      shouldSort: true,
+      keys: ["title", "url"]
+    }
+    fuse = new Fuse(tabsToSearch, searchOpts);
+    // renderStatus(urls);
   });
 });
