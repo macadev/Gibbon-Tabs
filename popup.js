@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Add event handler to input box
   var inputBox = document.getElementById('search_box');
+  inputBox.focus();
   inputBox.addEventListener('keyup', searchTabs);
 
   getAllTabs(function(tabs) {
