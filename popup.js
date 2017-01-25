@@ -18,18 +18,17 @@ document.onkeydown = function(event) {
     highlightTab(highlightIndex);
     return;
   }
-
   // Enter key
   if (event.keyCode == 13) {
     activateTab(highlightIndex);
     window.close();
   }
-
 };
 
 function activateTab(tabIndex) {
-  var tabId = tabsToRender[tabIndex - 1].id;
-  chrome.tabs.update(tabId, {
+  var tab = tabsToRender[tabIndex - 1];
+  chrome.windows.update(tab.windowId, { focused : true });
+  chrome.tabs.update(tab.tabId, {
     active: true,
     highlighted: true
   });
@@ -85,7 +84,8 @@ function searchTabs() {
   for (let result of results) {
     tabsToRender.push({
       html: createTabHtmlElement(result, tabIndex),
-      id: result.id
+      tabId: result.tabId,
+      windowId: result.windowId
     });
     tabIndex++;
   }
@@ -110,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
       tabsToSearch.push({
         title: tab.title,
         url: tab.url,
-        id: tab.id
+        tabId: tab.id,
+        windowId: tab.windowId
       });
     }
 
