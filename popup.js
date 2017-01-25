@@ -60,5 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
       keys: ["title", "url"]
     }
     fuse = new Fuse(tabsToSearch, searchOpts);
+    searchTabs();
   });
 });
