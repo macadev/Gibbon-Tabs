@@ -24,16 +24,23 @@ function renderSearchResults(tabsToRender) {
 
 function searchTabs() {
   var searchText = document.getElementById('search_box').value;
-  var results = fuse.search(searchText);
+
+  var results;
+  if (searchText.length === 0) {
+    results = tabsToSearch;
+  } else {
+    results = fuse.search(searchText);
+  }
+
   var tabsToRender = [];
   for (let result of results) {
-    console.log(result);
     tabsToRender.push(createTabHtmlElement(result));
   }
   renderSearchResults(tabsToRender);
 }
 
 var fuse; // used to perform the fuzzy search
+var tabsToSearch = [];
 document.addEventListener('DOMContentLoaded', function() {
   // Add event handler to input box
   var inputBox = document.getElementById('search_box');
@@ -41,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
   inputBox.addEventListener('keyup', searchTabs);
 
   getAllTabs(function(tabs) {
-    var tabsToSearch = [];
     for (let tab of tabs) {
       tabsToSearch.push({
         title: tab.title,
