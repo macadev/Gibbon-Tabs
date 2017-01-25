@@ -7,53 +7,52 @@ document.onkeydown = function(event) {
 };
 
 function getAllTabs(callback) {
-  // Query filter to be passed to chrome.tabs.query - see
-  // https://developer.chrome.com/extensions/tabs#method-query
   var queryInfo = {};
   chrome.tabs.query(queryInfo, function(tabs) {
     callback(tabs);
   });
 }
 
-function renderStatus(statusText) {
-  document.getElementById('status').textContent = statusText;
+function createTabHtmlElement(tabData) {
+  // TODO: embedding html like this is horrible. Fix.
+  return "<div id=\"tab\"><div>" + tabData.title + "</div><div>" + tabData.url +"</div></div>";
+}
+
+function renderSearchResults(tabsToRender) {
+  document.getElementById('tab_container').innerHTML = tabsToRender.join('');
 }
 
 function searchTabs() {
   var searchText = document.getElementById('search_box').value;
   var results = fuse.search(searchText);
-  var resText = "";
+  var tabsToRender = [];
   for (let result of results) {
-    resText = resText + "Title: " + result.title + "\nurl: " + result.url + "\n\n";
-    renderStatus(resText);
+    console.log(result);
+    tabsToRender.push(createTabHtmlElement(result));
   }
+  renderSearchResults(tabsToRender);
 }
 
-var fuse;
+var fuse; // used to perform the fuzzy search
 document.addEventListener('DOMContentLoaded', function() {
-  console.log("getting all tabs");
-  
   // Add event handler to input box
   var inputBox = document.getElementById('search_box');
   inputBox.focus();
   inputBox.addEventListener('keyup', searchTabs);
 
   getAllTabs(function(tabs) {
-    var urls = "";
     var tabsToSearch = [];
     for (let tab of tabs) {
       tabsToSearch.push({
         title: tab.title,
         url: tab.url
       })
-      urls = urls + tab.url + "\n";
     }
-    
+
     var searchOpts = {
       shouldSort: true,
       keys: ["title", "url"]
     }
     fuse = new Fuse(tabsToSearch, searchOpts);
-    // renderStatus(urls);
   });
 });

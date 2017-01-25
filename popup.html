@@ -1,9 +1,4 @@
 <!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
 <html>
   <head>
     <title>Getting Started Extension's Popup</title>
@@ -12,12 +7,18 @@
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
       }
-      #status {
+      #search_box {
+        margin-bottom: 20px
+      }
+      #tab_container {
         /* avoid an excessively wide status text */
         white-space: pre;
         text-overflow: ellipsis;
         /* overflow: hidden;
         max-width: 400px; */
+      }
+      #tab {
+        margin-bottom: 15px;
       }
     </style>
     <script src="popup.js"></script>
@@ -25,7 +26,6 @@
   </head>
   <body>
     <input id="search_box" type="text">
-    <div id="status"></div>
+    <div id="tab_container"></div>
   </body>
 </html>
-
