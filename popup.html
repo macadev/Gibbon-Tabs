@@ -9,15 +9,19 @@
         color: #FFFFFF;
         background: #34363A;
       }
-      #search_box {
-        margin-bottom: 20px
-      }
       #tab_container {
         /* avoid an excessively wide status text */
         white-space: pre;
         text-overflow: ellipsis;
         /* overflow: hidden;
         max-width: 400px; */
+      }
+      input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        margin-bottom: 15px;
       }
       .tab {
         margin-bottom: 15px;
@@ -30,6 +34,7 @@
     <script src="fuse.min.js"></script>
   </head>
   <body>
+    <h3>Gibbon Tabs: Navigate your tab jungle!</h3>
     <input id="search_box" type="text">
     <div id="tab_container"></div>
   </body>
