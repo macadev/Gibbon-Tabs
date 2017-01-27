@@ -2,11 +2,10 @@ Possible Names:
 
 Cheetabs -> Ok
 GibbonTabs -> Pretty great
-Fastabs -> 
+Fastabs ->
 Nimbletabs
 Funtabs
 lightrun
-quicktab
 searchfast
 fuzzytabs -> Good
 salsatabs
@@ -20,6 +19,10 @@ TODO:
 - Number of open tabs displayed on corner?
 - Think about multi window support?
 - Build simple "make tab active, close popup functionality!"
+
+- Lots of edge cases. Best handled by making extension disappear the moment user clicks away
+- Tab snapshot feature sounds cool, a bit tough to implement. Big design challenges there.
+- Match highlighting is a killer feature.
 
 TODO's for far from today:
 

@@ -56,6 +56,14 @@ function getAllTabs(callback) {
   });
 }
 
+function saveTabsSnapshot() {
+  getAllTabs(function (tabs){
+    chrome.storage.sync.set({ "tabs": "myBody" }, function() {
+      console.log("Tab Snapshot saved successfully.");
+    });
+  });
+}
+
 function createTabHtmlElement(tabData, tabIndex) {
   // TODO: embedding html like this is horrible. Fix.
   return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + tabData.title + "</div><div class=\"url_container\">" + tabData.url +"</div></div>";
@@ -83,11 +91,8 @@ function searchTabs() {
   tabsToRender = [];
   var tabIndex = 1;
   for (let result of results) {
-    tabsToRender.push({
-      html: createTabHtmlElement(result, tabIndex),
-      tabId: result.tabId,
-      windowId: result.windowId
-    });
+    result.html = createTabHtmlElement(result, tabIndex);
+    tabsToRender.push(result);
     tabIndex++;
   }
   renderSearchResults(tabsToRender);
@@ -112,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
         title: tab.title,
         url: tab.url,
         tabId: tab.id,
-        windowId: tab.windowId
+        windowId: tab.windowId,
+        iconUrl: tab.favIconUrl
       });
     }
 
