@@ -1,40 +1,13 @@
 <!doctype html>
 <html>
   <head>
-    <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-        color: #FFFFFF;
-        background: #34363A;
-      }
-      #tab_container {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        /* overflow: hidden;
-        max-width: 400px; */
-      }
-      input[type=text] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        box-sizing: border-box;
-        margin-bottom: 15px;
-      }
-      .tab {
-        margin-bottom: 15px;
-      }
-      .highlighted {
-        box-shadow:0 0 20px yellow;
-      }
-    </style>
+    <title>Gibbon Tabs</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="popup.js"></script>
     <script src="fuse.min.js"></script>
   </head>
   <body>
-    <h3>Gibbon Tabs: Navigate your tab jungle!</h3>
+    <h3>Gibbon Tabs</h3>
     <input id="search_box" type="text">
     <div id="tab_container"></div>
   </body>

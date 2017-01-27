@@ -45,6 +45,7 @@ function highlightTab(tabIndex) {
   var toHighlight = document.getElementById("search_id_" + tabIndex);
   if (toHighlight !== null) {
     toHighlight.classList.add("highlighted");
+    toHighlight.scrollIntoView(false);
   }
 }
 
@@ -57,7 +58,7 @@ function getAllTabs(callback) {
 
 function createTabHtmlElement(tabData, tabIndex) {
   // TODO: embedding html like this is horrible. Fix.
-  return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + tabData.title + "</div><div>" + tabData.url +"</div></div>";
+  return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + tabData.title + "</div><div class=\"url_container\">" + tabData.url +"</div></div>";
 }
 
 function renderSearchResults(tabsToRender) {

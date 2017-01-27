@@ -1,0 +1,50 @@
+body {
+  /* font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif; */
+  font-family: "Inconsolata", "Monaco", "Consolas", 'Courier New', Courier;
+  font-size: 75%;
+  color: #FFFFFF;
+  background: #21252B;
+}
+#tab_container {
+  /* avoid an excessively wide status text */
+  white-space: pre;
+  text-overflow: ellipsis;
+  /* overflow: hidden;
+  max-width: 400px; */
+}
+input[type=text] {
+  width: 50%;
+  padding: 8px 16px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  color: #FFFFFF;
+  background: #1B1D23;
+  outline: none;
+  border-width:0px;
+  border:none;
+}
+input[type=text]:focus {
+  outline: none;
+}
+
+.tab {
+  background: #2A2E36;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  margin-bottom: 8px;
+}
+.url_container {
+  font-size: 25%;
+  color: #D7dAE0;
+}
+.highlighted {
+  /* box-shadow:0 0 20px yellow; */
+  border-style: solid;
+  border-left-color: #568AF2;
+  border-right-color: #2A2E36;
+  border-top-color: #2A2E36;
+  border-bottom-color: #2A2E36;
+}
