@@ -81,23 +81,40 @@ function renderSearchResults(tabsToRender) {
 function searchTabs() {
   var searchText = document.getElementById('search_box').value;
 
-  var results;
+  tabsToRender;
   if (searchText.length === 0) {
-    results = tabsToSearch;
+    tabsToRender = _searchTabsNoQuery(tabsToSearch);
   } else {
-    results = fuse.search(searchText);
+    tabsToRender = _searchTabsWithQuery(tabsToSearch, searchText);
   }
 
-  tabsToRender = [];
-  var tabIndex = 1;
-  for (let result of results) {
-    result.html = createTabHtmlElement(result, tabIndex);
-    tabsToRender.push(result);
-    tabIndex++;
-  }
   renderSearchResults(tabsToRender);
   highlightIndex = 1; // Reset highlight index to the first tab
   if (tabsToRender.length > 0) highlightTab(highlightIndex); // highlight first result
+}
+
+function _searchTabsNoQuery(tabsToSearch) {
+  var tabsToRender = [];
+  var tabIndex = 1;
+  for (let tab of tabsToSearch) {
+    tab.html = createTabHtmlElement(tab);
+    tabsToRender.push(tab);
+    tabIndex++;
+  }
+  return tabsToRender;
+}
+
+function _searchTabsWithQuery(tabsToSearch, query) {
+  results = fuse.search(query);
+  var tabsToRender = [];
+  var tabIndex = 1;
+  for (let result of results) {
+    result.item.matches = result.matches;
+    result.item.html = createTabHtmlElement(result.item, tabIndex);
+    tabsToRender.push(result.item);
+    tabIndex++;
+  }
+  return tabsToRender;
 }
 
 var fuse; // used to perform the fuzzy search
@@ -124,7 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var searchOpts = {
       shouldSort: true,
-      keys: ["title", "url"]
+      keys: ["title", "url"],
+      include: ['matches']
     }
     fuse = new Fuse(tabsToSearch, searchOpts);
     searchTabs();

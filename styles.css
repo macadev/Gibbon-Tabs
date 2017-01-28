@@ -3,6 +3,8 @@ body {
   font-size: 75%;
   color: #FFFFFF;
   background: #21252B;
+  width: 600px;
+  height: 800px;
 }
 #tab_container {
   /* avoid an excessively wide status text */
