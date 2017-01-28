@@ -66,7 +66,11 @@ function saveTabsSnapshot() {
 
 function createTabHtmlElement(tabData, tabIndex) {
   // TODO: embedding html like this is horrible. Fix.
-  return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + tabData.title + "</div><div class=\"url_container\">" + tabData.url +"</div></div>";
+  var title = tabData.title;
+  var url = tabData.url;
+  if ("title_highlighted" in tabData) title = tabData.title_highlighted;
+  if ("url_highlighted" in tabData) url = tabData.url_highlighted;
+  return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div>";
 }
 
 function renderSearchResults(tabsToRender) {
@@ -110,11 +114,42 @@ function _searchTabsWithQuery(tabsToSearch, query) {
   var tabIndex = 1;
   for (let result of results) {
     result.item.matches = result.matches;
+    highLightSearchResults(result.item);
     result.item.html = createTabHtmlElement(result.item, tabIndex);
     tabsToRender.push(result.item);
     tabIndex++;
   }
   return tabsToRender;
+}
+
+function highLightSearchResults(tab) {
+  var matchKey;
+  var highLightedText;
+  var new_key;
+  for (let match of tab.matches) {
+    matchKey = match.key;
+    highLightedText = _highLightSearchResultsHelper(tab[matchKey], match.indices);
+    new_key = matchKey + '_highlighted';
+    tab[new_key] = highLightedText;
+  }
+}
+
+function _highLightSearchResultsHelper(text, matches) {
+  var result = [];
+  var pair = matches.shift();
+  // Build the formatted string
+  for (var i = 0; i < text.length; i++) {
+    var char = text.charAt(i);
+    if (pair && i == pair[0]) {
+      result.push('<b>');
+    }
+    result.push(char);
+    if (pair && i == pair[1]) {
+      result.push('</b>');
+      pair = matches.shift();
+    }
+  }
+  return result.join('');
 }
 
 var fuse; // used to perform the fuzzy search
