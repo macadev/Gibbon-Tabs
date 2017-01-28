@@ -101,6 +101,8 @@ function _searchTabsNoQuery(tabsToSearch) {
   var tabsToRender = [];
   var tabIndex = 1;
   for (let tab of tabsToSearch) {
+    delete tab.title_highlighted;
+    delete tab.url_highlighted;
     tab.html = createTabHtmlElement(tab);
     tabsToRender.push(tab);
     tabIndex++;
