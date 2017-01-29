@@ -32,13 +32,19 @@ input[type=text]:focus {
   outline: none;
 }
 .url_icon {
-  float: left;
-  vertical-align: middle;
-  height: 15px;
   width: 15px;
-  padding-right: 5px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: auto;
+  margin-top: auto;
+  padding-left: 10px;
 }
 .tab {
+  position: relative;
   background: #2A2E36;
   padding-top: 10px;
   padding-right: 10px;
@@ -46,8 +52,11 @@ input[type=text]:focus {
   padding-left: 10px;
   margin-bottom: 8px;
 }
+.text_container {
+  position: relative;
+  left: 25px;
+}
 .url_container {
-  float: left
   font-size: 25%;
   color: #D7dAE0;
 }
