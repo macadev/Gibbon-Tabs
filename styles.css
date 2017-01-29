@@ -31,7 +31,13 @@ input[type=text] {
 input[type=text]:focus {
   outline: none;
 }
-
+.url_icon {
+  float: left;
+  vertical-align: middle;
+  height: 15px;
+  width: 15px;
+  padding-right: 5px;
+}
 .tab {
   background: #2A2E36;
   padding-top: 10px;
@@ -41,6 +47,7 @@ input[type=text]:focus {
   margin-bottom: 8px;
 }
 .url_container {
+  float: left
   font-size: 25%;
   color: #D7dAE0;
 }

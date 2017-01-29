@@ -42,10 +42,13 @@ function removeHighlight(tabIndex) {
 }
 
 function highlightTab(tabIndex) {
+  console.log("getting called");
   var toHighlight = document.getElementById("search_id_" + tabIndex);
   if (toHighlight !== null) {
     toHighlight.classList.add("highlighted");
     toHighlight.scrollIntoView(false);
+  } else {
+    console.log("to highlight is null");
   }
 }
 
@@ -70,7 +73,11 @@ function createTabHtmlElement(tabData, tabIndex) {
   var url = tabData.url;
   if ("title_highlighted" in tabData) title = tabData.title_highlighted;
   if ("url_highlighted" in tabData) url = tabData.url_highlighted;
-  return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div>";
+  if (tabData.iconUrl === undefined) {
+    return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div>";
+  } else {
+    return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div>";
+  }
 }
 
 function renderSearchResults(tabsToRender) {
@@ -103,7 +110,7 @@ function _searchTabsNoQuery(tabsToSearch) {
   for (let tab of tabsToSearch) {
     delete tab.title_highlighted;
     delete tab.url_highlighted;
-    tab.html = createTabHtmlElement(tab);
+    tab.html = createTabHtmlElement(tab, tabIndex);
     tabsToRender.push(tab);
     tabIndex++;
   }
