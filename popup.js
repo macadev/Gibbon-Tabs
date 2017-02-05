@@ -65,12 +65,11 @@ function getAllTabs(callback) {
 function saveTabsSnapshot() {
   swal({
     title: "Create tabs Snapshot!",
-    text: "Name the snapshot:",
     type: "input",
     showCancelButton: true,
     closeOnConfirm: false,
     animation: "slide-from-top",
-    inputPlaceholder: "Write something"
+    inputPlaceholder: "Snapshot name"
   },
   function(inputValue){
     if (inputValue === false) return false;
