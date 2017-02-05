@@ -2,6 +2,12 @@ document.onkeydown = function(event) {
   event = event || window.event;
   // Escape key
   if (event.keyCode == 27) {
+    chrome.storage.local.clear(function() {
+      var error = chrome.runtime.lastError;
+      if (error) {
+        console.error(error);
+      }
+    });
     window.close();
   }
   // Down arrow key
@@ -57,10 +63,47 @@ function getAllTabs(callback) {
 }
 
 function saveTabsSnapshot() {
-  getAllTabs(function (tabs){
-    chrome.storage.sync.set({ "tabs": "myBody" }, function() {
-      console.log("Tab Snapshot saved successfully.");
+  swal({
+    title: "Create tabs Snapshot!",
+    text: "Name the snapshot:",
+    type: "input",
+    showCancelButton: true,
+    closeOnConfirm: false,
+    animation: "slide-from-top",
+    inputPlaceholder: "Write something"
+  },
+  function(inputValue){
+    if (inputValue === false) return false;
+
+    if (inputValue === "") {
+      swal.showInputError("You need to write something!");
+      return false
+    }
+
+    getTabsSnapshots(function(tabSnapsObj) {
+      getAllTabs(function (tabs) {
+        var newSnapshot = {
+          name: inputValue,
+          tabs: tabs
+        };
+
+        if (tabSnapsObj.tabSnaps === undefined) {
+          tabSnapsObj.tabSnaps = { listOfSnaps: [] };
+        }
+
+        tabSnapsObj.tabSnaps.listOfSnaps.push(newSnapshot);
+        chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
+          swal("Success!", "Sanpshot " + inputValue + " has been saved.", "success");
+        });
+        swal.showInputError("Failed to save snapshot!");
+      });
     });
+  });
+}
+
+function getTabsSnapshots(callback) {
+  chrome.storage.local.get("tabSnaps", function(tabSnaps) {
+    callback(tabSnaps);
   });
 }
 
@@ -168,6 +211,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var inputBox = document.getElementById('search_box');
   inputBox.focus();
   inputBox.oninput = searchTabs;
+
+  var saveSnapshotButton = document.getElementById('save_snap_button');
+  saveSnapshotButton.onclick = saveTabsSnapshot;
 
   getAllTabs(function(tabs) {
     for (let tab of tabs) {
