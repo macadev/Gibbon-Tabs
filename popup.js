@@ -92,10 +92,24 @@ function saveTabsSnapshot() {
 
         tabSnapsObj.tabSnaps.listOfSnaps.push(newSnapshot);
         chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
-          swal("Success!", "Sanpshot " + inputValue + " has been saved.", "success");
+          swal("Success!", "Sanpshot \"" + inputValue + "\" has been saved.", "success");
         });
         swal.showInputError("Failed to save snapshot!");
       });
+    });
+  });
+}
+
+function renderListOfSnapshots() {
+  getTabsSnapshots(function(tabSnapsObj) {
+    var tabSnapsHtml = "";
+    for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
+      tabSnapsHtml += "<div>" + tabSnap.name + "</div>";
+    }
+    swal({
+      title: "Your Tab Snapshots!",
+      text: tabSnapsHtml,
+      html: true
     });
   });
 }
@@ -213,6 +227,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var saveSnapshotButton = document.getElementById('save_snap_button');
   saveSnapshotButton.onclick = saveTabsSnapshot;
+
+  var renderSnapsListButton = document.getElementById('get_snaps_button');
+  renderSnapsListButton.onclick = renderListOfSnapshots;
 
   getAllTabs(function(tabs) {
     for (let tab of tabs) {
