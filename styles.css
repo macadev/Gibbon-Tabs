@@ -67,3 +67,19 @@ b {
   border-top-color: #2A2E36;
   border-bottom-color: #2A2E36;
 }
+.tab_snap_box {
+  color: #FFFFFF;
+  background: #AAAAAA;
+  cursor: pointer;
+  margin-bottom: 15px;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+#tab_snap_container {
+  max-height: 285px;
+  overflow: auto;
+}

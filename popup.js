@@ -102,16 +102,30 @@ function saveTabsSnapshot() {
 
 function renderListOfSnapshots() {
   getTabsSnapshots(function(tabSnapsObj) {
-    var tabSnapsHtml = "";
-    for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
-      tabSnapsHtml += "<div>" + tabSnap.name + "</div>";
+    var tabSnapsHtml = "<div id=\"tab_snap_container\">";
+    if (tabSnapsObj.tabSnaps !== undefined) {
+      for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
+        tabSnapsHtml += "<div class=\"tab_snap_box\">" + tabSnap.name + "</div>";
+      }
+    } else {
+      tabSnapsHtml = "You haven't saved any tab snapshots!";
     }
+    tabSnapsHtml += "</div>";
     swal({
       title: "Your Tab Snapshots!",
       text: tabSnapsHtml,
       html: true
     });
+
+    var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
+    for (var i = 0; i < tabSnapBoxes.length; i++) {
+      tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapsObj.tabSnaps.listOfSnaps[i]);
+    }
   });
+}
+
+function activateTabSnapshot(tabData) {
+  console.log(tabData);
 }
 
 function getTabsSnapshots(callback) {
