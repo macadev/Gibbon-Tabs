@@ -125,7 +125,19 @@ function renderListOfSnapshots() {
 }
 
 function activateTabSnapshot(tabData) {
-  console.log(tabData);
+  var urls = [];
+  for (let tab of tabData.tabs) {
+    urls.push(tab.url);
+  }
+  var createData = {
+    url: urls,
+    focused: true,
+    type: "normal"
+  }
+  chrome.windows.create(createData, function() {
+    console.log("Window created successfully");
+  });
+  window.close();
 }
 
 function getTabsSnapshots(callback) {
