@@ -16,7 +16,7 @@ b {
   color: #FFFF00;
 }
 #search_box {
-  width: 50%;
+  width: 30%;
   padding: 8px 16px;
   margin: 8px 0;
   box-sizing: border-box;
@@ -78,6 +78,25 @@ b {
   padding-bottom: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+}
+.snap_control_button {
+  color: #FFFFFF;
+  background: #69B578;
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 8px;
+  border-color: #69B578; /* DA4167 */
+  padding: 8px 16px;
+  margin: 8px 0px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+.snap_control_button:focus {
+  outline: 0;
+}
+.snap_control_button:hover {
+  background-color: #3A7D44; /* Green */
+  cursor: pointer;
 }
 #tab_snap_container {
   max-height: 285px;
