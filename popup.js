@@ -47,11 +47,13 @@ function removeHighlight(tabIndex) {
   }
 }
 
+var TAB_BORDER_COLORS = ["#568AF2", "#DE5259", "#1AA15F", "#FFCE45"];
 function highlightTab(tabIndex) {
   var toHighlight = document.getElementById("search_id_" + tabIndex);
   if (toHighlight !== null) {
     toHighlight.classList.add("highlighted");
     toHighlight.scrollIntoView(false);
+    toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
   }
 }
 
