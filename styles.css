@@ -60,7 +60,8 @@ b {
   color: #D7dAE0;
 }
 .highlighted {
-  /* box-shadow:0 0 20px yellow; */
+  cursor: pointer;
+  background: #454951;
   border-style: solid;
   border-left-color: #568AF2;
   border-right-color: #2A2E36;
