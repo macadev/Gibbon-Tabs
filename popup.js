@@ -27,7 +27,6 @@ document.onkeydown = function(event) {
   // Enter key
   if (event.keyCode == 13) {
     activateTab(highlightIndex);
-    window.close();
   }
 };
 
@@ -38,6 +37,7 @@ function activateTab(tabIndex) {
     active: true,
     highlighted: true
   });
+  window.close();
 }
 
 function removeHighlight(tabIndex) {
@@ -53,6 +53,12 @@ function highlightTab(tabIndex) {
     toHighlight.classList.add("highlighted");
     toHighlight.scrollIntoView(false);
   }
+}
+
+function highlightTabOnHover(tabIndex) {
+  removeHighlight(highlightIndex);
+  highlightIndex = tabIndex;
+  highlightTab(tabIndex);
 }
 
 function getAllTabs(callback) {
@@ -153,9 +159,9 @@ function createTabHtmlElement(tabData, tabIndex) {
   if ("title_highlighted" in tabData) title = tabData.title_highlighted;
   if ("url_highlighted" in tabData) url = tabData.url_highlighted;
   if (tabData.iconUrl === undefined) {
-    return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div></div>";
+    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div></div>";
   } else {
-    return "<div class=\"tab\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div></div>";
+    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div></div>";
   }
 }
 
@@ -166,6 +172,17 @@ function renderSearchResults(tabsToRender) {
   }
   numTabs = tabsToRender.length
   document.getElementById('tab_container').innerHTML = tabsHtml;
+}
+
+function makeTabElementsClickable() {
+  var tabElements = document.getElementsByClassName('tab');
+  var tabIndex;
+  for (let tabElement of tabElements) {
+    tabIndex = tabElement.getAttribute('data-tabnumber');
+    tabElement.onclick = activateTab.bind(null, tabIndex);
+    tabElement.onmouseover = highlightTabOnHover.bind(null, tabIndex);
+    tabIndex++;
+  }
 }
 
 function searchTabs() {
@@ -179,6 +196,7 @@ function searchTabs() {
   }
 
   renderSearchResults(tabsToRender);
+  makeTabElementsClickable();
   highlightIndex = 1; // Reset highlight index to the first tab
   if (tabsToRender.length > 0) highlightTab(highlightIndex); // highlight first result
 }
