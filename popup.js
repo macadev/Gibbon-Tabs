@@ -14,14 +14,14 @@ document.onkeydown = function(event) {
   if (event.keyCode == 40) {
     removeHighlight(highlightIndex);
     if (highlightIndex < numTabs) ++highlightIndex;
-    highlightTab(highlightIndex);
+    highlightTab(highlightIndex, true);
     return;
   }
   // Up arrow key
   if (event.keyCode == 38) {
     removeHighlight(highlightIndex);
     if (highlightIndex > 1) --highlightIndex;
-    highlightTab(highlightIndex);
+    highlightTab(highlightIndex, true);
     return;
   }
   // Enter key
@@ -48,19 +48,26 @@ function removeHighlight(tabIndex) {
 }
 
 var TAB_BORDER_COLORS = ["#568AF2", "#DE5259", "#1AA15F", "#FFCE45"];
-function highlightTab(tabIndex) {
+function highlightTab(tabIndex, shouldScrollIntoView) {
   var toHighlight = document.getElementById("search_id_" + tabIndex);
   if (toHighlight !== null) {
     toHighlight.classList.add("highlighted");
-    toHighlight.scrollIntoView(false);
+    if (shouldScrollIntoView) toHighlight.scrollIntoView(false);
     toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
   }
 }
 
-function highlightTabOnHover(tabIndex) {
+var lastCursorPos = { x: 0, y: 0};
+function highlightTabOnHover(tabIndex, event) {
+  var currentCursorPos = { x: event.screenX, y: event.screenY };
+  if (lastCursorPos.x === currentCursorPos.x &&
+      lastCursorPos.y === currentCursorPos.y) {
+    // Mouse didn't move, don't process hover event
+    return;
+  }
   removeHighlight(highlightIndex);
   highlightIndex = tabIndex;
-  highlightTab(tabIndex);
+  highlightTab(tabIndex, false);
 }
 
 function getAllTabs(callback) {
@@ -182,7 +189,7 @@ function makeTabElementsClickable() {
   for (let tabElement of tabElements) {
     tabIndex = tabElement.getAttribute('data-tabnumber');
     tabElement.onclick = activateTab.bind(null, tabIndex);
-    tabElement.onmouseover = highlightTabOnHover.bind(null, tabIndex);
+    tabElement.addEventListener("mouseover", highlightTabOnHover.bind(null, tabIndex));
     tabIndex++;
   }
 }
@@ -200,7 +207,7 @@ function searchTabs() {
   renderSearchResults(tabsToRender);
   makeTabElementsClickable();
   highlightIndex = 1; // Reset highlight index to the first tab
-  if (tabsToRender.length > 0) highlightTab(highlightIndex); // highlight first result
+  if (tabsToRender.length > 0) highlightTab(highlightIndex, true); // highlight first result
 }
 
 function _searchTabsNoQuery(tabsToSearch) {
