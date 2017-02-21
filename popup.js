@@ -60,11 +60,14 @@ function highlightTab(tabIndex, shouldScrollIntoView) {
 var lastCursorPos = { x: 0, y: 0};
 function highlightTabOnHover(tabIndex, event) {
   var currentCursorPos = { x: event.screenX, y: event.screenY };
-  if (lastCursorPos.x === currentCursorPos.x &&
-      lastCursorPos.y === currentCursorPos.y) {
+  if (lastCursorPos.x == currentCursorPos.x &&
+      lastCursorPos.y == currentCursorPos.y) {
     // Mouse didn't move, don't process hover event
     return;
   }
+  lastCursorPos.x = currentCursorPos.x;
+  lastCursorPos.y = currentCursorPos.y;
+
   removeHighlight(highlightIndex);
   highlightIndex = tabIndex;
   highlightTab(tabIndex, false);
