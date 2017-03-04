@@ -15,17 +15,19 @@ body {
 b {
   color: #FFFF00;
 }
+.search_box_base {
+  color: #FFFFFF;
+  background: #1B1D23;
+  outline: none;
+  border-width:0px;
+  border:none;
+}
 #search_box {
   width: 30%;
   padding: 8px 16px;
   margin: 8px 0;
   box-sizing: border-box;
   margin-bottom: 15px;
-  color: #FFFFFF;
-  background: #1B1D23;
-  outline: none;
-  border-width:0px;
-  border:none;
 }
 #search_box:focus {
   outline: none;
@@ -106,23 +108,65 @@ b {
   max-height: 285px;
   overflow: auto;
 }
+.snap_action_base {
+  background-color: #21252B;
+  padding: 5px;
+  border-color: #2A2E36;
+  border-width: 3px;
+  border-style: solid;
+}
+#save_snap_menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+#save_snap_name_input {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  width: 150px;
+}
+.save_snap_menu_button_base {
+  padding: 5px;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 5px;
+  border-color: #69B578; /* DA4167 */
+}
+#submit_save_snap_button {
+  width: 60px;
+  margin: 5px;
+  background: #568AF2;
+}
+#cancel_save_snap_button {
+  width: 60px;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background: #DE5259;
+}
+#save_snap_menu_container {
+  margin: 5px;
+}
 #tab_snaps_dropdown {
   display: none;
   position: absolute;
   z-index: 1;
-  background-color: #21252B;
-  padding: 5px;
   max-height: 500px;
   overflow: hidden;
-  border-color: #2A2E36;
-  border-width: 3px;
-  border-style: solid;
 }
 #no_snaps_message {
   padding: 5px;
   margin: 5px;
 }
-#snaps_exist_message {
+.snap_action_title {
   padding-left: 5px;
   padding-right: 5px;
   text-align: center;
