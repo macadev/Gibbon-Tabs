@@ -3,6 +3,7 @@
   <head>
     <title>Gibbon Tabs</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/sweetalert/dist/sweetalert.css">
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="popup.js"></script>
@@ -11,8 +12,9 @@
   <body>
     <h3>Gibbon Tabs</h3>
     <input id="search_box" type="text">
-    <button id="save_snap_button" class="snap_control_button" type="button">Save tab Snapshot!</button>
-    <button id="get_snaps_button" class="snap_control_button" type="button">Get list of Snapshots</button>
+    <button id="save_snap_button" class="snap_control_button" type="button"><i class="fa fa-camera-retro fa-lg"></i></button>
+    <button id="get_snaps_button" class="snap_control_button" type="button"><i class="fa fa-folder-open fa-lg" aria-hidden="true"></i></button>
+    <div id="tab_snaps_dropdown"></div>
     <div id="tab_container"></div>
   </body>
 </html>
