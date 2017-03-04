@@ -70,15 +70,18 @@ b {
 }
 .tab_snap_box {
   color: #FFFFFF;
-  background: #AAAAAA;
+  background: #2A2E36;
   cursor: pointer;
-  margin-bottom: 15px;
-  margin-left: 40px;
-  margin-right: 40px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
+  margin: 10px;
+  padding: 10px;
+  width: 150px;
+  height: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.tab_snap_box:hover {
+  background: #454951;
 }
 .snap_control_button {
   color: #FFFFFF;
@@ -102,4 +105,26 @@ b {
 #tab_snap_container {
   max-height: 285px;
   overflow: auto;
+}
+#tab_snaps_dropdown {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #21252B;
+  padding: 5px;
+  max-height: 500px;
+  overflow: hidden;
+  border-color: #2A2E36;
+  border-width: 3px;
+  border-style: solid;
+}
+#no_snaps_message {
+  padding: 5px;
+  margin: 5px;
+}
+#snaps_exist_message {
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+  text-decoration: underline;
 }
