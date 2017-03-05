@@ -40,6 +40,17 @@ function activateTab(tabIndex) {
   window.close();
 }
 
+function closeTab(tabIndex, tabElement, event) {
+  event.stopPropagation();
+  var tab = tabsToRender[tabIndex - 1];
+  chrome.tabs.remove(tab.tabId, function() {
+    console.log("closed!");
+    tabElement.remove();
+    // TODO: remove tab from tabs_to_search
+    searchTabs();
+  });
+}
+
 function removeHighlight(tabIndex) {
   var active = document.getElementById("search_id_" + tabIndex);
   if (active !== null) {
@@ -56,11 +67,14 @@ function isScrolledIntoView(el) {
 var TAB_BORDER_COLORS = ["#568AF2", "#DE5259", "#1AA15F", "#FFCE45"];
 function highlightTab(tabIndex, shouldScrollIntoView) {
   var toHighlight = document.getElementById("search_id_" + tabIndex);
-  if (toHighlight !== null) {
-    toHighlight.classList.add("highlighted");
-    if (shouldScrollIntoView && !isScrolledIntoView(toHighlight)) toHighlight.scrollIntoView(false);
-    toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
+  if (toHighlight == null) {
+    console.log("Tab has been deleted.")
+    return false;
   }
+  toHighlight.classList.add("highlighted");
+  if (shouldScrollIntoView && !isScrolledIntoView(toHighlight)) toHighlight.scrollIntoView(false);
+  toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
+  return true;
 }
 
 var lastCursorPos = { x: 0, y: 0};
@@ -205,14 +219,14 @@ function getTabsSnapshots(callback) {
 
 function createTabHtmlElement(tabData, tabIndex) {
   // TODO: embedding html like this is horrible. Fix.
-  var title = tabData.title;
+  var title = tabData.title.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   var url = tabData.url;
   if ("title_highlighted" in tabData) title = tabData.title_highlighted;
   if ("url_highlighted" in tabData) url = tabData.url_highlighted;
   if (tabData.iconUrl === undefined) {
-    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div></div>";
+    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"fa fa-times fa-lg\" aria-hidden=\"true\"></i></button></div>";
   } else {
-    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div></div>";
+    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"text_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"fa fa-times fa-lg\" aria-hidden=\"true\"></i></button></div>";
   }
 }
 
@@ -227,11 +241,14 @@ function renderSearchResults(tabsToRender) {
 
 function makeTabElementsClickable() {
   var tabElements = document.getElementsByClassName('tab');
+  var closeTabButton;
   var tabIndex;
   for (let tabElement of tabElements) {
     tabIndex = tabElement.getAttribute('data-tabnumber');
     tabElement.onclick = activateTab.bind(null, tabIndex);
     tabElement.addEventListener("mouseover", highlightTabOnHover.bind(null, tabIndex));
+    closeTabButton = tabElement.getElementsByClassName('close_tab_button');
+    closeTabButton[0].addEventListener("click", closeTab.bind(null, tabIndex, tabElement));
     tabIndex++;
   }
 }
@@ -285,7 +302,9 @@ function highLightSearchResults(tab) {
   var new_key;
   for (let match of tab.matches) {
     matchKey = match.key;
-    highLightedText = _highLightSearchResultsHelper(tab[matchKey], match.indices);
+    highLightedText = _highLightSearchResultsHelper(
+      tab[matchKey].replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+      match.indices);
     new_key = matchKey + '_highlighted';
     tab[new_key] = highLightedText;
   }
@@ -307,6 +326,26 @@ function _highLightSearchResultsHelper(text, matches) {
     }
   }
   return result.join('');
+}
+
+function initializeSearchVariables(tabs) {
+  for (let tab of tabs) {
+    tabsToSearch.push({
+      title: tab.title,
+      url: tab.url,
+      tabId: tab.id,
+      windowId: tab.windowId,
+      iconUrl: tab.favIconUrl
+    });
+  }
+
+  var searchOpts = {
+    shouldSort: true,
+    keys: ["title", "url"],
+    include: ['matches']
+  }
+  fuse = new Fuse(tabsToSearch, searchOpts);
+  searchTabs();
 }
 
 var fuse; // used to perform the fuzzy search
@@ -333,23 +372,5 @@ document.addEventListener('DOMContentLoaded', function() {
   var renderSnapsListButton = document.getElementById('get_snaps_button');
   renderSnapsListButton.onclick = renderListOfSnapshots;
 
-  getAllTabs(function(tabs) {
-    for (let tab of tabs) {
-      tabsToSearch.push({
-        title: tab.title,
-        url: tab.url,
-        tabId: tab.id,
-        windowId: tab.windowId,
-        iconUrl: tab.favIconUrl
-      });
-    }
-
-    var searchOpts = {
-      shouldSort: true,
-      keys: ["title", "url"],
-      include: ['matches']
-    }
-    fuse = new Fuse(tabsToSearch, searchOpts);
-    searchTabs();
-  });
+  getAllTabs(initializeSearchVariables);
 });
