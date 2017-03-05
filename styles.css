@@ -98,7 +98,7 @@ b {
   margin-bottom: 15px;
 }
 .snap_control_button:focus {
-  outline: 0;
+  outline: none;
 }
 .snap_control_button:hover {
   background-color: #3A7D44; /* Green */
@@ -139,6 +139,9 @@ b {
   border-width: 0px;
   border-radius: 5px;
   border-color: #69B578; /* DA4167 */
+}
+.save_snap_menu_button_base:focus {
+  outline: none;
 }
 #submit_save_snap_button {
   width: 60px;
