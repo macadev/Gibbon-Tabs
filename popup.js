@@ -88,16 +88,18 @@ function getAllTabs(callback) {
 
 function showSaveSnapshotMenu() {
   var saveSnapButtonRect = document.getElementById('save_snap_button').getBoundingClientRect();
-  var saveSnapMenu = document.getElementById("save_snap_menu");
+  var saveSnapMenu = document.getElementById('save_snap_menu');
   if (saveSnapMenu.style.display == "initial") {
     saveSnapMenu.style.display = "none";
     return;
   }
 
-  document.getElementById('save_snap_name_input').value = "";
+  var snapshotNameInputBox = document.getElementById('save_snap_name_input');
+  snapshotNameInputBox.value = "";
   saveSnapMenu.style.left = saveSnapButtonRect.left + "px";
   saveSnapMenu.style.top = saveSnapButtonRect.bottom + "px";
   saveSnapMenu.style.display = "initial";
+  snapshotNameInputBox.focus();
 }
 
 function saveSnapshot() {
@@ -119,13 +121,15 @@ function saveSnapshot() {
       tabSnapsObj.tabSnaps.listOfSnaps.push(newSnapshot);
       chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
         var originalBackground = saveSnapshotButton.style.background;
-        var originalText = saveSnapshotButton.value;
+        var originalText = saveSnapshotButton.innerText;
         var saveSnapshotMenu = document.getElementById('save_snap_menu');
         saveSnapshotButton.style.background = "#69B578";
         saveSnapshotButton.innerText = "Success!";
+        saveSnapshotButton.disabled = true;
         setTimeout(function() {
           saveSnapshotButton.style.background = originalBackground;
           saveSnapshotButton.innerText = originalText;
+          saveSnapshotButton.disabled = false;
           hideElement(saveSnapshotMenu);
         }, 1000);
         console.log("Save successfully!");
@@ -165,6 +169,12 @@ function renderListOfSnapshots() {
       tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapsObj.tabSnaps.listOfSnaps[i]);
     }
   });
+}
+
+function closeSaveSnapMenu(element) {
+  hideElement(element);
+  var tabSearchInputBox = document.getElementById('search_box');
+  tabSearchInputBox.focus();
 }
 
 function hideElement(element) {
@@ -306,9 +316,9 @@ var highlightIndex = 1;
 var numTabs;
 document.addEventListener('DOMContentLoaded', function() {
   // Add event handler to input box
-  var inputBox = document.getElementById('search_box');
-  inputBox.focus();
-  inputBox.oninput = searchTabs;
+  var tabSearchInputBox = document.getElementById('search_box');
+  tabSearchInputBox.focus();
+  tabSearchInputBox.oninput = searchTabs;
 
   var saveSnapMenuElement = document.getElementById('save_snap_menu');
   var showSaveSnapshotMenuButton = document.getElementById('save_snap_button');
@@ -318,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
   submitSaveSnapshotButton.onclick = saveSnapshot
 
   var cancelSaveSnapshotButton = document.getElementById('cancel_save_snap_button');
-  cancelSaveSnapshotButton.onclick = hideElement.bind(null, saveSnapMenuElement);
+  cancelSaveSnapshotButton.onclick = closeSaveSnapMenu.bind(null, saveSnapMenuElement);
 
   var renderSnapsListButton = document.getElementById('get_snaps_button');
   renderSnapsListButton.onclick = renderListOfSnapshots;
