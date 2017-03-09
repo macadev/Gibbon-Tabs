@@ -5,7 +5,7 @@ document.onkeydown = function(event) {
     chrome.storage.local.clear(function() {
       var error = chrome.runtime.lastError;
       if (error) {
-        console.error(error);
+          console.error(error);
       }
     });
     window.close();
@@ -46,51 +46,10 @@ function closeTab(tabIndex, tabElement, event) {
   chrome.tabs.remove(tab.tabId, function() {
     console.log("closed!");
     tabElement.remove();
+    tabsToSearch.splice(tab.tabsToSearchIndex, 1);
     // TODO: remove tab from tabs_to_search
-    searchTabs();
+    // searchTabs();
   });
-}
-
-function removeHighlight(tabIndex) {
-  var active = document.getElementById("search_id_" + tabIndex);
-  if (active !== null) {
-    active.classList.remove("highlighted");
-  }
-}
-
-function isScrolledIntoView(el) {
-  var elemTop = el.getBoundingClientRect().top;
-  var elemBottom = el.getBoundingClientRect().bottom;
-  return (elemTop >= 0) && (elemBottom <= window.innerHeight);
-}
-
-var TAB_BORDER_COLORS = ["#568AF2", "#DE5259", "#1AA15F", "#FFCE45"];
-function highlightTab(tabIndex, shouldScrollIntoView) {
-  var toHighlight = document.getElementById("search_id_" + tabIndex);
-  if (toHighlight == null) {
-    console.log("Tab has been deleted.")
-    return false;
-  }
-  toHighlight.classList.add("highlighted");
-  if (shouldScrollIntoView && !isScrolledIntoView(toHighlight)) toHighlight.scrollIntoView(false);
-  toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
-  return true;
-}
-
-var lastCursorPos = { x: 0, y: 0};
-function highlightTabOnHover(tabIndex, event) {
-  var currentCursorPos = { x: event.screenX, y: event.screenY };
-  if (lastCursorPos.x == currentCursorPos.x &&
-      lastCursorPos.y == currentCursorPos.y) {
-    // Mouse didn't move, don't process hover event
-    return;
-  }
-  lastCursorPos.x = currentCursorPos.x;
-  lastCursorPos.y = currentCursorPos.y;
-
-  removeHighlight(highlightIndex);
-  highlightIndex = tabIndex;
-  highlightTab(tabIndex, false);
 }
 
 function getAllTabs(callback) {
@@ -98,101 +57,6 @@ function getAllTabs(callback) {
   chrome.tabs.query(queryInfo, function(tabs) {
     callback(tabs);
   });
-}
-
-function showSaveSnapshotMenu() {
-  var saveSnapButtonRect = document.getElementById('save_snap_button').getBoundingClientRect();
-  var saveSnapMenu = document.getElementById('save_snap_menu');
-  if (saveSnapMenu.style.display == "initial") {
-    saveSnapMenu.style.display = "none";
-    return;
-  }
-
-  var snapshotNameInputBox = document.getElementById('save_snap_name_input');
-  snapshotNameInputBox.value = "";
-  saveSnapMenu.style.left = saveSnapButtonRect.left + "px";
-  saveSnapMenu.style.top = saveSnapButtonRect.bottom + "px";
-  saveSnapMenu.style.display = "initial";
-  snapshotNameInputBox.focus();
-}
-
-function saveSnapshot() {
-  var snapshotName = document.getElementById('save_snap_name_input').value;
-  var saveSnapshotButton = document.getElementById('submit_save_snap_button');
-  if (snapshotName == "") {
-    alert("Please specify a name for the snapshot.");
-    return;
-  }
-  getTabsSnapshots(function(tabSnapsObj) {
-    getAllTabs(function (tabs) {
-      var newSnapshot = {
-        name: snapshotName,
-        tabs: tabs
-      };
-      if (tabSnapsObj.tabSnaps === undefined) {
-        tabSnapsObj.tabSnaps = { listOfSnaps: [] };
-      }
-      tabSnapsObj.tabSnaps.listOfSnaps.push(newSnapshot);
-      chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
-        var originalBackground = saveSnapshotButton.style.background;
-        var originalText = saveSnapshotButton.innerText;
-        var saveSnapshotMenu = document.getElementById('save_snap_menu');
-        saveSnapshotButton.style.background = "#69B578";
-        saveSnapshotButton.innerText = "Success!";
-        saveSnapshotButton.disabled = true;
-        setTimeout(function() {
-          saveSnapshotButton.style.background = originalBackground;
-          saveSnapshotButton.innerText = originalText;
-          saveSnapshotButton.disabled = false;
-          hideElement(saveSnapshotMenu);
-        }, 1000);
-        console.log("Save successfully!");
-      });
-    });
-  });
-}
-
-function renderListOfSnapshots() {
-  var getSnapsButtonRect = document.getElementById('get_snaps_button').getBoundingClientRect();
-  var tabSnapsDropdown = document.getElementById("tab_snaps_dropdown");
-  if (tabSnapsDropdown.style.display == "initial") {
-    tabSnapsDropdown.style.display = "none";
-    return;
-  }
-
-  getTabsSnapshots(function(tabSnapsObj) {
-    var tabSnapsHtml = "<div id=\"tab_snap_container\">";
-    if (tabSnapsObj.tabSnaps !== undefined) {
-      tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
-      for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
-        tabSnapsHtml += "<div class=\"tab_snap_box\">" + tabSnap.name + "</div>";
-      }
-    } else {
-      tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
-    }
-    tabSnapsHtml += "</div>";
-
-    tabSnapsDropdown.style.left = getSnapsButtonRect.left + "px";
-    tabSnapsDropdown.style.top = getSnapsButtonRect.bottom + "px";
-    tabSnapsDropdown.style.display = "initial";
-    tabSnapsDropdown.onmouseleave = hideElement.bind(null, tabSnapsDropdown);
-    document.getElementById('tab_snaps_dropdown').innerHTML = tabSnapsHtml;
-
-    var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
-    for (var i = 0; i < tabSnapBoxes.length; i++) {
-      tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapsObj.tabSnaps.listOfSnaps[i]);
-    }
-  });
-}
-
-function closeSaveSnapMenu(element) {
-  hideElement(element);
-  var tabSearchInputBox = document.getElementById('search_box');
-  tabSearchInputBox.focus();
-}
-
-function hideElement(element) {
-  element.style.display = "none";
 }
 
 function activateTabSnapshot(tabData) {
@@ -260,7 +124,7 @@ function searchTabs() {
   if (searchText.length === 0) {
     tabsToRender = _searchTabsNoQuery(tabsToSearch);
   } else {
-    tabsToRender = _searchTabsWithQuery(tabsToSearch, searchText);
+    tabsToRender = _searchTabsWithQuery(searchText);
   }
 
   renderSearchResults(tabsToRender);
@@ -282,7 +146,7 @@ function _searchTabsNoQuery(tabsToSearch) {
   return tabsToRender;
 }
 
-function _searchTabsWithQuery(tabsToSearch, query) {
+function _searchTabsWithQuery(query) {
   results = fuse.search(query);
   var tabsToRender = [];
   var tabIndex = 1;
@@ -329,14 +193,17 @@ function _highLightSearchResultsHelper(text, matches) {
 }
 
 function initializeSearchVariables(tabs) {
+  var index = 0;
   for (let tab of tabs) {
     tabsToSearch.push({
       title: tab.title,
       url: tab.url,
       tabId: tab.id,
       windowId: tab.windowId,
-      iconUrl: tab.favIconUrl
+      iconUrl: tab.favIconUrl,
+      tabsToSearchIndex: index
     });
+    index++;
   }
 
   var searchOpts = {
