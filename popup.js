@@ -163,6 +163,7 @@ function _searchTabsWithQuery(query) {
 function initializeSearchVariables(tabs) {
   var index = 0;
   for (let tab of tabs) {
+    if (tab.active) continue;
     tabsToSearch.push({
       title: tab.title,
       url: tab.url,
