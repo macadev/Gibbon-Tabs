@@ -85,7 +85,7 @@ function renderListOfSnapshots() {
     if (tabSnapsObj.tabSnaps !== undefined) {
       tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
       for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
-        tabSnapsHtml += "<div class=\"tab_snap_box\">" + tabSnap.name + "</div>";
+        tabSnapsHtml += "<div class=\"tab_snap_box\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"fa fa-times fa-lg\" aria-hidden=\"true\"></i></button></div>";
       }
     } else {
       tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";

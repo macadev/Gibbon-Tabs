@@ -86,9 +86,12 @@ b {
   padding: 10px;
   width: 150px;
   height: 10px;
+}
+.tab_snap_name_box {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  width: 140px;
 }
 .tab_snap_box:hover {
   background: #454951;
@@ -113,6 +116,7 @@ b {
   cursor: pointer;
 }
 #tab_snap_container {
+  position: relative;
   max-height: 285px;
   overflow: auto;
 }
@@ -200,4 +204,11 @@ b {
 .highlighted .close_tab_button {
   background: #454951;
   left: 567px;
+}
+.delete_tab_snap_button {
+  background: transparent;
+  z-index: 1;
+  position: relative;
+  top: -23px;
+  left: 135px;
 }

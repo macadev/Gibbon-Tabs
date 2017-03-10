@@ -25,7 +25,7 @@ document.onkeydown = function(event) {
     activateTab(highlightIndex);
   }
   // Backspace key
-  if (event.keyCode == 8) {
+  if (event.keyCode == 8 && event.shiftKey) {
     if (document.getElementById('save_snap_menu').style.display == "initial") return;
     closeTab(highlightIndex);
   }
