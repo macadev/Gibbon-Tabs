@@ -212,3 +212,6 @@ b {
   top: -23px;
   left: 135px;
 }
+.delete_tab_snap_button:hover {
+  color: #DE5259;
+}

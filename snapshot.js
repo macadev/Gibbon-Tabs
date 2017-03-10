@@ -98,11 +98,19 @@ function renderListOfSnapshots() {
     tabSnapsDropdown.onmouseleave = hideElement.bind(null, tabSnapsDropdown);
     document.getElementById('tab_snaps_dropdown').innerHTML = tabSnapsHtml;
 
+    var deleteTabSnapButton;
     var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
     for (var i = 0; i < tabSnapBoxes.length; i++) {
       tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapsObj.tabSnaps.listOfSnaps[i]);
+      deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
+      deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
     }
   });
+}
+
+function deleteTabSnap(tabSnapElement, event) {
+  event.stopPropagation();
+  console.log("TODO: delete snap....");
 }
 
 function closeSaveSnapMenu(element) {
