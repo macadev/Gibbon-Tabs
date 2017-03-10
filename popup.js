@@ -12,21 +12,21 @@ document.onkeydown = function(event) {
   }
   // Down arrow key
   if (event.keyCode == 40) {
-    removeHighlight(highlightIndex);
-    if (highlightIndex < numTabs) ++highlightIndex;
-    highlightTab(highlightIndex, true);
+    slideHighlighting(SlideDirectionEnum.DOWN);
     return;
   }
   // Up arrow key
   if (event.keyCode == 38) {
-    removeHighlight(highlightIndex);
-    if (highlightIndex > 1) --highlightIndex;
-    highlightTab(highlightIndex, true);
+    slideHighlighting(SlideDirectionEnum.UP);
     return;
   }
   // Enter key
   if (event.keyCode == 13) {
     activateTab(highlightIndex);
+  }
+  // Backspace key
+  if (event.keyCode == 8) {
+    closeTab(highlightIndex);
   }
 };
 
@@ -41,14 +41,14 @@ function activateTab(tabIndex) {
 }
 
 function closeTab(tabIndex, tabElement, event) {
-  event.stopPropagation();
+  if (event != null) event.stopPropagation();
+  tabElement = tabElement || document.getElementById("search_id_" + tabIndex);
   var tab = tabsToRender[tabIndex - 1];
   chrome.tabs.remove(tab.tabId, function() {
     console.log("closed!");
     tabElement.remove();
     tabsToSearch.splice(tab.tabsToSearchIndex, 1);
-    // TODO: remove tab from tabs_to_search
-    // searchTabs();
+    slideHighlighting(SlideDirectionEnum.DOWN);
   });
 }
 
@@ -158,38 +158,6 @@ function _searchTabsWithQuery(query) {
     tabIndex++;
   }
   return tabsToRender;
-}
-
-function highLightSearchResults(tab) {
-  var matchKey;
-  var highLightedText;
-  var new_key;
-  for (let match of tab.matches) {
-    matchKey = match.key;
-    highLightedText = _highLightSearchResultsHelper(
-      tab[matchKey].replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-      match.indices);
-    new_key = matchKey + '_highlighted';
-    tab[new_key] = highLightedText;
-  }
-}
-
-function _highLightSearchResultsHelper(text, matches) {
-  var result = [];
-  var pair = matches.shift();
-  // Build the formatted string
-  for (var i = 0; i < text.length; i++) {
-    var char = text.charAt(i);
-    if (pair && i == pair[0]) {
-      result.push('<b>');
-    }
-    result.push(char);
-    if (pair && i == pair[1]) {
-      result.push('</b>');
-      pair = matches.shift();
-    }
-  }
-  return result.join('');
 }
 
 function initializeSearchVariables(tabs) {
