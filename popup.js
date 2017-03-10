@@ -26,6 +26,7 @@ document.onkeydown = function(event) {
   }
   // Backspace key
   if (event.keyCode == 8) {
+    if (document.getElementById('save_snap_menu').style.display == "initial") return;
     closeTab(highlightIndex);
   }
 };
@@ -56,28 +57,6 @@ function getAllTabs(callback) {
   var queryInfo = {};
   chrome.tabs.query(queryInfo, function(tabs) {
     callback(tabs);
-  });
-}
-
-function activateTabSnapshot(tabData) {
-  var urls = [];
-  for (let tab of tabData.tabs) {
-    urls.push(tab.url);
-  }
-  var createData = {
-    url: urls,
-    focused: true,
-    type: "normal"
-  }
-  chrome.windows.create(createData, function() {
-    console.log("Window created successfully");
-  });
-  window.close();
-}
-
-function getTabsSnapshots(callback) {
-  chrome.storage.local.get("tabSnaps", function(tabSnaps) {
-    callback(tabSnaps);
   });
 }
 

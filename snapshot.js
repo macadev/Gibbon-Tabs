@@ -1,3 +1,25 @@
+function getTabsSnapshots(callback) {
+  chrome.storage.local.get("tabSnaps", function(tabSnaps) {
+    callback(tabSnaps);
+  });
+}
+
+function activateTabSnapshot(tabData) {
+  var urls = [];
+  for (let tab of tabData.tabs) {
+    urls.push(tab.url);
+  }
+  var createData = {
+    url: urls,
+    focused: true,
+    type: "normal"
+  }
+  chrome.windows.create(createData, function() {
+    console.log("Window created successfully");
+  });
+  window.close();
+}
+
 function showSaveSnapshotMenu() {
   var saveSnapButtonRect = document.getElementById('save_snap_button').getBoundingClientRect();
   var saveSnapMenu = document.getElementById('save_snap_menu');
