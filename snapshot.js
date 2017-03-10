@@ -4,6 +4,11 @@ function getTabsSnapshots(callback) {
   });
 }
 
+function deleteTabSnap(tabSnapElement, event) {
+  event.stopPropagation();
+  console.log("TODO: delete snap....");
+}
+
 function activateTabSnapshot(tabData) {
   var urls = [];
   for (let tab of tabData.tabs) {
@@ -37,7 +42,8 @@ function showSaveSnapshotMenu() {
 }
 
 function saveSnapshot() {
-  var snapshotName = document.getElementById('save_snap_name_input').value;
+  var snapshotName = document.getElementById('save_snap_name_input')
+    .value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   var saveSnapshotButton = document.getElementById('submit_save_snap_button');
   if (snapshotName == "") {
     alert("Please specify a name for the snapshot.");
@@ -106,11 +112,6 @@ function renderListOfSnapshots() {
       deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
     }
   });
-}
-
-function deleteTabSnap(tabSnapElement, event) {
-  event.stopPropagation();
-  console.log("TODO: delete snap....");
 }
 
 function closeSaveSnapMenu(element) {
