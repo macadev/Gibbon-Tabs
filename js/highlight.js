@@ -11,7 +11,7 @@ function removeHighlight(tabIndex) {
   }
 }
 
-var TAB_BORDER_COLORS = ["#568AF2", "#DE5259", "#1AA15F", "#FFCE45"];
+var TAB_BORDER_COLORS = ["#F5A503", "#F2385A", "#E9F1DF", "#4AD9D9", "#AEEE00"];
 function highlightTab(tabIndex, shouldScrollIntoView) {
   console.log("Scroll into view: " + shouldScrollIntoView);
   var toHighlight = document.getElementById("search_id_" + tabIndex);
@@ -24,7 +24,7 @@ function highlightTab(tabIndex, shouldScrollIntoView) {
     console.log("Gonna scroll into view...");
     toHighlight.scrollIntoView(false);
   }
-  toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
+  toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 5];
   return true;
 }
 
