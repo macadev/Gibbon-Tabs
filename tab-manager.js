@@ -20,8 +20,9 @@ document.onkeydown = function(event) {
   if (event.keyCode == 13) {
     activateTab(highlightIndex);
   }
-  // Backspace key
+  // Shift + backspace key
   if (event.keyCode == 8 && event.shiftKey) {
+    event.preventDefault() // Prevent delete key from deleting
     if (document.getElementById('save_snap_menu').style.display == "initial") return;
     closeTab(highlightIndex);
   }
