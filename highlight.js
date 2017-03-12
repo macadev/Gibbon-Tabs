@@ -20,7 +20,10 @@ function highlightTab(tabIndex, shouldScrollIntoView) {
     return false;
   }
   toHighlight.classList.add("highlighted");
-  if (shouldScrollIntoView && !isScrolledIntoView(toHighlight)) toHighlight.scrollIntoView(false);
+  if (shouldScrollIntoView && !isScrolledIntoView(toHighlight)) {
+    console.log("Gonna scroll into view...");
+    toHighlight.scrollIntoView(false);
+  }
   toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 4];
   return true;
 }

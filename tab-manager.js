@@ -1,13 +1,9 @@
 document.onkeydown = function(event) {
   event = event || window.event;
+  // Prevent arrow keys from scrolling
+  if (event.keyCode == 38 || event.keyCode == 40) event.preventDefault();
   // Escape key
   if (event.keyCode == 27) {
-    chrome.storage.local.clear(function() {
-      var error = chrome.runtime.lastError;
-      if (error) {
-          console.error(error);
-      }
-    });
     window.close();
   }
   // Down arrow key
