@@ -44,6 +44,7 @@ function closeTab(tabIndex, tabElement, event) {
   var tab = tabsToRender[tabIndex - 1];
   chrome.tabs.remove(tab.tabId, function() {
     console.log("closed!");
+    focusOnSearchInput();
     tabElement.remove();
     tabsToSearch.splice(tab.tabsToSearchIndex, 1);
     slideHighlighting(SlideDirectionEnum.DOWN);
@@ -162,8 +163,14 @@ function initializeSearchVariables(tabs) {
 
 function closeMenu(element) {
   hideElement(element);
+  focusOnSearchInput();
+}
+
+function focusOnSearchInput() {
+  var x = window.scrollX, y = window.scrollY;
   var tabSearchInputBox = document.getElementById('search_box');
   tabSearchInputBox.focus();
+  window.scrollTo(x, y);
 }
 
 function hideElement(element) {
