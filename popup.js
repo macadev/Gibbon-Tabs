@@ -163,6 +163,16 @@ function initializeSearchVariables(tabs) {
   searchTabs();
 }
 
+function closeMenu(element) {
+  hideElement(element);
+  var tabSearchInputBox = document.getElementById('search_box');
+  tabSearchInputBox.focus();
+}
+
+function hideElement(element) {
+  element.style.display = "none";
+}
+
 var fuse; // used to perform the fuzzy search
 var tabsToSearch = [];
 var tabsToRender = [];
@@ -182,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
   submitSaveSnapshotButton.onclick = saveSnapshot
 
   var cancelSaveSnapshotButton = document.getElementById('cancel_save_snap_button');
-  cancelSaveSnapshotButton.onclick = closeSaveSnapMenu.bind(null, saveSnapMenuElement);
+  cancelSaveSnapshotButton.onclick = closeMenu.bind(null, saveSnapMenuElement);
 
   var renderSnapsListButton = document.getElementById('get_snaps_button');
   renderSnapsListButton.onclick = renderListOfSnapshots;

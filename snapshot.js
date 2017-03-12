@@ -6,7 +6,30 @@ function getTabsSnapshots(callback) {
 
 function deleteTabSnap(tabSnapElement, event) {
   event.stopPropagation();
-  console.log("TODO: delete snap....");
+  var tabSnapName = tabSnapElement.getElementsByClassName('tab_snap_name_box')[0].innerText;
+  var tabSnapCreationTimestamp = tabSnapElement.getAttribute('data-creationTimestamp');
+  getTabsSnapshots(function(tabSnapsObj) {
+    var tabSnapshot;
+    var numOfTabSnaps = tabSnapsObj.tabSnaps.listOfSnaps.length;
+    for (var i = 0; i < numOfTabSnaps; i++) {
+      tabSnapshot = tabSnapsObj.tabSnaps.listOfSnaps[i];
+      if (tabSnapshot.name == tabSnapName &&
+        tabSnapshot.creationTimestamp == tabSnapCreationTimestamp) {
+          // Remove the tab snapshot from the array
+          tabSnapsObj.tabSnaps.listOfSnaps.splice(i, 1);
+          numOfTabSnaps--;
+          break;
+      }
+    }
+    chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
+      if (numOfTabSnaps === 0) {
+        var tabSnapContainer = tabSnapElement.parentNode;
+        tabSnapContainer.innerHTML = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
+      } else {
+        tabSnapElement.remove();
+      }
+    });
+  });
 }
 
 function activateTabSnapshot(tabData) {
@@ -53,7 +76,8 @@ function saveSnapshot() {
     getAllTabs(function (tabs) {
       var newSnapshot = {
         name: snapshotName,
-        tabs: tabs
+        tabs: tabs,
+        creationTimestamp: Date.now()
       };
       if (tabSnapsObj.tabSnaps === undefined) {
         tabSnapsObj.tabSnaps = { listOfSnaps: [] };
@@ -70,8 +94,8 @@ function saveSnapshot() {
           saveSnapshotButton.style.background = originalBackground;
           saveSnapshotButton.innerText = originalText;
           saveSnapshotButton.disabled = false;
-          hideElement(saveSnapshotMenu);
-        }, 1000);
+          closeMenu(saveSnapshotMenu);
+        }, 800);
         console.log("Save successfully!");
       });
     });
@@ -88,10 +112,10 @@ function renderListOfSnapshots() {
 
   getTabsSnapshots(function(tabSnapsObj) {
     var tabSnapsHtml = "<div id=\"tab_snap_container\">";
-    if (tabSnapsObj.tabSnaps !== undefined) {
+    if (tabSnapsObj.tabSnaps !== undefined && tabSnapsObj.tabSnaps.listOfSnaps.length > 0) {
       tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
       for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
-        tabSnapsHtml += "<div class=\"tab_snap_box\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"fa fa-times fa-lg\" aria-hidden=\"true\"></i></button></div>";
+        tabSnapsHtml += "<div class=\"tab_snap_box\" data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"fa fa-times fa-lg\" aria-hidden=\"true\"></i></button></div>";
       }
     } else {
       tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
@@ -101,7 +125,7 @@ function renderListOfSnapshots() {
     tabSnapsDropdown.style.left = getSnapsButtonRect.left + "px";
     tabSnapsDropdown.style.top = getSnapsButtonRect.bottom + "px";
     tabSnapsDropdown.style.display = "initial";
-    tabSnapsDropdown.onmouseleave = hideElement.bind(null, tabSnapsDropdown);
+    tabSnapsDropdown.onmouseleave = closeMenu.bind(null, tabSnapsDropdown);
     document.getElementById('tab_snaps_dropdown').innerHTML = tabSnapsHtml;
 
     var deleteTabSnapButton;
@@ -112,14 +136,4 @@ function renderListOfSnapshots() {
       deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
     }
   });
-}
-
-function closeSaveSnapMenu(element) {
-  hideElement(element);
-  var tabSearchInputBox = document.getElementById('search_box');
-  tabSearchInputBox.focus();
-}
-
-function hideElement(element) {
-  element.style.display = "none";
 }
