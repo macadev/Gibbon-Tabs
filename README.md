@@ -10,7 +10,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 _If you suffer today from one of the following:_
 
-- Having dozens of tabs open in a one or multiple windows
+- Having __dozens of tabs__ open in a one or multiple windows
 - Constantly fiddling with keyboard shortcuts to find the tab you need
 - That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
 
@@ -25,9 +25,8 @@ _Then Gibbon-Tabs is for You!_
 
 ## Features
 
-- Search tab by title or URL.
-  - Queries are very fast and matches are highlighted
-- Easily delete tabs while quickly being able to see their title and URL
+- Search and jump to tabs by title or URL
+- Quickly delete tabs while being able to see their title and URL
 - Create "Tab Snapshots", a new way to manage your workflow!
 - Keyboard shortcuts for navigation and tab deletion
   - I carefully built the User Experience so that Gibbon-Tabs would be a pleasure to use
