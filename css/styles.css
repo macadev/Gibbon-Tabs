@@ -56,10 +56,18 @@ b {
 .text_container {
   position: relative;
   left: 25px;
+  width: 90%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .url_container {
+  width: 95%;
   font-size: 25%;
   color: #D7dAE0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .highlighted {
   cursor: pointer;
@@ -78,9 +86,12 @@ b {
   padding: 10px;
   width: 150px;
   height: 10px;
+}
+.tab_snap_name_box {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  width: 140px;
 }
 .tab_snap_box:hover {
   background: #454951;
@@ -105,6 +116,7 @@ b {
   cursor: pointer;
 }
 #tab_snap_container {
+  position: relative;
   max-height: 285px;
   overflow: auto;
 }
@@ -130,7 +142,7 @@ b {
   margin-right: 5px;
   width: 150px;
 }
-.save_snap_menu_button_base {
+.menu_button_base {
   padding: 5px;
   text-align: center;
   color: #FFFFFF;
@@ -140,7 +152,7 @@ b {
   border-radius: 5px;
   border-color: #69B578; /* DA4167 */
 }
-.save_snap_menu_button_base:focus {
+.menu_button_base:focus {
   outline: none;
 }
 #submit_save_snap_button {
@@ -174,4 +186,32 @@ b {
   padding-right: 5px;
   text-align: center;
   text-decoration: underline;
+}
+.close_tab_button {
+  background: #2A2E36;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 570px;
+  right: 0;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+.close_tab_button:hover {
+  color: #DE5259;
+}
+.highlighted .close_tab_button {
+  background: #454951;
+  left: 567px;
+}
+.delete_tab_snap_button {
+  background: transparent;
+  z-index: 1;
+  position: relative;
+  top: -23px;
+  left: 135px;
+}
+.delete_tab_snap_button:hover {
+  color: #DE5259;
 }
