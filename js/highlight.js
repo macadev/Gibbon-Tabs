@@ -11,7 +11,8 @@ function removeHighlight(tabIndex) {
   }
 }
 
-var TAB_BORDER_COLORS = ["#F5A503", "#F2385A", "#E9F1DF", "#4AD9D9", "#AEEE00"];
+// Yellow, Red
+var TAB_BORDER_COLORS = ["#EC4E20", "#F2385A", "#E8C547", "#5FAD41", "#3E92CC"];
 function highlightTab(tabIndex, shouldScrollIntoView) {
   console.log("Scroll into view: " + shouldScrollIntoView);
   var toHighlight = document.getElementById("search_id_" + tabIndex);

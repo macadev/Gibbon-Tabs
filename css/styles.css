@@ -64,7 +64,7 @@ b {
 .url_container {
   width: 95%;
   font-size: 25%;
-  color: #D7dAE0;
+  color: #D7DAE0;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -98,7 +98,7 @@ b {
 }
 .snap_control_button {
   color: #FFFFFF;
-  background: #04518C;
+  background: #2176FF;
   border-style: solid;
   border-width: 0px;
   border-radius: 8px;
@@ -112,7 +112,7 @@ b {
   outline: none;
 }
 .snap_control_button:hover {
-  background-color: #3A7D44; /* Green */
+  background-color: #33A1FD;
   cursor: pointer;
 }
 #tab_snap_container {
