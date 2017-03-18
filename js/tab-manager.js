@@ -52,9 +52,10 @@ function closeTab(tabIndex, tabElement, event) {
 }
 
 function getAllTabs(callback) {
-  var queryInfo = {};
-  chrome.tabs.query(queryInfo, function(tabs) {
-    callback(tabs);
+  chrome.tabs.query({}, function(tabs) {
+    chrome.windows.getCurrent({}, function(windowData) {
+      callback(tabs, windowData.id);
+    });
   });
 }
 
@@ -137,10 +138,11 @@ function _searchTabsWithQuery(query) {
   return tabsToRender;
 }
 
-function initializeSearchVariables(tabs) {
+function initializeSearchVariables(tabs, activeWindowId) {
   var index = 0;
   for (let tab of tabs) {
-    if (tab.active) continue;
+    // Do not include active tab in search results
+    if (tab.active && tab.windowId == activeWindowId) continue;
     tabsToSearch.push({
       title: tab.title,
       url: tab.url,
