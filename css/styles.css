@@ -102,7 +102,7 @@ b {
   background: #2176FF;
   border-style: solid;
   border-width: 0px;
-  border-radius: 8px;
+  border-radius: 5px;
   border-color: #69B578; /* DA4167 */
   padding: 8px 16px;
   margin: 8px 0px;
@@ -220,8 +220,8 @@ b {
 }
 #gibbon_tabs_logo_image {
   position: absolute;
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   top: 0;
   bottom: 0;
   right: 10px;
