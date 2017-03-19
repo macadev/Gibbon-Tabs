@@ -1,0 +1,135 @@
+.snap_control_button {
+  color: #FFFFFF;
+  background: #2176FF;
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 5px;
+  border-color: #69B578;
+  padding: 8px 16px;
+  margin: 8px 0px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+.snap_control_button:focus {
+  outline: none;
+}
+.snap_control_button:hover {
+  background-color: #33A1FD;
+  cursor: pointer;
+}
+
+/* Box that contains tab snapshots list */
+#tab_snap_container {
+  position: relative;
+  max-height: 285px;
+  overflow: auto;
+}
+/* Base styles for floating menus used for "save snapshot" and "list snapshots" */
+.snap_action_base {
+  background-color: #21252B;
+  padding: 5px;
+  border-color: #2A2E36;
+  border-width: 3px;
+  border-style: solid;
+}
+
+/* Menu used to save tab snapshots */
+#save_snap_menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Input box for "save snapshot"*/
+#save_snap_name_input {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  width: 150px;
+}
+
+/* Boxes where tab snapshots names are placed on "list snapshots" */
+.tab_snap_box {
+  color: #FFFFFF;
+  background: #2A2E36;
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px;
+  width: 150px;
+  height: 10px;
+}
+.tab_snap_name_box {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 140px;
+}
+.tab_snap_box:hover {
+  background: #454951;
+}
+
+/* Base used for save buttons inside the floating menus */
+.menu_button_base {
+  padding: 5px;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 5px;
+  border-color: #69B578; /* DA4167 */
+}
+.menu_button_base:focus {
+  outline: none;
+}
+
+/* Styles for accepting and canceling save snapshot */
+#submit_save_snap_button {
+  width: 60px;
+  margin: 5px;
+  background: #568AF2;
+}
+#cancel_save_snap_button {
+  width: 60px;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background: #DE5259;
+}
+
+#save_snap_menu_container {
+  margin: 5px;
+}
+#tab_snaps_dropdown {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  max-height: 500px;
+  overflow: hidden;
+}
+#no_snaps_message {
+  padding: 5px;
+  margin: 5px;
+}
+
+.delete_tab_snap_button {
+  background: transparent;
+  z-index: 1;
+  position: relative;
+  top: -23px;
+  left: 135px;
+}
+.delete_tab_snap_button:hover {
+  color: #DE5259;
+}
+
+.snap_action_title {
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+  text-decoration: underline;
+}

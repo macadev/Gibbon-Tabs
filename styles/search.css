@@ -1,0 +1,96 @@
+.search_box_base {
+  color: #FFFFFF;
+  background: #1B1D23;
+  outline: none;
+  border-width:0px;
+  border:none;
+}
+#search_box {
+  width: 180px;
+  padding: 8px 16px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+#search_box:focus {
+  outline: none;
+}
+
+/*
+  Styles used for displaying the tabs
+*/
+
+#tab_container {
+  /* avoid an excessively wide status text */
+  white-space: pre;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  clear: both;
+  /* max-width: 400px; */
+}
+.url_icon {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: auto;
+  margin-top: auto;
+  padding-left: 10px;
+}
+.tab {
+  position: relative;
+  background: #2A2E36;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  margin-bottom: 8px;
+}
+.tab_title_container {
+  position: relative;
+  left: 25px;
+  width: 90%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.url_container {
+  width: 95%;
+  font-size: 25%;
+  color: #D7DAE0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.close_tab_button {
+  background: #2A2E36;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 570px;
+  right: 0;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+.close_tab_button:hover {
+  color: #DE5259;
+}
+.highlighted .close_tab_button {
+  background: #454951;
+  left: 567px;
+}
+
+.highlighted {
+  cursor: pointer;
+  background: #454951;
+  border-style: solid;
+  border-left-color: #568AF2;
+  border-right-color: #2A2E36;
+  border-top-color: #2A2E36;
+  border-bottom-color: #2A2E36;
+}

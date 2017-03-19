@@ -1,0 +1,10 @@
+body {
+  font-family: "Inconsolata", "Monaco", "Consolas", 'Courier New', Courier;
+  font-size: 75%;
+  color: #FFFFFF;
+  background: #21252B;
+  width: 600px;
+}
+b {
+  color: #FFFF00;
+}
