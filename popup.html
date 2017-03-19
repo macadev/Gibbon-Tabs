@@ -10,10 +10,17 @@
     <script src="libs/fuse.min.js"></script>
   </head>
   <body>
-    <h3>Gibbon Tabs</h3>
-    <input id="search_box" class="search_box_base" type="text" placeholder="Search text...">
-    <button id="save_snap_button" class="snap_control_button" type="button"><i class="fa fa-camera-retro fa-lg"></i></button>
-    <button id="get_snaps_button" class="snap_control_button" type="button"><i class="fa fa-folder-open fa-lg" aria-hidden="true"></i></button>
+    <div id="gibbon_tabs_name_div">
+      <h3 id="gibbon_tabs_name">Gibbon Tabs</h3>
+    </div>
+    <div id="gibbon_tabs_logo_image_div">
+      <img id="gibbon_tabs_logo_image" src="images/logo.png">
+    </div>
+    <div id="tab_manager_menu_div">
+      <input id="search_box" class="search_box_base" type="text" placeholder="Search text...">
+      <button id="save_snap_button" class="snap_control_button" type="button"><i class="fa fa-camera-retro fa-lg"></i></button>
+      <button id="get_snaps_button" class="snap_control_button" type="button"><i class="fa fa-folder-open fa-lg" aria-hidden="true"></i></button>
+    </div>
     <div id="tab_snaps_dropdown" class="snap_action_base"></div>
     <div id="save_snap_menu" class="snap_action_base">
       <div id="save_snap_menu_container">

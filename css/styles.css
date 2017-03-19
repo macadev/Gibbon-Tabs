@@ -10,6 +10,7 @@ body {
   white-space: pre;
   text-overflow: ellipsis;
   overflow: hidden;
+  clear: both;
   /* max-width: 400px; */
 }
 b {
@@ -23,7 +24,7 @@ b {
   border:none;
 }
 #search_box {
-  width: 30%;
+  width: 180px;
   padding: 8px 16px;
   margin: 8px 0;
   box-sizing: border-box;
@@ -214,4 +215,35 @@ b {
 }
 .delete_tab_snap_button:hover {
   color: #DE5259;
+}
+#extension_info {
+}
+#gibbon_tabs_logo_image {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  margin: auto;
+}
+#gibbon_tabs_name {
+  font-style: oblique;
+  margin-top: 8px;
+  margin-bottom: 0px;
+  padding-right: 20px;
+}
+#gibbon_tabs_name_div {
+  float: left;
+  width: 50%;
+}
+#gibbon_tabs_logo_image_div {
+  position: relative;
+  float: right;
+  width: 30%;
+  height: 70px;
+}
+#tab_manager_menu_div {
+  float: left;
+  width: 69%;
 }
