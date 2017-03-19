@@ -203,5 +203,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var renderSnapsListButton = document.getElementById('get_snaps_button');
   renderSnapsListButton.onclick = renderListOfSnapshots;
 
+  var logoImage = document.getElementById('gibbon_tabs_logo_image');
+  logoImage.onclick = function() {
+    chrome.tabs.create({url: 'https://github.com/macadev/Gibbon-Tabs'});
+  }
+
   getAllTabs(initializeSearchVariables);
 });
