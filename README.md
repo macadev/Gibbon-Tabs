@@ -2,7 +2,7 @@
   <img src=""/>
 </p>
 
-# Gibbon-Tabs
+# Gibbon Tabs
 
 A Chrome extension to help you navigate your tab jungle with ease.
 
@@ -21,7 +21,7 @@ _If you suffer today from one of the following:_
 
 - Heartache and wrist pain
 
-_Then Gibbon-Tabs is for You!_
+_Then Gibbon Tabs is for You!_
 
 ## Features
 
