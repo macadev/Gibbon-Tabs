@@ -6,6 +6,12 @@
 
 A Chrome extension to help you navigate your tab jungle with ease.
 
+## Find and delete tabs really fast!
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/images/gibbon_tabs_search.gif"/>
+</p>
+
 ## Why do I need this?
 
 _If you suffer today from one of the following:_
