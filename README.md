@@ -9,7 +9,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 ## Find and delete tabs really fast!
 
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/images/gibbon_tabs_search.gif"/>
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_tabs_search.gif"/>
 </p>
 
 ## Why do I need this?
@@ -21,7 +21,7 @@ _If you suffer today from one of the following:_
 - That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
 
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/images/tab_hell.png"/>
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_hell.png"/>
   <em>Welcome to Tab Hell. You can go throw yourself in the lava pit now.</em>
 </p>
 
