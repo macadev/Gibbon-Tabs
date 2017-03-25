@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=""/>
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/banner_logo.jpeg"/>
 </p>
 
 # Gibbon Tabs
