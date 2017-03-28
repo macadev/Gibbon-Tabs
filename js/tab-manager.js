@@ -43,10 +43,17 @@ function closeTab(tabIndex, tabElement, event) {
   tabElement = tabElement || document.getElementById("search_id_" + tabIndex);
   var tab = tabsToRender[tabIndex - 1];
   chrome.tabs.remove(tab.tabId, function() {
-    console.log("closed!");
     focusOnSearchInput();
+    // Delete tab element from page
     tabElement.remove();
-    tabsToSearch.splice(tab.tabsToSearchIndex, 1);
+    // Delete tab from search list
+    var tabInSearchList;
+    for (var i = 0; i < tabsToSearch.length; i++) {
+      tabInSearchList = tabsToSearch[i];
+      if (tab.tabId == tabInSearchList.tabId) {
+        tabsToSearch.splice(i, 1);
+      }
+    }
     slideHighlighting(SlideDirectionEnum.DOWN);
   });
 }
@@ -60,7 +67,6 @@ function getAllTabs(callback) {
 }
 
 function createTabHtmlElement(tabData, tabIndex) {
-  // TODO: embedding html like this is horrible. Fix.
   var title = tabData.title.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   var url = tabData.url;
   if ("title_highlighted" in tabData) title = tabData.title_highlighted;
@@ -139,7 +145,6 @@ function _searchTabsWithQuery(query) {
 }
 
 function initializeSearchVariables(tabs, activeWindowId) {
-  var index = 0;
   for (let tab of tabs) {
     // Do not include active tab in search results
     if (tab.active && tab.windowId == activeWindowId) continue;
@@ -148,10 +153,8 @@ function initializeSearchVariables(tabs, activeWindowId) {
       url: tab.url,
       tabId: tab.id,
       windowId: tab.windowId,
-      iconUrl: tab.favIconUrl,
-      tabsToSearchIndex: index
+      iconUrl: tab.favIconUrl
     });
-    index++;
   }
 
   var searchOpts = {

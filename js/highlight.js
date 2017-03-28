@@ -11,18 +11,14 @@ function removeHighlight(tabIndex) {
   }
 }
 
-// Yellow, Red
 var TAB_BORDER_COLORS = ["#EC4E20", "#F2385A", "#E8C547", "#5FAD41", "#3E92CC"];
 function highlightTab(tabIndex, shouldScrollIntoView) {
-  console.log("Scroll into view: " + shouldScrollIntoView);
   var toHighlight = document.getElementById("search_id_" + tabIndex);
   if (toHighlight == null) {
-    console.log("Tab has been deleted.")
     return false;
   }
   toHighlight.classList.add("highlighted");
   if (shouldScrollIntoView && !isScrolledIntoView(toHighlight)) {
-    console.log("Gonna scroll into view...");
     toHighlight.scrollIntoView(false);
   }
   toHighlight.style["border-left-color"] = TAB_BORDER_COLORS[tabIndex % 5];
@@ -78,9 +74,6 @@ function slideHighlighting(slideDirection) {
       } else {
         ++highlightIndex;
       }
-    }
-    if (highlightIndex == 0 || highlightIndex == numTabs + 1) {
-      console.log("stuff is really messed up");
     }
   }
   return;
