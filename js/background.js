@@ -1,6 +1,5 @@
 chrome.commands.onCommand.addListener(function(command) {
-  if(command === "show_tabs"){
-    console.log("Show tabs command called");
+  if (command === "activate_in_popup") {
     var createData = {
       url: chrome.extension.getURL("popup.html"),
       type: "popup"
