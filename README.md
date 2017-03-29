@@ -20,6 +20,14 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - Keyboard shortcuts for navigation and tab deletion will make you very fast
 - It's really pretty to look at!
 
+## Tab Snapshots
+
+- Tab Snapshots let you save all your open tabs across all your windows so you can open them later.
+- Take a snapshot of...
+  - The internal sites you open at work every morning!
+  - All the websites you used to procrastinate. Waste lots of time more effectively!
+  - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to leave open as you head home at the end of the day. Free your mind!
+
 ## Why do I need this?
 
 _If you suffer today from one of the following:_
