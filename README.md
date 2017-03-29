@@ -26,7 +26,12 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - Take a snapshot of...
   - The internal sites you open at work every morning!
   - All the websites you used to procrastinate. Waste lots of time more effectively!
-  - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to leave open as you head home at the end of the day. Free your mind!
+  - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to take home at the end of the day. Free your mind!
+- Snapshots are stored locally on your device. Not sent to malicious servers!
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_snapshots.gif"/>
+</p>
 
 ## Why do I need this?
 

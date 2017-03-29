@@ -126,7 +126,8 @@ function renderListOfSnapshots() {
     tabSnapsDropdown.style.top = getSnapsButtonRect.bottom + "px";
     tabSnapsDropdown.style.display = "initial";
     tabSnapsDropdown.onmouseleave = closeMenu.bind(null, tabSnapsDropdown);
-    document.getElementById('tab_snaps_dropdown').innerHTML = tabSnapsHtml;
+    var tabSnapDropdown = document.getElementById('tab_snaps_dropdown');
+    tabSnapDropdown.innerHTML = tabSnapsHtml;
 
     var deleteTabSnapButton;
     var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
@@ -134,6 +135,15 @@ function renderListOfSnapshots() {
       tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapsObj.tabSnaps.listOfSnaps[i]);
       deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
       deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
+    }
+
+    var heightNeededToDisplayTabSnapBox = tabSnapDropdown.offsetHeight + getSnapsButtonRect.bottom;
+    console.log("A: " + heightNeededToDisplayTabSnapBox);
+    var heightOfBody = document.body.offsetHeight;
+    console.log("B: " + heightOfBody);
+    if (heightNeededToDisplayTabSnapBox > heightOfBody) {
+      console.log("true");
+      document.body.style.height = heightNeededToDisplayTabSnapBox + "px";
     }
   });
 }
