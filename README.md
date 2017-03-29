@@ -12,15 +12,22 @@ A Chrome extension to help you navigate your tab jungle with ease.
   <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_tabs_search.gif"/>
 </p>
 
+## Save collections of tabs using "Tab Snapshots"!
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_snapshots.gif"/>
+</p>
+
 ## Features
+
+### Tab Management
 
 - Search and jump to tabs by title or URL, across all your windows.
 - Quickly delete tabs while being able to see their title and URL
-- Create "Tab Snapshots", a new way to manage your workflow!
 - Keyboard shortcuts for navigation and tab deletion will make you very fast
 - It's really pretty to look at!
 
-## Tab Snapshots
+### Save Tabs For Later
 
 - Tab Snapshots let you save all your open tabs across all your windows so you can open them later.
 - Take a snapshot of...
@@ -28,10 +35,6 @@ A Chrome extension to help you navigate your tab jungle with ease.
   - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to take home at the end of the day. Free your mind!
 - Snapshots are stored locally on your device. Not sent to malicious servers!
-
-<p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_snapshots.gif"/>
-</p>
 
 ## Why do I need this?
 
