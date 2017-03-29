@@ -117,10 +117,11 @@
 }
 
 .delete_tab_snap_button {
+  font-size: 85%;
   background: transparent;
   z-index: 1;
   position: relative;
-  top: -23px;
+  top: -21px;
   left: 135px;
 }
 .delete_tab_snap_button:hover {

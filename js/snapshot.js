@@ -96,7 +96,6 @@ function saveSnapshot() {
           saveSnapshotButton.disabled = false;
           closeMenu(saveSnapshotMenu);
         }, 800);
-        console.log("Save successfully!");
       });
     });
   });
@@ -115,7 +114,7 @@ function renderListOfSnapshots() {
     if (tabSnapsObj.tabSnaps !== undefined && tabSnapsObj.tabSnaps.listOfSnaps.length > 0) {
       tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
       for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
-        tabSnapsHtml += "<div class=\"tab_snap_box\" data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"fa fa-times fa-lg\" aria-hidden=\"true\"></i></button></div>";
+        tabSnapsHtml += "<div class=\"tab_snap_box\" data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button></div>";
       }
     } else {
       tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
@@ -138,11 +137,8 @@ function renderListOfSnapshots() {
     }
 
     var heightNeededToDisplayTabSnapBox = tabSnapDropdown.offsetHeight + getSnapsButtonRect.bottom;
-    console.log("A: " + heightNeededToDisplayTabSnapBox);
     var heightOfBody = document.body.offsetHeight;
-    console.log("B: " + heightOfBody);
     if (heightNeededToDisplayTabSnapBox > heightOfBody) {
-      console.log("true");
       document.body.style.height = heightNeededToDisplayTabSnapBox + "px";
     }
   });

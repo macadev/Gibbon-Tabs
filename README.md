@@ -25,7 +25,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - Tab Snapshots let you save all your open tabs across all your windows so you can open them later.
 - Take a snapshot of...
   - The internal sites you open at work every morning!
-  - All the websites you used to procrastinate. Waste lots of time more effectively!
+  - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to take home at the end of the day. Free your mind!
 - Snapshots are stored locally on your device. Not sent to malicious servers!
 
