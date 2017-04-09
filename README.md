@@ -23,9 +23,9 @@ A Chrome extension to help you navigate your tab jungle with ease.
 ### Tab Management
 
 - Search and jump to tabs by title or URL, across all your windows.
-- Quickly delete tabs while being able to see their title and URL
-- Keyboard shortcuts for navigation and tab deletion will make you very fast
-- It's really pretty to look at!
+- Quickly delete tabs while being able to see their title and URL.
+- Keyboard shortcuts for navigation and tab deletion will make you very fast.
+- It's really pretty to look at!.
 
 ### Save Tabs For Later
 
@@ -40,7 +40,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 _If you suffer today from one of the following:_
 
-- Having __dozens of tabs__ open in a one or multiple windows
+- Having __dozens of tabs__ open in one or multiple windows
 - Constantly fiddling with keyboard shortcuts to find the tab you need, or worse, using your mouse/trackpad
 - That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
 
