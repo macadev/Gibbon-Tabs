@@ -6,42 +6,30 @@
 
 A Chrome extension to help you navigate your tab jungle with ease.
 
-## Find and delete tabs _really_ fast!
-
-<p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_tabs_search.gif"/>
-</p>
-
-## Save collections of tabs using "Tab Snapshots"!
-
-<p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_snapshots.gif"/>
-</p>
-
 ## Features
 
 ### Tab Management
 
-- Search and jump to tabs by title or URL, across all your windows.
-- Quickly delete tabs while being able to see their title and URL.
+- __Search and jump__ to tabs by title or URL, across all your windows.
+- __Quickly delete tabs__ while being able to see their title and URL.
 - Keyboard shortcuts for navigation and tab deletion will make you very fast.
 - It's really pretty to look at!.
 
 ### Save Tabs For Later
 
-- Tab Snapshots let you save all your open tabs across all your windows so you can open them later.
+- __Tab Snapshots let you save all your open tabs across all your windows so you can open them later.__
 - Take a snapshot of...
   - The internal sites you open at work every morning!
   - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to take home at the end of the day. Free your mind!
-- Snapshots are stored locally on your device. Not sent to malicious servers!
+- Snapshots are stored locally on your device. They are not sent anywhere!
 
 ## Why do I need this?
 
 _If you suffer today from one of the following:_
 
-- Having __dozens of tabs__ open in one or multiple windows
-- Constantly fiddling with keyboard shortcuts to find the tab you need, or worse, using your mouse/trackpad
+- Having __dozens of tabs__ open in one or multiple windows.
+- Constantly fiddling with keyboard shortcuts to find the tab you need, or worse, using your mouse/trackpad.
 - That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
 
 <p align="center">
@@ -49,7 +37,7 @@ _If you suffer today from one of the following:_
   <em>Welcome to Tab Hell. You can go throw yourself in the lava pit now.</em>
 </p>
 
-- Heartache and wrist pain
+- Heartache and wrist pain.
 
 _Then Gibbon Tabs is for You!_
 
@@ -60,7 +48,21 @@ _Then Gibbon Tabs is for You!_
 
 ## Installation
 
-- Go to this page and install the extension
-- Add a keyboard shortcut to activate it by doing the following
+- Go to the [Chrome Store page](https://chrome.google.com/webstore/detail/gibbon-tabs/bmkakdcikgcicahfkmcehpbhidhccfld) and install the extension.
+- __It is highly recommended that you assign a keyboard shortcut to the Gibbon Tabs extension.__
+  - In order to do this open [chrome://extensions](chrome://extensions).
+  - Scroll to the bottom of the page and click on "Keyboard Shortcuts" (see image below).
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png"/>
+</p>
+
+  - Assign Gibbon Tabs a keyboard shortcut as shown in the image below.
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/assign_shortcut.png"/>
+</p>
+
+  - Refresh the chrome://extension page and the shortcut will become active!
 
 ## Usage
