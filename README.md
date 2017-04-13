@@ -60,7 +60,7 @@ _Then Gibbon Tabs is for You!_
   - Assign Gibbon Tabs a keyboard shortcut as shown in the image below.
 
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/assign_shortcut.png" width="200">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/assign_shortcut.png" width="500">
 </p>
 
   - Refresh the chrome://extension page and the shortcut will become active!
