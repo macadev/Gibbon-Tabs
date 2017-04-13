@@ -66,3 +66,10 @@ _Then Gibbon Tabs is for You!_
   - Refresh the chrome://extension page and the shortcut will become active!
 
 ## Usage
+
+- Press the shortcut you assigned or click on the extension icon in your browser to activate it.
+- __Type to begin searching__. The search box is always highlighted.
+- Press <kbd>Enter</bkd> to activate a tab. Or click on it.
+- Use the <kbd>Up</kbd> and <kbd>Down</kbd> keys to navigate the tabs list.
+- Press <kbd>Shift</kbd>+<kbd>Backspace</kbd> to delete the currently highlighted tab in the tabs list.
+  - You can also click on the X at the right side of each tab in the list.
