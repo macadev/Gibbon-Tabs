@@ -76,6 +76,6 @@ _If you suffer today from one of the following:_
 _Then Gibbon Tabs is for You!_
 
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_chrome.png" heigh="600">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_chrome.png" height="600">
   <em>You using Gibbon Tabs.</em>
 </p>
