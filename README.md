@@ -77,5 +77,6 @@ _Then Gibbon Tabs is for You!_
 
 <p align="center">
   <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_chrome.png" height="600">
+  <br></br>
   <em>You using Gibbon Tabs.</em>
 </p>
