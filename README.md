@@ -6,7 +6,12 @@
 
 A Chrome extension to help you navigate your tab jungle with ease.
 
-[![1 Minute Demo](https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_window.png)](https://www.youtube.com/watch?v=X4AHNVJXIS0&t=10s)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=X4AHNVJXIS0&t">
+    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_window.png" href="https://www.youtube.com/watch?v=X4AHNVJXIS0&t" width="450">
+  </a>
+  <em>Click on this image to see a 1 minute demo of Gibbon Tabs.</em>
+</p>
 
 ## Features
 
