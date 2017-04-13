@@ -50,18 +50,18 @@ _Then Gibbon Tabs is for You!_
 
 - Go to the [Chrome Store page](https://chrome.google.com/webstore/detail/gibbon-tabs/bmkakdcikgcicahfkmcehpbhidhccfld) and install the extension.
 - __It is highly recommended that you assign a keyboard shortcut to the Gibbon Tabs extension.__
-  - In order to do this open [chrome://extensions](chrome://extensions).
+  - In order to do this open [chrome://extensions](chrome://extensions) (type this URL in a new tab)
   - Scroll to the bottom of the page and click on "Keyboard Shortcuts" (see image below).
 
-<p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png"/>
-</p>
+  <p align="center">
+    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png"/>
+  </p>
 
   - Assign Gibbon Tabs a keyboard shortcut as shown in the image below.
 
-<p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/assign_shortcut.png" width="500">
-</p>
+  <p align="center">
+    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/assign_shortcut.png" width="500">
+  </p>
 
   - Refresh the chrome://extension page and the shortcut will become active!
 
