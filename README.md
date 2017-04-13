@@ -36,7 +36,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
   - Scroll to the bottom of the page and click on "Keyboard Shortcuts" (see image below).
 
   <p align="center">
-    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png" width="700">
+    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png" width="550">
   </p>
 
   - Assign Gibbon Tabs a keyboard shortcut as shown in the image below.
@@ -82,7 +82,7 @@ _Then Gibbon Tabs is for You!_
 
 ## Some technical details
 
-- Fuzzy search library used [Fuse](https://github.com/krisk/Fuse)
+- Fuzzy search library used: [Fuse](https://github.com/krisk/Fuse)
 - I wanted to implement this without using any javascript frameworks. It's all pure javascript.
   - Some parts of the code got a bit Sphagetti-ed along the way. I don't have tons of experience with frontend. I learned a lot!
 - The CSS is a bit of a hack. I also learned a ton here.
