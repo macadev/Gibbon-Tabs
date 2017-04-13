@@ -26,8 +26,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 ## Requirements
 
-- __All you need is Google Chrome!__
-  - I am running it on Chrome 56, but it will likely work with older versions as well.
+- __All you need is Google Chrome. Pretty much any version will work!__
 
 ## Installation
 
@@ -80,3 +79,11 @@ _Then Gibbon Tabs is for You!_
   <br></br>
   <em>You using Gibbon Tabs.</em>
 </p>
+
+## Some technical details
+
+- Fuzzy search library used [Fuse](https://github.com/krisk/Fuse)
+- I wanted to implement this without using any javascript frameworks. It's all pure javascript.
+  - Some parts of the code got a bit Sphagetti-ed along the way. I don't have tons of experience with frontend. I learned a lot!
+- The CSS is a bit of a hack. I also learned a ton here.
+- What was the hardest part of this project? Writing this damn README.
