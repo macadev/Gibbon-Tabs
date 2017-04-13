@@ -6,6 +6,8 @@
 
 A Chrome extension to help you navigate your tab jungle with ease.
 
+[![1 Minute Demo](https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_window.png)](https://www.youtube.com/watch?v=X4AHNVJXIS0&t=10s)
+
 ## Features
 
 ### Tab Management
