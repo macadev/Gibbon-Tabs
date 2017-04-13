@@ -54,7 +54,7 @@ _Then Gibbon Tabs is for You!_
   - Scroll to the bottom of the page and click on "Keyboard Shortcuts" (see image below).
 
   <p align="center">
-    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png"/>
+    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png" width="700">
   </p>
 
   - Assign Gibbon Tabs a keyboard shortcut as shown in the image below.
