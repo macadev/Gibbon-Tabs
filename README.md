@@ -24,23 +24,6 @@ A Chrome extension to help you navigate your tab jungle with ease.
   - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to take home at the end of the day. Free your mind!
 - Snapshots are stored locally on your device. They are not sent anywhere!
 
-## Why do I need this?
-
-_If you suffer today from one of the following:_
-
-- Having __dozens of tabs__ open in one or multiple windows.
-- Constantly fiddling with keyboard shortcuts to find the tab you need, or worse, using your mouse/trackpad.
-- That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
-
-<p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_hell.png"/>
-  <em>Welcome to Tab Hell. You can go throw yourself in the lava pit now.</em>
-</p>
-
-- Heartache and wrist pain.
-
-_Then Gibbon Tabs is for You!_
-
 ## Requirements
 
 - __All you need is Google Chrome!__
@@ -69,7 +52,30 @@ _Then Gibbon Tabs is for You!_
 
 - Press the shortcut you assigned or click on the extension icon in your browser to activate it.
 - __Type to begin searching__. The search box is always highlighted.
-- Press <kbd>Enter</bkd> to activate a tab. Or click on it.
+- Press <kbd>Enter</kbd> to activate a tab. Or click on it.
 - Use the <kbd>Up</kbd> and <kbd>Down</kbd> keys to navigate the tabs list.
 - Press <kbd>Shift</kbd>+<kbd>Backspace</kbd> to delete the currently highlighted tab in the tabs list.
-  - You can also click on the X at the right side of each tab in the list.
+  - You can also delete tabs by clicking on the X at the right side of each tab in the list.
+- There are no shortcuts for "Tab Snapshots". Just use it once and you'll learn how it works!
+
+## Why do I need this?
+
+_If you suffer today from one of the following:_
+
+- Having __dozens of tabs__ open in one or multiple windows.
+- Constantly fiddling with keyboard shortcuts to find the tab you need, or worse, using your mouse/trackpad.
+- That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_hell.png"/>
+  <em>Welcome to Tab Hell. You can go throw yourself in the lava pit now.</em>
+</p>
+
+- Heartache and wrist pain.
+
+_Then Gibbon Tabs is for You!_
+
+<p align="center">
+  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_chrome.png"/>
+  <em>You using Gibbon Tabs.</em>
+</p>
