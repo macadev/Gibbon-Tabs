@@ -33,7 +33,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 ## Requirements
 
-- __All you need is Google Chrome. Pretty much any version will work!__
+- All you need is Google Chrome. Pretty much any version will work!
 
 ## Installation
 
