@@ -21,15 +21,14 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - __Search and jump__ to tabs by title or URL, across all your windows.
 - __Quickly delete tabs__ while being able to see their title and URL.
 - Keyboard shortcuts for navigation and tab deletion will make you very fast.
-- It's really pretty to look at!.
 
 ### Save Tabs For Later
 
-- __Tab Snapshots let you save all your open tabs across all your windows so you can open them later.__
+- __Tab Snapshots let you save all your open tabs so you can close them and open them later.__
 - Take a snapshot of...
   - The internal sites you open at work every morning!
   - All the websites you use to procrastinate. Waste lots of time more effectively!
-  - The giant hairy ball of tabs you have open which you don't want to close, but you sure as hell don't want to take home at the end of the day. Free your mind!
+  - The giant hairy ball of tabs you don't want to close, but you sure as hell don't want to take home at the end of the day either. Free your mind!
 - Snapshots are stored locally on your device. They are not sent anywhere!
 
 ## Requirements
@@ -67,11 +66,11 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 ## Why do I need this?
 
-_If you suffer today from one of the following:_
+_If you suffer from one of the following:_
 
 - Having __dozens of tabs__ open in one or multiple windows.
 - Constantly fiddling with keyboard shortcuts to find the tab you need, or worse, using your mouse/trackpad.
-- That horrible thing that happens where the tab favicons disappear because you have too many open tabs. See below:
+- The horrible confusion that ensues when the tab favicons disappear because you have too many open tabs. See below:
 
 <p align="center">
   <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_hell.png"/>
