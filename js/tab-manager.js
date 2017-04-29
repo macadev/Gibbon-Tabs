@@ -26,7 +26,18 @@ document.onkeydown = function(event) {
     if (document.getElementById('save_snap_menu').style.display == "initial") return;
     closeTab(highlightIndex);
   }
+  // Ctrl key
+  if (event.keyCode == 17) {
+    highlightActiveTab();
+  }
 };
+
+function highlightActiveTab() {
+  if (activeTabIndex == null) return;
+  removeHighlight(highlightIndex)
+  highlightIndex = activeTabIndex;
+  highlightTab(highlightIndex, true);
+}
 
 function activateTab(tabIndex) {
   var tab = tabsToRender[tabIndex - 1];
@@ -80,9 +91,15 @@ function createTabHtmlElement(tabData, tabIndex) {
 
 function renderSearchResults(tabsToRender) {
   var tabsHtml = "";
+  var activeTabToBeRendered = false;
   for (let tab of tabsToRender) {
+    if (tab.isActiveTab) {
+      activeTabToBeRendered = true;
+      activeTabIndex = tab.renderIndex;
+    }
     tabsHtml += tab.html;
   }
+  if (!activeTabToBeRendered) activeTabIndex = null;
   numTabs = tabsToRender.length
   document.getElementById('tab_container').innerHTML = tabsHtml;
 }
@@ -124,6 +141,7 @@ function _searchTabsNoQuery(tabsToSearch) {
     delete tab.title_highlighted;
     delete tab.url_highlighted;
     tab.html = createTabHtmlElement(tab, tabIndex);
+    tab.renderIndex = tabIndex;
     tabsToRender.push(tab);
     tabIndex++;
   }
@@ -138,6 +156,7 @@ function _searchTabsWithQuery(query) {
     result.item.matches = result.matches;
     highLightSearchResults(result.item);
     result.item.html = createTabHtmlElement(result.item, tabIndex);
+    result.item.renderIndex = tabIndex;
     tabsToRender.push(result.item);
     tabIndex++;
   }
@@ -146,14 +165,13 @@ function _searchTabsWithQuery(query) {
 
 function initializeSearchVariables(tabs, activeWindowId) {
   for (let tab of tabs) {
-    // Do not include active tab in search results
-    if (tab.active && tab.windowId == activeWindowId) continue;
     tabsToSearch.push({
       title: tab.title,
       url: tab.url,
       tabId: tab.id,
       windowId: tab.windowId,
-      iconUrl: tab.favIconUrl
+      iconUrl: tab.favIconUrl,
+      isActiveTab: (tab.active && tab.windowId == activeWindowId ? true : false)
     });
   }
 
@@ -187,6 +205,7 @@ var tabsToSearch = [];
 var tabsToRender = [];
 var highlightIndex = 1;
 var numTabs;
+var activeTabIndex;
 document.addEventListener('DOMContentLoaded', function() {
   // Add event handler to input box
   var tabSearchInputBox = document.getElementById('search_box');
