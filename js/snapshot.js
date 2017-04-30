@@ -1,5 +1,5 @@
 function getTabsSnapshots(callback) {
-  chrome.storage.local.get("tabSnaps", function(tabSnaps) {
+  chrome.storage.sync.get("tabSnaps", function(tabSnaps) {
     callback(tabSnaps);
   });
 }
@@ -21,7 +21,7 @@ function deleteTabSnap(tabSnapElement, event) {
           break;
       }
     }
-    chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
+    chrome.storage.sync.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
       if (numOfTabSnaps === 0) {
         var tabSnapContainer = tabSnapElement.parentNode;
         tabSnapContainer.innerHTML = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
@@ -106,7 +106,7 @@ function saveSnapshot() {
         tabSnapsObj.tabSnaps = { listOfSnaps: [] };
       }
       tabSnapsObj.tabSnaps.listOfSnaps.push(newSnapshot);
-      chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
+      chrome.storage.sync.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
         var originalBackground = saveSnapshotButton.style.background;
         var originalText = saveSnapshotButton.innerText;
         var saveSnapshotMenu = document.getElementById('save_snap_menu');
