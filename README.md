@@ -96,3 +96,9 @@ _Then Gibbon Tabs is for You!_
   - Some parts of the code got a bit Sphagetti-ed along the way. I don't have tons of experience with frontend. I learned a lot!
 - The CSS is a bit of a hack. I also learned a ton here.
 - What was the hardest part of this project? Writing this damn README.
+
+## Donate
+
+- If you love this project and want to help it's continued development, consider donating some bitcoin to the following address [19R4F9Gas9S1Wa7Rw8UhppN5eBxyCLDpR2](https://blockchain.info/address/19R4F9Gas9S1Wa7Rw8UhppN5eBxyCLDpR2)
+  - Your donations will help me buy coffee and train rides to Montreal (A large chunck of this project was completed on the train to Montreal from Toronto, believe it or not. I am amazingly productive while on trains).
+  - I have many other ideas for developer tools that I think can have a pretty big impact on your workflow, so you can expect more awesome things to come.
