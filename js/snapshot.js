@@ -1,5 +1,6 @@
 function getTabsSnapshots(callback) {
   chrome.storage.local.get("tabSnaps", function(tabSnaps) {
+    console.log(tabSnaps);
     callback(tabSnaps);
   });
 }
@@ -33,8 +34,22 @@ function deleteTabSnap(tabSnapElement, event) {
 }
 
 function activateTabSnapshot(tabData) {
+  console.log(("tabsPerWindow" in tabData));
+  if (!("tabsPerWindow" in tabData)) {
+    // Support for legacy tab snapshots where tabs were opened in the same window
+    // even if they were in separate ones when the snapshot was created
+    _processCreationOfWindow(tabData.tabs);
+  } else {
+    for (var key in tabData.tabsPerWindow) {
+      _processCreationOfWindow(tabData.tabsPerWindow[key]);
+    }
+  }
+  window.close();
+}
+
+function _processCreationOfWindow(tabsList) {
   var urls = [];
-  for (let tab of tabData.tabs) {
+  for (let tab of tabsList) {
     urls.push(tab.url);
   }
   var createData = {
@@ -45,7 +60,6 @@ function activateTabSnapshot(tabData) {
   chrome.windows.create(createData, function() {
     console.log("Window created successfully");
   });
-  window.close();
 }
 
 function showSaveSnapshotMenu() {
@@ -74,9 +88,20 @@ function saveSnapshot() {
   }
   getTabsSnapshots(function(tabSnapsObj) {
     getAllTabs(function (tabs) {
+      // Remove useless metadata from tab objects before storing them
+      var filteredTabsByWindow = {};
+      for (let tab of tabs) {
+        if (!(tab.windowId in filteredTabsByWindow)) {
+          filteredTabsByWindow[tab.windowId] = [];
+        }
+        filteredTabsByWindow[tab.windowId].push({
+          title: tab.title,
+          url: tab.url,
+        });
+      }
       var newSnapshot = {
         name: snapshotName,
-        tabs: tabs,
+        tabsPerWindow: filteredTabsByWindow,
         creationTimestamp: Date.now()
       };
       if (tabSnapsObj.tabSnaps === undefined) {
