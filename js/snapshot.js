@@ -1,6 +1,5 @@
 function getTabsSnapshots(callback) {
   chrome.storage.local.get("tabSnaps", function(tabSnaps) {
-    console.log(tabSnaps);
     callback(tabSnaps);
   });
 }
@@ -34,7 +33,6 @@ function deleteTabSnap(tabSnapElement, event) {
 }
 
 function activateTabSnapshot(tabData) {
-  console.log(("tabsPerWindow" in tabData));
   if (!("tabsPerWindow" in tabData)) {
     // Support for legacy tab snapshots where tabs were opened in the same window
     // even if they were in separate ones when the snapshot was created
