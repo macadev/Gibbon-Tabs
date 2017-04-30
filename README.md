@@ -62,6 +62,8 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - Use the <kbd>Up</kbd> and <kbd>Down</kbd> keys to navigate the tabs list.
 - Press <kbd>Shift</kbd>+<kbd>Backspace</kbd> to delete the currently highlighted tab in the tabs list.
   - You can also delete tabs by clicking on the X at the right side of each tab in the list.
+- Press <kbd>Ctrl</kbd> while the extension is open to highlight the currently active tab.
+  - When you haven't entered a search query the list shows all tabs ordered from left to right and by window. This lets you quickly find neighbouring tabs to the active window.
 - There are no shortcuts for "Tab Snapshots". Just use it once and you'll learn how it works!
 
 ## Why do I need this?
