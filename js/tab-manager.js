@@ -207,29 +207,36 @@ var highlightIndex = 1;
 var numTabs;
 var activeTabIndex;
 document.addEventListener('DOMContentLoaded', function() {
-  // Add event handler to input box
+  // Call searchTabs when user inputs in search box
   var tabSearchInputBox = document.getElementById('search_box');
   tabSearchInputBox.focus();
   tabSearchInputBox.oninput = searchTabs;
 
+  // Display the save snapshot menu
   var saveSnapMenuElement = document.getElementById('save_snap_menu');
   var showSaveSnapshotMenuButton = document.getElementById('save_snap_button');
   showSaveSnapshotMenuButton.onclick = showSaveSnapshotMenu;
 
-  var submitSaveSnapshotButton = document.getElementById('submit_save_snap_button');
-  submitSaveSnapshotButton.onclick = saveSnapshot
-
+  // Close the save snap menu
   var cancelSaveSnapshotButton = document.getElementById('cancel_save_snap_button');
   cancelSaveSnapshotButton.onclick = closeMenu.bind(null, saveSnapMenuElement);
 
+  // Toggle checkboxes for selecting snapshot only active window vs all windows
+  // Default checkboxes do not go well with the theme of Gibbon Tabs. We use fontello icons for the checkboxes.
   var snapshotActiveWindowCheckbox = document.getElementById('snapshot_only_active_window_checkbox');
   snapshotActiveWindowCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotActiveWindowCheckbox);
   var snapshotAllWindowsCheckbox = document.getElementById('snapshot_all_windows_checkbox');
   snapshotAllWindowsCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotAllWindowsCheckbox);
 
+  // Save a snapshot
+  var submitSaveSnapshotButton = document.getElementById('submit_save_snap_button');
+  submitSaveSnapshotButton.onclick = saveSnapshot.bind(null, snapshotActiveWindowCheckbox);
+
+  // Display list of saved snapshots
   var renderSnapsListButton = document.getElementById('get_snaps_button');
   renderSnapsListButton.onclick = renderListOfSnapshots;
 
+  // Clicking on logo opens the Github page
   var logoImage = document.getElementById('gibbon_tabs_logo_image');
   logoImage.onclick = function() {
     chrome.tabs.create({url: 'https://github.com/macadev/Gibbon-Tabs'});

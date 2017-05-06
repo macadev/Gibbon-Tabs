@@ -60,20 +60,6 @@ function _processCreationOfWindow(tabsList) {
   });
 }
 
-function toggleSnapshotTypeCheckbox(checkboxElement) {
-  var tickedCheckboxClassName = "icon-ok-squared";
-  var untickedCheckboxClassName = "icon-blank";
-  // If checkbox has already been ticked do nothing
-  if (checkboxElement.classList.contains(tickedCheckboxClassName)) return;
-  // Get the currently ticked checbox and replace make it unticked
-  var tickedCheckboxElement = document.getElementsByClassName(tickedCheckboxClassName)[0];
-  tickedCheckboxElement.classList.remove(tickedCheckboxClassName);
-  tickedCheckboxElement.classList.add(untickedCheckboxClassName);
-  // Tick the other checkbox
-  checkboxElement.classList.remove(untickedCheckboxClassName);
-  checkboxElement.classList.add(tickedCheckboxClassName);
-}
-
 function showSaveSnapshotMenu() {
   var saveSnapButtonRect = document.getElementById('save_snap_button').getBoundingClientRect();
   var saveSnapMenu = document.getElementById('save_snap_menu');
@@ -90,7 +76,27 @@ function showSaveSnapshotMenu() {
   snapshotNameInputBox.focus();
 }
 
-function saveSnapshot() {
+var tickedCheckboxClassName = "icon-ok-squared";
+var untickedCheckboxClassName = "icon-blank";
+function toggleSnapshotTypeCheckbox(checkboxElement) {
+  // If checkbox has already been ticked do nothing
+  if (checkboxElement.classList.contains(tickedCheckboxClassName)) return;
+  // Get the currently ticked checbox and replace make it unticked
+  var tickedCheckboxElement = document.getElementsByClassName(tickedCheckboxClassName)[0];
+  tickedCheckboxElement.classList.remove(tickedCheckboxClassName);
+  tickedCheckboxElement.classList.add(untickedCheckboxClassName);
+  // Tick the other checkbox
+  checkboxElement.classList.remove(untickedCheckboxClassName);
+  checkboxElement.classList.add(tickedCheckboxClassName);
+}
+
+function saveSnapshot(snapshotActiveWindowCheckbox) {
+
+  var snapshotOnlyActiveWindow = false;
+  if (snapshotActiveWindowCheckbox.classList.contains(tickedCheckboxClassName)) {
+    snapshotOnlyActiveWindow = true;
+  }
+
   var snapshotName = document.getElementById('save_snap_name_input')
     .value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   var saveSnapshotButton = document.getElementById('submit_save_snap_button');
@@ -98,11 +104,15 @@ function saveSnapshot() {
     alert("Please specify a name for the snapshot.");
     return;
   }
+
   getTabsSnapshots(function(tabSnapsObj) {
-    getAllTabs(function (tabs) {
+    getAllTabs(function (tabs, activeWindowId) {
       // Remove useless metadata from tab objects before storing them
       var filteredTabsByWindow = {};
       for (let tab of tabs) {
+        // Skip tabs not in the active window when the snapshotOnlyActiveWindow checkbox
+        // has been ticked
+        if (snapshotOnlyActiveWindow && tab.windowId !== activeWindowId) continue;
         if (!(tab.windowId in filteredTabsByWindow)) {
           filteredTabsByWindow[tab.windowId] = [];
         }
