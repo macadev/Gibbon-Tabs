@@ -60,6 +60,20 @@ function _processCreationOfWindow(tabsList) {
   });
 }
 
+function toggleSnapshotTypeCheckbox(checkboxElement) {
+  var tickedCheckboxClassName = "icon-ok-squared";
+  var untickedCheckboxClassName = "icon-blank";
+  // If checkbox has already been ticked do nothing
+  if (checkboxElement.classList.contains(tickedCheckboxClassName)) return;
+  // Get the currently ticked checbox and replace make it unticked
+  var tickedCheckboxElement = document.getElementsByClassName(tickedCheckboxClassName)[0];
+  tickedCheckboxElement.classList.remove(tickedCheckboxClassName);
+  tickedCheckboxElement.classList.add(untickedCheckboxClassName);
+  // Tick the other checkbox
+  checkboxElement.classList.remove(untickedCheckboxClassName);
+  checkboxElement.classList.add(tickedCheckboxClassName);
+}
+
 function showSaveSnapshotMenu() {
   var saveSnapButtonRect = document.getElementById('save_snap_button').getBoundingClientRect();
   var saveSnapMenu = document.getElementById('save_snap_menu');

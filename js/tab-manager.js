@@ -222,6 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var cancelSaveSnapshotButton = document.getElementById('cancel_save_snap_button');
   cancelSaveSnapshotButton.onclick = closeMenu.bind(null, saveSnapMenuElement);
 
+  var snapshotActiveWindowCheckbox = document.getElementById('snapshot_only_active_window_checkbox');
+  snapshotActiveWindowCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotActiveWindowCheckbox);
+  var snapshotAllWindowsCheckbox = document.getElementById('snapshot_all_windows_checkbox');
+  snapshotAllWindowsCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotAllWindowsCheckbox);
+
   var renderSnapsListButton = document.getElementById('get_snaps_button');
   renderSnapsListButton.onclick = renderListOfSnapshots;
 

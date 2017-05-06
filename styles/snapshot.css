@@ -134,3 +134,14 @@
   text-align: center;
   text-decoration: underline;
 }
+
+.snapshot_checkbox_message {
+  font-size: 90%;
+  padding-left: 5px;
+  padding-bottom: 1px;
+}
+
+.save_snap_checkbox {
+  color: #757575;
+  cursor: pointer;
+}
