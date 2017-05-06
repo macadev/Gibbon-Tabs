@@ -213,11 +213,11 @@ document.addEventListener('DOMContentLoaded', function() {
   tabSearchInputBox.oninput = searchTabs;
 
   // Display the save snapshot menu
-  var saveSnapMenuElement = document.getElementById('save_snap_menu');
   var showSaveSnapshotMenuButton = document.getElementById('save_snap_button');
   showSaveSnapshotMenuButton.onclick = showSaveSnapshotMenu;
 
   // Close the save snap menu
+  var saveSnapMenuElement = document.getElementById('save_snap_menu');
   var cancelSaveSnapshotButton = document.getElementById('cancel_save_snap_button');
   cancelSaveSnapshotButton.onclick = closeMenu.bind(null, saveSnapMenuElement);
 

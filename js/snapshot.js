@@ -68,6 +68,10 @@ function showSaveSnapshotMenu() {
     return;
   }
 
+  // Close the save snapshot dropdown menu
+  var snapshotsListMenuElement = document.getElementById('tab_snaps_dropdown');
+  closeMenu(snapshotsListMenuElement);
+
   var snapshotNameInputBox = document.getElementById('save_snap_name_input');
   snapshotNameInputBox.value = "";
   saveSnapMenu.style.left = saveSnapButtonRect.left + "px";
@@ -155,6 +159,10 @@ function renderListOfSnapshots() {
     tabSnapsDropdown.style.display = "none";
     return;
   }
+
+  // Close the save snapshot dropdown menu
+  var saveSnapMenuElement = document.getElementById('save_snap_menu');
+  closeMenu(saveSnapMenuElement);
 
   getTabsSnapshots(function(tabSnapsObj) {
     var tabSnapsHtml = "<div id=\"tab_snap_container\">";
