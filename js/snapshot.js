@@ -1,29 +1,69 @@
-function getListOfTabSnapshotUIDs(callback) { // Renamed from getTabsSnapshots
+function getListOfTabSnapshotUIDs(callback) {
   chrome.storage.sync.get("tabSnapshotUIDs", function(tabSnapsUUIDs) {
     callback(tabSnapsUUIDs);
   });
 }
 
-function _storeTabSnapshotUID(snapUID, saveSnapshotButton) {
+function _storeTabSnapshotUID(snapUID, callback) {
   getListOfTabSnapshotUIDs(function(tabSnapUIDsWrapper) {
     if (tabSnapUIDsWrapper.tabSnapshotUIDs === undefined) {
-      tabSnapUIDsWrapper.tabSnapshotUIDs = { listOfSnaps: {} };
+      tabSnapUIDsWrapper. tabSnapshotUIDs = { mapOfSnapUIDs: {} };
     }
-    tabSnapUIDsWrapper.tabSnapshotUIDs.listOfSnaps[snapUID] = 1;
+    tabSnapUIDsWrapper.tabSnapshotUIDs.mapOfSnapUIDs[snapUID] = 1;
     chrome.storage.sync.set({ "tabSnapshotUIDs": tabSnapUIDsWrapper.tabSnapshotUIDs }, function() {
-      var originalBackground = saveSnapshotButton.style.background;
-      var originalText = saveSnapshotButton.innerText;
-      var saveSnapshotMenu = document.getElementById('save_snap_menu');
-      saveSnapshotButton.style.background = "#69B578";
-      saveSnapshotButton.innerText = "Success!";
-      saveSnapshotButton.disabled = true;
-      setTimeout(function() {
-        saveSnapshotButton.style.background = originalBackground;
-        saveSnapshotButton.innerText = originalText;
-        saveSnapshotButton.disabled = false;
-        closeMenu(saveSnapshotMenu);
-      }, 800);
+      if (chrome.runtime.lastError) {
+        console.log("Failed to store snapshot UID.");
+        alert("Failed to save snapshot. You've created too many snapshots. Please delete some and try again.")
+        return;
+      }
+      callback();
     });
+  });
+}
+
+function _closeSaveSnapshotMenuOnSave(saveSnapshotButton, saveSucceeded) {
+  var originalBackground = saveSnapshotButton.style.background;
+  var originalText = saveSnapshotButton.innerText;
+  var saveSnapshotMenu = document.getElementById('save_snap_menu');
+  if (saveSucceeded) {
+    saveSnapshotButton.style.background = "#69B578";
+    saveSnapshotButton.innerText = "Success!";
+  } else {
+    saveSnapshotButton.innerText = "Failed";
+    saveSnapshotButton.style.background = "#DE5259";
+  }
+  saveSnapshotButton.disabled = true;
+  setTimeout(function() {
+    saveSnapshotButton.style.background = originalBackground;
+    saveSnapshotButton.innerText = originalText;
+    saveSnapshotButton.disabled = false;
+    closeMenu(saveSnapshotMenu);
+  }, 800);
+}
+
+function getSnapshot(snapshotUID, tabSnapUUIDsList, listOfSnapshots, returnCallback) {
+  chrome.storage.sync.get(snapshotUID, function(snapshotWrapper) {
+    listOfSnapshots.push(snapshotWrapper[snapshotUID]);
+    var nextUID = tabSnapUUIDsList.pop();
+    if (nextUID !== undefined) {
+      getSnapshot(nextUID, tabSnapUUIDsList, listOfSnapshots, returnCallback);
+    } else {
+      returnCallback(listOfSnapshots);
+    }
+  });
+}
+
+function getTabSnapshots(returnCallback) {
+  getListOfTabSnapshotUIDs(function(tabSnapsUUIDsWrapper) {
+    var listOfSnapshots = [];
+    if (tabSnapsUUIDsWrapper.tabSnapshotUIDs === undefined
+      ||  Object.keys(tabSnapsUUIDsWrapper.tabSnapshotUIDs.mapOfSnapUIDs).length === 0) {
+        returnCallback(listOfSnapshots);
+        return;
+      }
+    var tabSnapUUIDsList = Object.keys(tabSnapsUUIDsWrapper.tabSnapshotUIDs.mapOfSnapUIDs);
+    var uidToRetrieve = tabSnapUUIDsList.pop();
+    getSnapshot(uidToRetrieve, tabSnapUUIDsList, listOfSnapshots, returnCallback);
   });
 }
 
@@ -31,27 +71,22 @@ function deleteTabSnap(tabSnapElement, event) {
   event.stopPropagation();
   var tabSnapName = tabSnapElement.getElementsByClassName('tab_snap_name_box')[0].innerText;
   var tabSnapCreationTimestamp = tabSnapElement.getAttribute('data-creationTimestamp');
-  getTabsSnapshots(function(tabSnapsObj) {
-    var tabSnapshot;
-    var numOfTabSnaps = tabSnapsObj.tabSnaps.listOfSnaps.length;
-    for (var i = 0; i < numOfTabSnaps; i++) {
-      tabSnapshot = tabSnapsObj.tabSnaps.listOfSnaps[i];
-      if (tabSnapshot.name == tabSnapName &&
-        tabSnapshot.creationTimestamp == tabSnapCreationTimestamp) {
-          // Remove the tab snapshot from the array
-          tabSnapsObj.tabSnaps.listOfSnaps.splice(i, 1);
-          numOfTabSnaps--;
-          break;
-      }
-    }
-    chrome.storage.sync.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
-      if (numOfTabSnaps === 0) {
-        var tabSnapContainer = tabSnapElement.parentNode;
-        tabSnapContainer.innerHTML = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
-      } else {
-        tabSnapElement.remove();
-      }
+  var tabSnapUID = tabSnapElement.getAttribute('data-uid');
+
+  getListOfTabSnapshotUIDs(function(tabSnapUIDsWrapper) {
+    delete tabSnapUIDsWrapper.tabSnapshotUIDs.mapOfSnapUIDs[tabSnapUID];
+    chrome.storage.sync.set({ "tabSnapshotUIDs": tabSnapUIDsWrapper.tabSnapshotUIDs }, function() {
+      console.log("Removed snapshot UID.");
     });
+  });
+  var numOfTabSnaps = document.getElementsByClassName('tab_snap_box').length - 1;
+  chrome.storage.sync.remove(tabSnapUID, function() {
+    if (numOfTabSnaps === 0) {
+      var tabSnapContainer = tabSnapElement.parentNode;
+      tabSnapContainer.innerHTML = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
+    } else {
+      tabSnapElement.remove();
+    }
   });
 }
 
@@ -66,21 +101,6 @@ function activateTabSnapshot(tabData) {
     }
   }
   window.close();
-}
-
-function _processCreationOfWindow(tabsList) {
-  var urls = [];
-  for (let tab of tabsList) {
-    urls.push(tab.url);
-  }
-  var createData = {
-    url: urls,
-    focused: true,
-    type: "normal"
-  }
-  chrome.windows.create(createData, function() {
-    console.log("Window created successfully");
-  });
 }
 
 function showSaveSnapshotMenu() {
@@ -155,18 +175,27 @@ function saveSnapshot(snapshotActiveWindowCheckbox) {
     return;
   }
 
-  getAllTabs(function (tabs, activeWindowId) {
+  getAllTabs(function(tabs, activeWindowId) {
     var newSnapshot = _createTabSnapshotObject(tabs, snapshotName, activeWindowId, snapshotOnlyActiveWindow);
     var snapUID = newSnapshot.uid;
-    chrome.storage.sync.set({ snapUID: newSnapshot }, function() {
+    var snapshotKeyValueFormat = {};
+    snapshotKeyValueFormat[snapUID] = newSnapshot;
+
+    chrome.storage.sync.set(snapshotKeyValueFormat, function() {
+      if (chrome.runtime.lastError) {
+        console.log("Failed to store snapshot. It's too large to sync.");
+        alert("Failed to save snapshot. It's too large to sync. Please remove some tabs and try again.")
+        _closeSaveSnapshotMenuOnSave(saveSnapshotButton, false);
+        return;
+      }
       getListOfTabSnapshotUIDs(function(tabSnapUIDsWrapper) {
         if (tabSnapUIDsWrapper.tabSnapshotUIDs === undefined) {
-          tabSnapUIDsWrapper.tabSnapshotUIDs = { listOfSnaps: {} };
+          tabSnapUIDsWrapper.tabSnapshotUIDs = { mapOfSnapUIDs: {} };
         }
-        tabSnapUIDsWrapper.tabSnapshotUIDs.listOfSnaps[snapUID] = 1;
+        tabSnapUIDsWrapper.tabSnapshotUIDs.mapOfSnapUIDs[snapUID] = 1;
         chrome.storage.sync.set(
           { "tabSnapshotUIDs": tabSnapUIDsWrapper.tabSnapshotUIDs },
-          _storeTabSnapshotUID.bind(null, snapUID, saveSnapshotButton)
+          _storeTabSnapshotUID.bind(null, snapUID, _closeSaveSnapshotMenuOnSave.bind(null, saveSnapshotButton, true))
         );
       });
     });
@@ -185,12 +214,12 @@ function renderListOfSnapshots() {
   var saveSnapMenuElement = document.getElementById('save_snap_menu');
   closeMenu(saveSnapMenuElement);
 
-  getTabsSnapshots(function(tabSnapsObj) {
+  getTabSnapshots(function(tabSnapshots) {
     var tabSnapsHtml = "<div id=\"tab_snap_container\">";
-    if (tabSnapsObj.tabSnaps !== undefined && tabSnapsObj.tabSnaps.listOfSnaps.length > 0) {
+    if (tabSnapshots.length > 0) {
       tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
-      for (let tabSnap of tabSnapsObj.tabSnaps.listOfSnaps) {
-        tabSnapsHtml += "<div class=\"tab_snap_box\" data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button></div>";
+      for (let tabSnap of tabSnapshots) {
+        tabSnapsHtml += "<div class=\"tab_snap_box\" data-uid=\"" + tabSnap.uid + "\"  data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button></div>";
       }
     } else {
       tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
@@ -207,7 +236,7 @@ function renderListOfSnapshots() {
     var deleteTabSnapButton;
     var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
     for (var i = 0; i < tabSnapBoxes.length; i++) {
-      tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapsObj.tabSnaps.listOfSnaps[i]);
+      tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapshots[i]);
       deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
       deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
     }
