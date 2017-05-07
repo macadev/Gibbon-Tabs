@@ -1,6 +1,29 @@
-function getTabsSnapshots(callback) {
-  chrome.storage.local.get("tabSnaps", function(tabSnaps) {
-    callback(tabSnaps);
+function getListOfTabSnapshotUIDs(callback) { // Renamed from getTabsSnapshots
+  chrome.storage.sync.get("tabSnapshotUIDs", function(tabSnapsUUIDs) {
+    callback(tabSnapsUUIDs);
+  });
+}
+
+function _storeTabSnapshotUID(snapUID, saveSnapshotButton) {
+  getListOfTabSnapshotUIDs(function(tabSnapUIDsWrapper) {
+    if (tabSnapUIDsWrapper.tabSnapshotUIDs === undefined) {
+      tabSnapUIDsWrapper.tabSnapshotUIDs = { listOfSnaps: {} };
+    }
+    tabSnapUIDsWrapper.tabSnapshotUIDs.listOfSnaps[snapUID] = 1;
+    chrome.storage.sync.set({ "tabSnapshotUIDs": tabSnapUIDsWrapper.tabSnapshotUIDs }, function() {
+      var originalBackground = saveSnapshotButton.style.background;
+      var originalText = saveSnapshotButton.innerText;
+      var saveSnapshotMenu = document.getElementById('save_snap_menu');
+      saveSnapshotButton.style.background = "#69B578";
+      saveSnapshotButton.innerText = "Success!";
+      saveSnapshotButton.disabled = true;
+      setTimeout(function() {
+        saveSnapshotButton.style.background = originalBackground;
+        saveSnapshotButton.innerText = originalText;
+        saveSnapshotButton.disabled = false;
+        closeMenu(saveSnapshotMenu);
+      }, 800);
+    });
   });
 }
 
@@ -21,7 +44,7 @@ function deleteTabSnap(tabSnapElement, event) {
           break;
       }
     }
-    chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
+    chrome.storage.sync.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
       if (numOfTabSnaps === 0) {
         var tabSnapContainer = tabSnapElement.parentNode;
         tabSnapContainer.innerHTML = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
@@ -94,8 +117,31 @@ function toggleSnapshotTypeCheckbox(checkboxElement) {
   checkboxElement.classList.add(tickedCheckboxClassName);
 }
 
-function saveSnapshot(snapshotActiveWindowCheckbox) {
+function _createTabSnapshotObject(tabs, snapshotName, activeWindowId, snapshotOnlyActiveWindow) {
+  // Remove useless metadata from tab objects before storing them
+  var filteredTabsByWindow = {};
+  for (let tab of tabs) {
+    // Skip tabs not in the active window when the snapshotOnlyActiveWindow checkbox
+    // has been ticked
+    if (snapshotOnlyActiveWindow && tab.windowId !== activeWindowId) continue;
+    if (!(tab.windowId in filteredTabsByWindow)) {
+      filteredTabsByWindow[tab.windowId] = [];
+    }
+    filteredTabsByWindow[tab.windowId].push({
+      url: tab.url
+    });
+  }
+  var snapUID = generateUID();
+  var newSnapshot = {
+    name: snapshotName,
+    tabsPerWindow: filteredTabsByWindow,
+    creationTimestamp: Date.now(),
+    uid: snapUID
+  };
+  return newSnapshot;
+}
 
+function saveSnapshot(snapshotActiveWindowCheckbox) {
   var snapshotOnlyActiveWindow = false;
   if (snapshotActiveWindowCheckbox.classList.contains(tickedCheckboxClassName)) {
     snapshotOnlyActiveWindow = true;
@@ -109,44 +155,19 @@ function saveSnapshot(snapshotActiveWindowCheckbox) {
     return;
   }
 
-  getTabsSnapshots(function(tabSnapsObj) {
-    getAllTabs(function (tabs, activeWindowId) {
-      // Remove useless metadata from tab objects before storing them
-      var filteredTabsByWindow = {};
-      for (let tab of tabs) {
-        // Skip tabs not in the active window when the snapshotOnlyActiveWindow checkbox
-        // has been ticked
-        if (snapshotOnlyActiveWindow && tab.windowId !== activeWindowId) continue;
-        if (!(tab.windowId in filteredTabsByWindow)) {
-          filteredTabsByWindow[tab.windowId] = [];
+  getAllTabs(function (tabs, activeWindowId) {
+    var newSnapshot = _createTabSnapshotObject(tabs, snapshotName, activeWindowId, snapshotOnlyActiveWindow);
+    var snapUID = newSnapshot.uid;
+    chrome.storage.sync.set({ snapUID: newSnapshot }, function() {
+      getListOfTabSnapshotUIDs(function(tabSnapUIDsWrapper) {
+        if (tabSnapUIDsWrapper.tabSnapshotUIDs === undefined) {
+          tabSnapUIDsWrapper.tabSnapshotUIDs = { listOfSnaps: {} };
         }
-        filteredTabsByWindow[tab.windowId].push({
-          title: tab.title,
-          url: tab.url,
-        });
-      }
-      var newSnapshot = {
-        name: snapshotName,
-        tabsPerWindow: filteredTabsByWindow,
-        creationTimestamp: Date.now()
-      };
-      if (tabSnapsObj.tabSnaps === undefined) {
-        tabSnapsObj.tabSnaps = { listOfSnaps: [] };
-      }
-      tabSnapsObj.tabSnaps.listOfSnaps.push(newSnapshot);
-      chrome.storage.local.set({ "tabSnaps": tabSnapsObj.tabSnaps }, function() {
-        var originalBackground = saveSnapshotButton.style.background;
-        var originalText = saveSnapshotButton.innerText;
-        var saveSnapshotMenu = document.getElementById('save_snap_menu');
-        saveSnapshotButton.style.background = "#69B578";
-        saveSnapshotButton.innerText = "Success!";
-        saveSnapshotButton.disabled = true;
-        setTimeout(function() {
-          saveSnapshotButton.style.background = originalBackground;
-          saveSnapshotButton.innerText = originalText;
-          saveSnapshotButton.disabled = false;
-          closeMenu(saveSnapshotMenu);
-        }, 800);
+        tabSnapUIDsWrapper.tabSnapshotUIDs.listOfSnaps[snapUID] = 1;
+        chrome.storage.sync.set(
+          { "tabSnapshotUIDs": tabSnapUIDsWrapper.tabSnapshotUIDs },
+          _storeTabSnapshotUID.bind(null, snapUID, saveSnapshotButton)
+        );
       });
     });
   });
