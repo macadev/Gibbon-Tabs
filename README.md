@@ -25,11 +25,13 @@ A Chrome extension to help you navigate your tab jungle with ease.
 ### Save Tabs For Later
 
 - __Tab Snapshots let you save all your open tabs so you can close them and open them later.__
+- You can take a snapshot of all your windows, or just the currently active one.
+- Snapshots are synchronized across all your devices running Chrome and Gibbon Tabs. 
 - Take a snapshot of...
   - The internal sites you open at work every morning!
   - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you don't want to close, but you sure as hell don't want to take home at the end of the day either. Free your mind!
-- Snapshots are stored locally on your device. They are not sent anywhere!
+- Snapshots are synchronized to your Google profile using [chrome.storage.sync](https://developer.chrome.com/extensions/storage) - I don't have access to your history. All data is stored securely in Google's servers.
 
 ## Requirements
 
@@ -100,5 +102,6 @@ _Then Gibbon Tabs is for You!_
 ## Donate
 
 - If you love this project and want to help its continued development, consider donating some bitcoin to the following address [19R4F9Gas9S1Wa7Rw8UhppN5eBxyCLDpR2](https://blockchain.info/address/19R4F9Gas9S1Wa7Rw8UhppN5eBxyCLDpR2)
-  - Your donations will help me buy coffee and train rides to Montreal (A large chunck of this project was completed on the train to Montreal from Toronto, believe it or not. I am amazingly productive while on trains).
+  - Your donations will help me buy coffee and train rides to Montreal (A large chunk of this project was completed on the train to Montreal from Toronto, believe it or not. I am amazingly productive while on trains).
   - I have many other ideas for developer tools that I think can have a pretty big impact on your workflow, so you can expect more awesome things to come.
+  - Thanks to the stranger who sent me 0.00123977 BTC. I made my first dollar on the internet! WOAH!
