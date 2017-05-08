@@ -110,10 +110,12 @@ function showSaveSnapshotMenu() {
     saveSnapMenu.style.display = "none";
     return;
   }
-
-  // Close the save snapshot dropdown menu
+  // Close the list of snapshots dropdown menu
   var snapshotsListMenuElement = document.getElementById('tab_snaps_dropdown');
   closeMenu(snapshotsListMenuElement);
+
+  var snapshotActiveWindowCheckbox = document.getElementById('snapshot_only_active_window_checkbox');
+  toggleSnapshotTypeCheckbox(snapshotActiveWindowCheckbox);
 
   var snapshotNameInputBox = document.getElementById('save_snap_name_input');
   snapshotNameInputBox.value = "";
@@ -128,7 +130,7 @@ var untickedCheckboxClassName = "icon-blank";
 function toggleSnapshotTypeCheckbox(checkboxElement) {
   // If checkbox has already been ticked do nothing
   if (checkboxElement.classList.contains(tickedCheckboxClassName)) return;
-  // Get the currently ticked checbox and replace make it unticked
+  // Get the currently ticked checbox and make it unticked
   var tickedCheckboxElement = document.getElementsByClassName(tickedCheckboxClassName)[0];
   tickedCheckboxElement.classList.remove(tickedCheckboxClassName);
   tickedCheckboxElement.classList.add(untickedCheckboxClassName);
