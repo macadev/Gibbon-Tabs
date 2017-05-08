@@ -208,8 +208,9 @@ function _storeLegacySnapshot(listOfUIDs, returnCallback) {
   var uidToStore = listOfUIDs.pop();
   if (uidToStore !== undefined) {
     _storeTabSnapshotUID(uidToStore, _storeLegacySnapshot.bind(null, listOfUIDs, returnCallback));
+  } else {
+    returnCallback();
   }
-  returnCallback();
 }
 
 function _processLegacySnapshots(renderListOfSnapshotsFunction) {
