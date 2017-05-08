@@ -204,49 +204,90 @@ function saveSnapshot(snapshotActiveWindowCheckbox) {
   });
 }
 
-function renderListOfSnapshots() {
-  var getSnapsButtonRect = document.getElementById('get_snaps_button').getBoundingClientRect();
-  var tabSnapsDropdown = document.getElementById("tab_snaps_dropdown");
-  if (tabSnapsDropdown.style.display == "initial") {
-    tabSnapsDropdown.style.display = "none";
-    return;
+function _storeLegacySnapshot(listOfUIDs, returnCallback) {
+  var uidToStore = listOfUIDs.pop();
+  if (uidToStore !== undefined) {
+    _storeTabSnapshotUID(uidToStore, _storeLegacySnapshot.bind(null, listOfUIDs, returnCallback));
   }
+  returnCallback();
+}
 
-  // Close the save snapshot dropdown menu
-  var saveSnapMenuElement = document.getElementById('save_snap_menu');
-  closeMenu(saveSnapMenuElement);
+function _processLegacySnapshots(renderListOfSnapshotsFunction) {
+  chrome.storage.local.get("tabSnaps", function(tabSnapsObj) {
+    if (chrome.runtime.lastError) {
+      console.log("Error getting legacy snapshots.");
+      renderListOfSnapshotsFunction();
+      return;
+    }
+    if (tabSnapsObj.tabSnaps === undefined || tabSnapsObj.tabSnaps.listOfSnaps.length === 0) {
+      console.log("No legacy snapshots");
+      renderListOfSnapshotsFunction();
+      return;
+    }
+    var uid;
+    var newUIDs = [];
+    for (let snapshot of tabSnapsObj.tabSnaps.listOfSnaps) {
+      uid = generateUID();
+      snapshot.uid = uid;
+      var snapshotKeyValueFormat = {};
+      snapshotKeyValueFormat[uid] = snapshot;
+      chrome.storage.sync.set(snapshotKeyValueFormat, function(){});
+      newUIDs.push(uid);
+    }
+    _storeLegacySnapshot(newUIDs, function() {
+      chrome.storage.local.remove("tabSnaps", function() {
+        console.log("Completed processing of all legacy snapshots.");
+        renderListOfSnapshotsFunction();
+      })
+    });
+  });
+}
 
-  getTabSnapshots(function(tabSnapshots) {
-    var tabSnapsHtml = "<div id=\"tab_snap_container\">";
-    if (tabSnapshots.length > 0) {
-      tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
-      for (let tabSnap of tabSnapshots) {
-        tabSnapsHtml += "<div class=\"tab_snap_box\" data-uid=\"" + tabSnap.uid + "\"  data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button></div>";
+function renderListOfSnapshots() {
+  _processLegacySnapshots(function() {
+    var getSnapsButtonRect = document.getElementById('get_snaps_button').getBoundingClientRect();
+    var tabSnapsDropdown = document.getElementById("tab_snaps_dropdown");
+    if (tabSnapsDropdown.style.display == "initial") {
+      tabSnapsDropdown.style.display = "none";
+      return;
+    }
+
+    // Close the save snapshot dropdown menu
+    var saveSnapMenuElement = document.getElementById('save_snap_menu');
+    closeMenu(saveSnapMenuElement);
+
+    getTabSnapshots(function(tabSnapshots) {
+      var tabSnapsHtml = "<div id=\"tab_snap_container\">";
+      if (tabSnapshots.length > 0) {
+        tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
+        for (let tabSnap of tabSnapshots) {
+          tabSnapsHtml += "<div class=\"tab_snap_box\" data-uid=\"" + tabSnap.uid + "\"  data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button></div>";
+        }
+      } else {
+        tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
       }
-    } else {
-      tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
-    }
-    tabSnapsHtml += "</div>";
+      tabSnapsHtml += "</div>";
 
-    tabSnapsDropdown.style.left = getSnapsButtonRect.left + "px";
-    tabSnapsDropdown.style.top = getSnapsButtonRect.bottom + "px";
-    tabSnapsDropdown.style.display = "initial";
-    tabSnapsDropdown.onmouseleave = closeMenu.bind(null, tabSnapsDropdown);
-    var tabSnapDropdown = document.getElementById('tab_snaps_dropdown');
-    tabSnapDropdown.innerHTML = tabSnapsHtml;
+      tabSnapsDropdown.style.left = getSnapsButtonRect.left + "px";
+      tabSnapsDropdown.style.top = getSnapsButtonRect.bottom + "px";
+      tabSnapsDropdown.style.display = "initial";
+      tabSnapsDropdown.onmouseleave = closeMenu.bind(null, tabSnapsDropdown);
+      var tabSnapDropdown = document.getElementById('tab_snaps_dropdown');
+      tabSnapDropdown.innerHTML = tabSnapsHtml;
 
-    var deleteTabSnapButton;
-    var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
-    for (var i = 0; i < tabSnapBoxes.length; i++) {
-      tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapshots[i]);
-      deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
-      deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
-    }
+      var deleteTabSnapButton;
+      var tabSnapBoxes = document.getElementsByClassName('tab_snap_box');
+      for (var i = 0; i < tabSnapBoxes.length; i++) {
+        tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapshots[i]);
+        deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
+        deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
+      }
 
-    var heightNeededToDisplayTabSnapBox = tabSnapDropdown.offsetHeight + getSnapsButtonRect.bottom;
-    var heightOfBody = document.body.offsetHeight;
-    if (heightNeededToDisplayTabSnapBox > heightOfBody) {
-      document.body.style.height = heightNeededToDisplayTabSnapBox + "px";
-    }
+      var heightNeededToDisplayTabSnapBox = tabSnapDropdown.offsetHeight + getSnapsButtonRect.bottom;
+      var heightOfBody = document.body.offsetHeight;
+      if (heightNeededToDisplayTabSnapBox > heightOfBody) {
+        document.body.style.height = heightNeededToDisplayTabSnapBox + "px";
+      }
+    });
   });
 }
