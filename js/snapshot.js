@@ -90,6 +90,24 @@ function deleteTabSnap(tabSnapElement, event) {
   });
 }
 
+function displayOverwriteTabSnapWidget(tabSnapElement, event) {
+  event.stopPropagation();
+
+  // Close the list of snapshots dropdown menu
+  var snapshotsListMenuElement = document.getElementById('tab_snaps_dropdown');
+  closeMenu(snapshotsListMenuElement);
+  // Close the save snapshot dropdown menu
+  var saveSnapMenuElement = document.getElementById('save_snap_menu');
+  closeMenu(saveSnapMenuElement);
+
+  var overwriteSnapshotWidget = document.getElementById('overwrite_snap_widget');
+  overwriteSnapshotWidget.style.display = "initial";
+
+  var tabSnapName = tabSnapElement.getElementsByClassName('tab_snap_name_box')[0].innerText;
+  var snapToOverwritePlaceholder = document.getElementById('snap_to_overwrite_placeholder');
+  snapToOverwritePlaceholder.innerText = tabSnapName;
+}
+
 function activateTabSnapshot(tabData) {
   if (!("tabsPerWindow" in tabData)) {
     // Support for legacy tab snapshots where tabs were opened in the same window
@@ -113,6 +131,9 @@ function showSaveSnapshotMenu() {
   // Close the list of snapshots dropdown menu
   var snapshotsListMenuElement = document.getElementById('tab_snaps_dropdown');
   closeMenu(snapshotsListMenuElement);
+  // Close the overwrite snapshot widget
+  var overwriteSnapshotWidget = document.getElementById('overwrite_snap_widget');
+  closeMenu(overwriteSnapshotWidget);
 
   var snapshotActiveWindowCheckbox = document.getElementById('snapshot_only_active_window_checkbox');
   toggleSnapshotTypeCheckbox(snapshotActiveWindowCheckbox);
@@ -257,12 +278,16 @@ function renderListOfSnapshots() {
     var saveSnapMenuElement = document.getElementById('save_snap_menu');
     closeMenu(saveSnapMenuElement);
 
+    // Close the overwrite snapshot widget
+    var overwriteSnapshotWidget = document.getElementById('overwrite_snap_widget');
+    closeMenu(overwriteSnapshotWidget);
+
     getTabSnapshots(function(tabSnapshots) {
       var tabSnapsHtml = "<div id=\"tab_snap_container\">";
       if (tabSnapshots.length > 0) {
         tabSnapsHtml += "<p class=\"snap_action_title\">Tab Snapshots</p>"
         for (let tabSnap of tabSnapshots) {
-          tabSnapsHtml += "<div class=\"tab_snap_box\" data-uid=\"" + tabSnap.uid + "\"  data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button></div>";
+          tabSnapsHtml += "<div class=\"tab_snap_box\" data-uid=\"" + tabSnap.uid + "\"  data-creationTimestamp=\"" + tabSnap.creationTimestamp + "\"><div class=\"tab_snap_name_box\">" + tabSnap.name + "</div><button class=\"menu_button_base delete_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-cancel\"></i></button><button class=\"menu_button_base overwrite_tab_snap_button\" type=\"button\"><i class=\"demo-icon icon-edit\"></i></button></div>";
         }
       } else {
         tabSnapsHtml = "<p id=\"no_snaps_message\">You haven't saved any tab snapshots!</p>";
@@ -282,6 +307,8 @@ function renderListOfSnapshots() {
         tabSnapBoxes[i].onclick = activateTabSnapshot.bind(null, tabSnapshots[i]);
         deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
         deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
+        overwriteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('overwrite_tab_snap_button');
+        overwriteTabSnapButton[0].addEventListener("click", displayOverwriteTabSnapWidget.bind(null, tabSnapBoxes[i]));
       }
 
       var heightNeededToDisplayTabSnapBox = tabSnapDropdown.offsetHeight + getSnapsButtonRect.bottom;

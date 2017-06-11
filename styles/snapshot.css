@@ -59,14 +59,14 @@
   cursor: pointer;
   margin: 10px;
   padding: 10px;
-  width: 150px;
+  width: 185px;
   height: 10px;
 }
 .tab_snap_name_box {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 140px;
+  width: 155px;
 }
 .tab_snap_box:hover {
   background: #454951;
@@ -122,12 +122,22 @@
   z-index: 1;
   position: relative;
   top: -21px;
-  left: 135px;
+  left: 150px;
+}
+.overwrite_tab_snap_button {
+  font-size: 85%;
+  background: transparent;
+  z-index: 1;
+  position: relative;
+  top: -20px;
+  left: 140px;
 }
 .delete_tab_snap_button:hover {
   color: #DE5259;
 }
-
+.overwrite_tab_snap_button:hover {
+  color: #DE5259;
+}
 .snap_action_title {
   padding-left: 5px;
   padding-right: 5px;
@@ -144,4 +154,36 @@
 .save_snap_checkbox {
   color: #757575;
   cursor: pointer;
+}
+
+#overwrite_snap_widget {
+  position: absolute;
+  width: 250px;
+  top: 80px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+}
+
+#overwrite_snap_widget #overwrite_snap_widget_contents {
+  position: relative;
+  margin: 10px;
+}
+
+#snap_to_overwrite_placeholder {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+#submit_overwrite_snap_button {
+  position: absolute;
+  bottom: 2px;
+  right: 12px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: #568AF2;
 }
