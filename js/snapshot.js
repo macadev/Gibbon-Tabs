@@ -22,22 +22,31 @@ function _storeTabSnapshotUID(snapUID, callback) {
 }
 
 function _closeSaveSnapshotMenuOnSave(saveSnapshotButton, saveSucceeded) {
-  var originalBackground = saveSnapshotButton.style.background;
-  var originalText = saveSnapshotButton.innerText;
   var saveSnapshotMenu = document.getElementById('save_snap_menu');
-  if (saveSucceeded) {
-    saveSnapshotButton.style.background = "#69B578";
-    saveSnapshotButton.innerText = "Success!";
+  _closeMenuWithResultMessage(saveSnapshotButton, saveSucceeded, saveSnapshotMenu);
+}
+
+function _closeOverwriteSnapshotMenuOnOverwrite(overwriteSnapshotButton, overwriteSucceeded) {
+  var overwriteSnapshotWidget = document.getElementById('overwrite_snap_widget');
+  _closeMenuWithResultMessage(overwriteSnapshotButton, overwriteSucceeded, overwriteSnapshotWidget);
+}
+
+function _closeMenuWithResultMessage(button, operationSucceeded, menu) {
+  var originalBackground = button.style.background;
+  var originalText = button.innerText;
+  if (operationSucceeded) {
+    button.style.background = "#69B578";
+    button.innerText = "Success!";
   } else {
-    saveSnapshotButton.innerText = "Failed";
-    saveSnapshotButton.style.background = "#DE5259";
+    button.innerText = "Failed";
+    button.style.background = "#DE5259";
   }
-  saveSnapshotButton.disabled = true;
+  button.disabled = true;
   setTimeout(function() {
-    saveSnapshotButton.style.background = originalBackground;
-    saveSnapshotButton.innerText = originalText;
-    saveSnapshotButton.disabled = false;
-    closeMenu(saveSnapshotMenu);
+    button.style.background = originalBackground;
+    button.innerText = originalText;
+    button.disabled = false;
+    closeMenu(menu);
   }, 800);
 }
 
@@ -90,7 +99,7 @@ function deleteTabSnap(tabSnapElement, event) {
   });
 }
 
-function displayOverwriteTabSnapWidget(tabSnapElement, event) {
+function displayOverwriteTabSnapshotWidget(tabSnapElement, event) {
   event.stopPropagation();
 
   // Close the list of snapshots dropdown menu
@@ -106,6 +115,15 @@ function displayOverwriteTabSnapWidget(tabSnapElement, event) {
   var tabSnapName = tabSnapElement.getElementsByClassName('tab_snap_name_box')[0].innerText;
   var snapToOverwritePlaceholder = document.getElementById('snap_to_overwrite_placeholder');
   snapToOverwritePlaceholder.innerText = tabSnapName;
+
+  var overwriteSnapshotActiveWindowCheckbox = document.getElementById('overwrite_snapshot_only_active_window_checkbox');
+  var overwriteSnapshotAllWindowsCheckbox = document.getElementById('overwrite_snapshot_all_windows_checkbox');
+  toggleSnapshotTypeCheckbox(overwriteSnapshotActiveWindowCheckbox, overwriteSnapshotAllWindowsCheckbox);
+
+  var snapshotUID = tabSnapElement.getAttribute('data-uid');
+  var overwriteSnapshotButton = document.getElementById('submit_overwrite_snap_button');
+
+  overwriteSnapshotButton.onclick = overwriteSnapshot.bind(null, overwriteSnapshotActiveWindowCheckbox, snapshotUID, tabSnapName)
 }
 
 function activateTabSnapshot(tabData) {
@@ -136,7 +154,8 @@ function showSaveSnapshotMenu() {
   closeMenu(overwriteSnapshotWidget);
 
   var snapshotActiveWindowCheckbox = document.getElementById('snapshot_only_active_window_checkbox');
-  toggleSnapshotTypeCheckbox(snapshotActiveWindowCheckbox);
+  var snapshotAllWindowsCheckbox = document.getElementById('snapshot_all_windows_checkbox');
+  toggleSnapshotTypeCheckbox(snapshotActiveWindowCheckbox, snapshotAllWindowsCheckbox);
 
   var snapshotNameInputBox = document.getElementById('save_snap_name_input');
   snapshotNameInputBox.value = "";
@@ -148,16 +167,15 @@ function showSaveSnapshotMenu() {
 
 var tickedCheckboxClassName = "icon-ok-squared";
 var untickedCheckboxClassName = "icon-blank";
-function toggleSnapshotTypeCheckbox(checkboxElement) {
+function toggleSnapshotTypeCheckbox(checkboxToTick, pairCheckbox) {
   // If checkbox has already been ticked do nothing
-  if (checkboxElement.classList.contains(tickedCheckboxClassName)) return;
-  // Get the currently ticked checbox and make it unticked
-  var tickedCheckboxElement = document.getElementsByClassName(tickedCheckboxClassName)[0];
-  tickedCheckboxElement.classList.remove(tickedCheckboxClassName);
-  tickedCheckboxElement.classList.add(untickedCheckboxClassName);
+  if (checkboxToTick.classList.contains(tickedCheckboxClassName)) return;
+  // Get the currently ticked checkbox and make it unticked
+  pairCheckbox.classList.remove(tickedCheckboxClassName);
+  pairCheckbox.classList.add(untickedCheckboxClassName);
   // Tick the other checkbox
-  checkboxElement.classList.remove(untickedCheckboxClassName);
-  checkboxElement.classList.add(tickedCheckboxClassName);
+  checkboxToTick.classList.remove(untickedCheckboxClassName);
+  checkboxToTick.classList.add(tickedCheckboxClassName);
 }
 
 function _createTabSnapshotObject(tabs, snapshotName, activeWindowId, snapshotOnlyActiveWindow) {
@@ -191,7 +209,7 @@ function saveSnapshot(snapshotActiveWindowCheckbox) {
   }
 
   var snapshotName = document.getElementById('save_snap_name_input')
-    .value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+     .value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   var saveSnapshotButton = document.getElementById('submit_save_snap_button');
   if (snapshotName == "") {
     alert("Please specify a name for the snapshot.");
@@ -221,6 +239,31 @@ function saveSnapshot(snapshotActiveWindowCheckbox) {
           _storeTabSnapshotUID.bind(null, snapUID, _closeSaveSnapshotMenuOnSave.bind(null, saveSnapshotButton, true))
         );
       });
+    });
+  });
+}
+
+function overwriteSnapshot(overrideSnapshotWithActiveWindowCheckbox, snapUID, tabSnapName) {
+  var snapshotOnlyActiveWindow = false;
+  if (overrideSnapshotWithActiveWindowCheckbox.classList.contains(tickedCheckboxClassName)) {
+    snapshotOnlyActiveWindow = true;
+  }
+
+  getAllTabs(function(tabs, activeWindowId) {
+    var newSnapshot = _createTabSnapshotObject(tabs, tabSnapName, activeWindowId, snapshotOnlyActiveWindow);
+    newSnapshot.uid = snapUID;
+    var snapshotKeyValueFormat = {};
+    snapshotKeyValueFormat[snapUID] = newSnapshot;
+
+    chrome.storage.sync.set(snapshotKeyValueFormat, function() {
+      var overwriteSucceeded = true;
+      if (chrome.runtime.lastError) {
+        overwriteSucceeded = false;
+        console.log("Failed to store snapshot. It's too large to sync.");
+        alert("Failed to save snapshot. It's too large to sync. Please remove some tabs and try again.")
+      }
+      var overwriteSnapshotButton = document.getElementById('submit_overwrite_snap_button');
+      _closeOverwriteSnapshotMenuOnOverwrite(overwriteSnapshotButton, overwriteSucceeded);
     });
   });
 }
@@ -308,7 +351,7 @@ function renderListOfSnapshots() {
         deleteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('delete_tab_snap_button');
         deleteTabSnapButton[0].addEventListener("click", deleteTabSnap.bind(null, tabSnapBoxes[i]));
         overwriteTabSnapButton = tabSnapBoxes[i].getElementsByClassName('overwrite_tab_snap_button');
-        overwriteTabSnapButton[0].addEventListener("click", displayOverwriteTabSnapWidget.bind(null, tabSnapBoxes[i]));
+        overwriteTabSnapButton[0].addEventListener("click", displayOverwriteTabSnapshotWidget.bind(null, tabSnapBoxes[i]));
       }
 
       var heightNeededToDisplayTabSnapBox = tabSnapDropdown.offsetHeight + getSnapsButtonRect.bottom;

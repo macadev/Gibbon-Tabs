@@ -221,12 +221,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var cancelSaveSnapshotButton = document.getElementById('cancel_save_snap_button');
   cancelSaveSnapshotButton.onclick = closeMenu.bind(null, saveSnapMenuElement);
 
-  // Toggle checkboxes for selecting snapshot only active window vs all windows
+  // Toggle checkboxes for selecting saving a snapshot of only the active window vs all windows
   // Default checkboxes do not go well with the theme of Gibbon Tabs. We use fontello icons for the checkboxes.
   var snapshotActiveWindowCheckbox = document.getElementById('snapshot_only_active_window_checkbox');
-  snapshotActiveWindowCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotActiveWindowCheckbox);
   var snapshotAllWindowsCheckbox = document.getElementById('snapshot_all_windows_checkbox');
-  snapshotAllWindowsCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotAllWindowsCheckbox);
+  snapshotActiveWindowCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotActiveWindowCheckbox, snapshotAllWindowsCheckbox);
+  snapshotAllWindowsCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, snapshotAllWindowsCheckbox, snapshotActiveWindowCheckbox);
 
   // Save a snapshot
   var submitSaveSnapshotButton = document.getElementById('submit_save_snap_button');
@@ -241,6 +241,16 @@ document.addEventListener('DOMContentLoaded', function() {
   logoImage.onclick = function() {
     chrome.tabs.create({url: 'https://github.com/macadev/Gibbon-Tabs'});
   }
+
+  // Having the mouse leave the Overwrite snapshot widget closes it
+  var overwriteSnapshotWidget = document.getElementById('overwrite_snap_widget');
+  overwriteSnapshotWidget.onmouseleave = closeMenu.bind(null, overwriteSnapshotWidget);
+
+  // Toggle checkboxes for selecting the granularity of overwriting a snapshot (active window vs all windows)
+  var overwriteSnapshotActiveWindowCheckbox = document.getElementById('overwrite_snapshot_only_active_window_checkbox');
+  var overwriteSnapshotAllWindowsCheckbox = document.getElementById('overwrite_snapshot_all_windows_checkbox');
+  overwriteSnapshotActiveWindowCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, overwriteSnapshotActiveWindowCheckbox, overwriteSnapshotAllWindowsCheckbox);
+  overwriteSnapshotAllWindowsCheckbox.onclick = toggleSnapshotTypeCheckbox.bind(null, overwriteSnapshotAllWindowsCheckbox, overwriteSnapshotActiveWindowCheckbox);
 
   getAllTabs(initializeSearchVariables);
 });
