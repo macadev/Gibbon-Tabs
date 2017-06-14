@@ -123,6 +123,14 @@ function displayOverwriteTabSnapshotWidget(tabSnapElement, event) {
   var snapshotUID = tabSnapElement.getAttribute('data-uid');
   var overwriteSnapshotButton = document.getElementById('submit_overwrite_snap_button');
 
+  // Adjust height of doc to fit the Overwrite Snapshot widget, if needed
+  var getSnapsButtonRect = document.getElementById('get_snaps_button').getBoundingClientRect();
+  var heightNeededToDisplayOverwriteSnapWidget = overwriteSnapshotWidget.offsetHeight + getSnapsButtonRect.bottom;
+  var heightOfBody = document.body.offsetHeight;
+  if (heightNeededToDisplayOverwriteSnapWidget > heightOfBody) {
+    document.body.style.height = heightNeededToDisplayOverwriteSnapWidget + "px";
+  }
+
   overwriteSnapshotButton.onclick = overwriteSnapshot.bind(null, overwriteSnapshotActiveWindowCheckbox, snapshotUID, tabSnapName)
 }
 
@@ -162,6 +170,14 @@ function showSaveSnapshotMenu() {
   saveSnapMenu.style.left = saveSnapButtonRect.left + "px";
   saveSnapMenu.style.top = saveSnapButtonRect.bottom + "px";
   saveSnapMenu.style.display = "initial";
+
+  // Adjust body so Save Snapshot menu fits in case it does not
+  var heightNeededToSaveSnapMenu = saveSnapMenu.offsetHeight + saveSnapButtonRect.bottom;
+  var heightOfBody = document.body.offsetHeight;
+  if (heightNeededToSaveSnapMenu > heightOfBody) {
+    document.body.style.height = heightNeededToSaveSnapMenu + "px";
+  }
+
   snapshotNameInputBox.focus();
 }
 
