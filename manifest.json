@@ -2,18 +2,9 @@
   "manifest_version": 2,
   "name": "Gibbon Tabs",
   "description": "A Chrome extension to help you manage your tabs effectively.",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "background": {
     "scripts": ["js/background.js"]
-  },
-  "commands": {
-    "activate_in_popup": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+E",
-        "mac": "Command+E"
-      },
-      "description": "Activates the extension in a popup window."
-    }
   },
   "browser_action": {
     "default_icon": "images/logo.png",

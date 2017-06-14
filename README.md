@@ -26,12 +26,13 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 - __Tab Snapshots let you save all your open tabs so you can close them and open them later.__
 - You can take a snapshot of all your windows, or just the currently active one.
-- Snapshots are synchronized across all your devices running Chrome and Gibbon Tabs. 
+- Snapshots are synchronized across all your devices running Chrome and Gibbon Tabs.
 - Take a snapshot of...
   - The internal sites you open at work every morning!
   - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you don't want to close, but you sure as hell don't want to take home at the end of the day either. Free your mind!
 - Snapshots are synchronized to your Google profile using [chrome.storage.sync](https://developer.chrome.com/extensions/storage) - I don't have access to your history. All data is stored securely in Google's servers.
+- The "Overwrite Snapshot" widget lets you modify the contents of snapshots you created in the past.
 
 ## Requirements
 
@@ -67,6 +68,10 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - Press <kbd>Ctrl</kbd> while the extension is open to highlight the currently active tab.
   - When you haven't entered a search query the list shows all tabs ordered from left to right and by window. This lets you quickly find neighbouring tabs to the active window.
 - There are no shortcuts for "Tab Snapshots". Just use it once and you'll learn how it works!
+- When you open the "Tab Snapshots" dropdown you will see a list of all the snapshots you have saved.
+  - Click on the "x" icon next to a snapshot name to delete it.
+  - Click on the pencil icon to overwrite the contents of a snapshot.
+    - Through this feature you can add new tabs to snapshots you have created in the past!
 
 ## Why do I need this?
 
@@ -105,3 +110,11 @@ _Then Gibbon Tabs is for You!_
   - Your donations will help me buy coffee and train rides to Montreal (A large chunk of this project was completed on the train to Montreal from Toronto, believe it or not. I am amazingly productive while on trains).
   - I have many other ideas for developer tools that I think can have a pretty big impact on your workflow, so you can expect more awesome things to come.
   - Thanks to the stranger who sent me 0.00123977 BTC. I made my first dollar on the internet! WOAH!
+
+## Version changes
+
+- __Latest version is 1.1.0__
+  - Changes:
+    - Ability to overwrite the contents of a snapshot!
+    - Use the pencil icon next to the Snapshot name in the Snapshots dropdown.
+    - This feature lets you modify the contents of snapshots you have created in the past.
