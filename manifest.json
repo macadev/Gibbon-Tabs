@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Gibbon Tabs",
   "description": "A Chrome extension to help you manage your tabs effectively.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "background": {
     "scripts": ["js/background.js"]
   },
