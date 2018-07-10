@@ -112,8 +112,11 @@ _Then Gibbon Tabs is for You!_
   - Thanks to the stranger who sent me 0.00123977 BTC. I made my first dollar on the internet! WOAH!
 
 ## Version changes
+- 1.1.1__
+  - Changes:
+    - Tabs on the active window now display a small "Window" icon. This helps differentiate duplicate tabs on different windows. For example, haing two gmail clients open. Thanks for the suggestion @ShivanKaul
 
-- __Latest version is 1.1.0__
+- 1.1.0__
   - Changes:
     - Ability to overwrite the contents of a snapshot!
     - Use the pencil icon next to the Snapshot name in the Snapshots dropdown.
