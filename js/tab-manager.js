@@ -80,12 +80,21 @@ function getAllTabs(callback) {
 function createTabHtmlElement(tabData, tabIndex) {
   var title = tabData.title.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   var url = tabData.url;
+  
   if ("title_highlighted" in tabData) title = tabData.title_highlighted;
   if ("url_highlighted" in tabData) url = tabData.url_highlighted;
   if (tabData.iconUrl === undefined) {
-    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><div class=\"tab_title_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"demo-icon icon-cancel\" aria-hidden=\"true\"></i></button></div>";
+    if (tabData.isOnActiveWindow) {
+      return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><div class=\"tab_title_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"demo-icon icon-cancel\" aria-hidden=\"true\"></i></button><button class=\"menu_button_base tab_in_active_window_badge\" type=\"button\"><i class=\"demo-icon icon-window-maximize\" aria-hidden=\"true\"></i></button></div>";
+    } else {
+      return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><div class=\"tab_title_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"demo-icon icon-cancel\" aria-hidden=\"true\"></i></button></div>";
+    }
   } else {
-    return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"tab_title_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"demo-icon icon-cancel\" aria-hidden=\"true\"></i></button></div>";
+    if (tabData.isOnActiveWindow) {
+      return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"tab_title_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"demo-icon icon-cancel\" aria-hidden=\"true\"></i></button><button class=\"menu_button_base tab_in_active_window_badge\" type=\"button\"><i class=\"demo-icon icon-window-maximize\" aria-hidden=\"true\"></i></button></div>";
+    } else {
+      return "<div class=\"tab\" data-tabnumber=\"" + tabIndex + "\" id=\"search_id_" + tabIndex + "\"><img class=\"url_icon\" src=\"" + tabData.iconUrl + "\"><div class=\"tab_title_container\"><div>" + title + "</div><div class=\"url_container\">" + url +"</div></div><button class=\"menu_button_base close_tab_button\" type=\"button\"><i class=\"demo-icon icon-cancel\" aria-hidden=\"true\"></i></button></div>";
+    }
   }
 }
 
@@ -171,6 +180,7 @@ function initializeSearchVariables(tabs, activeWindowId) {
       tabId: tab.id,
       windowId: tab.windowId,
       iconUrl: tab.favIconUrl,
+      isOnActiveWindow: tab.windowId == activeWindowId,
       isActiveTab: (tab.active && tab.windowId == activeWindowId ? true : false)
     });
   }

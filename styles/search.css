@@ -52,7 +52,7 @@
 .tab_title_container {
   position: relative;
   left: 25px;
-  width: 90%;
+  width: 87%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -83,6 +83,23 @@
 .highlighted .close_tab_button {
   background: #454951;
   left: 567px;
+}
+
+.tab_in_active_window_badge {
+  color: #2f7eff !important;
+  background: #2A2E36;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 547px;
+  right: 0;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.highlighted .tab_in_active_window_badge {
+  background: #454951;
 }
 
 .highlighted {

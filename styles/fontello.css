@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'fontello';
-  src: url('font/fontello.eot?47083173');
-  src: url('font/fontello.eot?47083173#iefix') format('embedded-opentype'),
-       url('font/fontello.woff2?47083173') format('woff2'),
-       url('font/fontello.woff?47083173') format('woff'),
-       url('font/fontello.ttf?47083173') format('truetype'),
-       url('font/fontello.svg?47083173#fontello') format('svg');
+  src: url('font/fontello.eot?42441702');
+  src: url('font/fontello.eot?42441702#iefix') format('embedded-opentype'),
+       url('font/fontello.woff2?42441702') format('woff2'),
+       url('font/fontello.woff?42441702') format('woff'),
+       url('font/fontello.ttf?42441702') format('truetype'),
+       url('font/fontello.svg?42441702#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,49 +15,50 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fontello';
-    src: url('../font/fontello.svg?47083173#fontello') format('svg');
+    src: url('../font/fontello.svg?42441702#fontello') format('svg');
   }
 }
 */
-
+ 
  [class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   speak: none;
-
+ 
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
-
+ 
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-
+ 
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
-
+ 
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
-
+ 
   /* you can be more comfortable with increased icons size */
   font-size: 125%;
-
+ 
   /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+ 
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
-
+ 
 .icon-camera-alt:before { content: '\e800'; } /* '' */
 .icon-folder-open:before { content: '\e801'; } /* '' */
 .icon-cancel:before { content: '\e802'; } /* '' */
 .icon-edit:before { content: '\e803'; } /* '' */
 .icon-blank:before { content: '\f0c8'; } /* '' */
 .icon-ok-squared:before { content: '\f14a'; } /* '' */
+.icon-window-maximize:before { content: '\f2d0'; } /* '' */
