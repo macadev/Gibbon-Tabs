@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/banner_logo.jpeg"/>
+  <img src="repo_images/banner_logo.jpeg"/>
 </p>
 
 # Gibbon Tabs
@@ -8,7 +8,7 @@ A Chrome extension to help you navigate your tab jungle with ease.
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=X4AHNVJXIS0&t">
-    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_window.png" href="https://www.youtube.com/watch?v=X4AHNVJXIS0&t" width="450">
+    <img src="repo_images/gibbon_window.png" href="https://www.youtube.com/watch?v=X4AHNVJXIS0&t" width="450">
   </a>
   <br></br>
   <em>Click on this image to see a 1 minute demo of Gibbon Tabs.</em>
@@ -43,16 +43,22 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - Go to the [Chrome Store page](https://chrome.google.com/webstore/detail/gibbon-tabs/bmkakdcikgcicahfkmcehpbhidhccfld) and install the extension.
 - __It is highly recommended that you assign a keyboard shortcut to the Gibbon Tabs extension.__
   - In order to do this open [chrome://extensions](chrome://extensions) (type this URL in a new tab)
-  - Scroll to the bottom of the page and click on "Keyboard Shortcuts" (see image below).
+  - Open the Extensions menu by clicking on the upper left corner.
 
   <p align="center">
-    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/key_short.png" width="550">
+    <img src="repo_images/key_short1.png" width="550">
+  </p>
+  
+  - Click on "Keyboard Shortcuts".
+
+  <p align="center">
+    <img src="repo_images/key_short2.png" width="550">
   </p>
 
-  - Assign Gibbon Tabs a keyboard shortcut as shown in the image below.
+  - Assign Gibbon Tabs a keyboard shortcut.
 
   <p align="center">
-    <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/assign_shortcut.png" width="500">
+    <img src="repo_images/assign_shortcut.png" width="500">
   </p>
 
   - Refresh the chrome://extension page and the shortcut will become active!
@@ -82,7 +88,7 @@ _If you suffer from one of the following:_
 - The horrible confusion that ensues when the tab favicons disappear because you have too many open tabs. See below:
 
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/tab_hell.png"/>
+  <img src="repo_images/tab_hell.png"/>
   <em>Welcome to Tab Hell. You can go throw yourself in the lava pit now.</em>
 </p>
 
@@ -91,7 +97,7 @@ _If you suffer from one of the following:_
 _Then Gibbon Tabs is for You!_
 
 <p align="center">
-  <img src="https://github.com/macadev/Gibbon-Tabs/blob/master/repo_images/gibbon_chrome.png" height="600">
+  <img src="repo_images/gibbon_chrome.png" height="600">
   <br></br>
   <em>You using Gibbon Tabs.</em>
 </p>
