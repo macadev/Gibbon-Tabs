@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// https://mmazzarolo.com/blog/2019-10-19-browser-extension-development/
+
 // A script for developing a browser extension with live-reloading
 // using Create React App (no need to eject).
 // Run it instead of the "start" script of your app for a nice
