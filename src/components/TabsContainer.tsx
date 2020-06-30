@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tab from "./Tab";
 
 type Tabs = any[] | null;
@@ -6,14 +6,22 @@ type Tabs = any[] | null;
 export default function TabsContainer(): React.ReactElement {
   const [tabs, setTabs] = useState<Tabs>(null);
 
-  (window as any)["chrome"].tabs.query({}, function (tabs: any[]) {
-    setTabs(tabs);
-  });
+  useEffect(() => {
+    (window as any)["chrome"].tabs.query({}, function (tabs: any[]) {
+      console.log(tabs);
+      setTabs(tabs);
+    });
+  }, []);
 
   return (
-    <div className="bg-gray-900">
+    <div>
       {tabs?.map((tab) => (
-        <Tab title={tab.title} url={tab.url} active={tab.active}></Tab>
+        <Tab
+          title={tab.title}
+          url={tab.url}
+          active={tab.active}
+          iconUrl={tab.favIconUrl}
+        ></Tab>
       ))}
     </div>
   );
