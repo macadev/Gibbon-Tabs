@@ -37,6 +37,8 @@ export default function TabsContainer({
         url={tab.url}
         active={tab.active}
         iconUrl={tab.favIconUrl}
+        windowId={tab.windowId}
+        tabId={tab.id}
       ></Tab>
     ));
   } else {
@@ -48,6 +50,8 @@ export default function TabsContainer({
           url={match.item.url}
           active={match.item.active}
           iconUrl={match.item.favIconUrl}
+          windowId={match.item.windowId}
+          tabId={match.item.id}
         ></Tab>
       ));
   }
