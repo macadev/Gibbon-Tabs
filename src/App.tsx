@@ -1,11 +1,14 @@
-import React from "react";
-import Button from "./components/button";
+import React, { useState } from "react";
 import TabsContainer from "./components/TabsContainer";
+import ExtensionHeader from "./components/ExtensionHeader";
 
 function App() {
+  let [searchQuery, setSearchQuery] = useState("");
+
   return (
-    <div className="w-600 mx-auto my-12 bg-gray-900">
-      <TabsContainer />
+    <div className="w-600 mx-auto bg-gray-900">
+      <ExtensionHeader setSearchQuery={setSearchQuery} />
+      <TabsContainer searchQuery={searchQuery} />
     </div>
   );
 }
