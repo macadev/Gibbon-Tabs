@@ -25,7 +25,8 @@ export default function TabsContainer({
     return new Fuse(tabs, {
       shouldSort: true,
       keys: ["title", "url"],
-      include: ["matches"],
+      includeMatches: true,
+      findAllMatches: true,
     });
   }, [tabs]);
 
@@ -42,9 +43,8 @@ export default function TabsContainer({
       ></Tab>
     ));
   } else {
-    tabsToDisplay = fuse
-      .search(searchQuery)
-      .map((match) => (
+    tabsToDisplay = fuse.search(searchQuery).map((match) => {
+      return (
         <Tab
           title={match.item.title}
           url={match.item.url}
@@ -52,8 +52,10 @@ export default function TabsContainer({
           iconUrl={match.item.favIconUrl}
           windowId={match.item.windowId}
           tabId={match.item.id}
+          highlightMatches={match.matches}
         ></Tab>
-      ));
+      );
+    });
   }
 
   return <div>{tabsToDisplay}</div>;

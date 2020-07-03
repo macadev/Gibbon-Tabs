@@ -1,4 +1,6 @@
 import React from "react";
+import fuse from "fuse.js";
+import HighlightedText from "./HighlightedText";
 
 interface Tab {
   title: string;
@@ -7,6 +9,7 @@ interface Tab {
   active: boolean;
   windowId: number;
   tabId: number;
+  highlightMatches?: readonly fuse.FuseResultMatch[];
 }
 
 export default function Tab({
@@ -16,6 +19,7 @@ export default function Tab({
   active,
   windowId,
   tabId,
+  highlightMatches = [],
 }: Tab): React.ReactElement {
   let activateTab: () => void = () => {
     (window as any)["chrome"].windows.update(windowId, { focused: true });
@@ -24,6 +28,14 @@ export default function Tab({
       highlighted: true,
     });
   };
+
+  let titleHighlightMatches = highlightMatches.filter(
+    (match) => match.key === "title"
+  );
+
+  let urlHighlightMatches = highlightMatches.filter(
+    (match) => match.key === "url"
+  );
 
   return (
     <div
@@ -36,8 +48,18 @@ export default function Tab({
         ) : null}
       </div>
       <div className="flex-grow overflow-hidden">
-        <p className="text-sm truncate">{title}</p>
-        <p className="text-xs truncate">{url}</p>
+        <div className="text-sm truncate">
+          <HighlightedText
+            text={title}
+            highlightMatches={titleHighlightMatches}
+          ></HighlightedText>
+        </div>
+        <div className="text-xs truncate">
+          <HighlightedText
+            text={url}
+            highlightMatches={urlHighlightMatches}
+          ></HighlightedText>
+        </div>
       </div>
     </div>
   );
