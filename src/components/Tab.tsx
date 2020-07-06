@@ -10,6 +10,7 @@ interface Tab {
   windowId: number;
   tabId: number;
   highlightMatches?: readonly fuse.FuseResultMatch[];
+  closeTabHandler: (tabIdToDelete: number) => void;
 }
 
 export default function Tab({
@@ -20,10 +21,13 @@ export default function Tab({
   windowId,
   tabId,
   highlightMatches = [],
+  closeTabHandler,
 }: Tab): React.ReactElement {
-  let activateTab: () => void = () => {
-    (window as any)["chrome"].windows.update(windowId, { focused: true });
-    (window as any)["chrome"].tabs.update(tabId, {
+  let chrome: any = (window as any)["chrome"];
+
+  let activateTab = () => {
+    chrome.windows.update(windowId, { focused: true });
+    chrome.tabs.update(tabId, {
       active: true,
       highlighted: true,
     });
@@ -61,6 +65,15 @@ export default function Tab({
           ></HighlightedText>
         </div>
       </div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          closeTabHandler(tabId);
+        }}
+        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+      >
+        X
+      </button>
     </div>
   );
 }

@@ -14,12 +14,20 @@ export default function TabsContainer({
 }: TabsContainerInterface): React.ReactElement {
   const [tabs, setTabs] = useState<ChromeTabs>([]);
 
+  let chrome: any = (window as any)["chrome"];
+
   // Fetch the tabs and initialize fuse for fuzzy searching
   useEffect(() => {
-    (window as any)["chrome"].tabs.query({}, function (tabs: any[]) {
+    chrome.tabs.query({}, function (tabs: any[]) {
       setTabs(tabs);
     });
   }, []);
+
+  let closeTab = (tabIdToDelete: number) => {
+    chrome.tabs.remove(tabIdToDelete, function () {
+      setTabs(tabs.filter((tab) => tab.id !== tabIdToDelete));
+    });
+  };
 
   const fuse = useMemo(() => {
     return new Fuse(tabs, {
@@ -40,6 +48,7 @@ export default function TabsContainer({
         iconUrl={tab.favIconUrl}
         windowId={tab.windowId}
         tabId={tab.id}
+        closeTabHandler={closeTab}
       ></Tab>
     ));
   } else {
@@ -53,6 +62,7 @@ export default function TabsContainer({
           windowId={match.item.windowId}
           tabId={match.item.id}
           highlightMatches={match.matches}
+          closeTabHandler={closeTab}
         ></Tab>
       );
     });
