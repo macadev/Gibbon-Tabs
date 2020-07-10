@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Tab from "./Tab";
 import Fuse from "fuse.js";
+import { activateTab } from "../chrome/tabApi";
 
 // Does chrome have ts bindings?
 type ChromeTabs = any[];
@@ -13,6 +14,7 @@ export default function TabsContainer({
   searchQuery,
 }: TabsContainerInterface): React.ReactElement {
   const [tabs, setTabs] = useState<ChromeTabs>([]);
+  const [tabToActivate, setTabToActivate] = useState<number>(0);
 
   let chrome: any = (window as any)["chrome"];
 
@@ -29,6 +31,32 @@ export default function TabsContainer({
     });
   };
 
+  let keyboardNavigationHandler = (e: KeyboardEvent) => {
+    e.preventDefault();
+
+    let keyPressed: string = e.key;
+    if ("ArrowDown" === keyPressed && tabToActivate < tabs.length - 1) {
+      setTabToActivate((prevTabToActivate) => prevTabToActivate + 1);
+    }
+
+    if ("ArrowUp" === keyPressed && tabToActivate > 0) {
+      setTabToActivate((prevTabToActivate) => prevTabToActivate - 1);
+    }
+
+    if ("Enter" === keyPressed) {
+      let selectedTab = tabs[tabToActivate];
+      activateTab({ windowId: selectedTab.windowId, tabId: selectedTab.id });
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", keyboardNavigationHandler);
+
+    return () => {
+      document.removeEventListener("keydown", keyboardNavigationHandler);
+    };
+  }, [tabs, tabToActivate]);
+
   const fuse = useMemo(() => {
     return new Fuse(tabs, {
       shouldSort: true,
@@ -40,8 +68,9 @@ export default function TabsContainer({
 
   let tabsToDisplay: React.ReactElement[];
   if (searchQuery === undefined || searchQuery.length === 0) {
-    tabsToDisplay = tabs.map((tab) => (
+    tabsToDisplay = tabs.map((tab, index) => (
       <Tab
+        key={tab.id}
         title={tab.title}
         url={tab.url}
         active={tab.active}
@@ -49,12 +78,16 @@ export default function TabsContainer({
         windowId={tab.windowId}
         tabId={tab.id}
         closeTabHandler={closeTab}
+        listIndex={index}
+        setTabToActive={setTabToActivate}
+        selectedForActivation={index === tabToActivate}
       ></Tab>
     ));
   } else {
-    tabsToDisplay = fuse.search(searchQuery).map((match) => {
+    tabsToDisplay = fuse.search(searchQuery).map((match, index) => {
       return (
         <Tab
+          key={match.item.id}
           title={match.item.title}
           url={match.item.url}
           active={match.item.active}
@@ -63,6 +96,9 @@ export default function TabsContainer({
           tabId={match.item.id}
           highlightMatches={match.matches}
           closeTabHandler={closeTab}
+          listIndex={index}
+          setTabToActive={setTabToActivate}
+          selectedForActivation={index === tabToActivate}
         ></Tab>
       );
     });

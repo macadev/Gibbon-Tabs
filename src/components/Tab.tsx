@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import fuse from "fuse.js";
 import HighlightedText from "./HighlightedText";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { activateTab } from "../chrome/tabApi";
+import { isOutOfViewport } from "../utils/viewport";
 
 interface Tab {
   title: string;
@@ -10,7 +14,10 @@ interface Tab {
   windowId: number;
   tabId: number;
   highlightMatches?: readonly fuse.FuseResultMatch[];
+  listIndex: number;
+  selectedForActivation: boolean;
   closeTabHandler: (tabIdToDelete: number) => void;
+  setTabToActive: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function Tab({
@@ -21,17 +28,12 @@ export default function Tab({
   windowId,
   tabId,
   highlightMatches = [],
+  listIndex,
+  selectedForActivation,
   closeTabHandler,
+  setTabToActive,
 }: Tab): React.ReactElement {
-  let chrome: any = (window as any)["chrome"];
-
-  let activateTab = () => {
-    chrome.windows.update(windowId, { focused: true });
-    chrome.tabs.update(tabId, {
-      active: true,
-      highlighted: true,
-    });
-  };
+  const tabElementRef = useRef<HTMLDivElement | null>(null);
 
   let titleHighlightMatches = highlightMatches.filter(
     (match) => match.key === "title"
@@ -41,10 +43,25 @@ export default function Tab({
     (match) => match.key === "url"
   );
 
+  useEffect(() => {
+    if (
+      selectedForActivation &&
+      tabElementRef &&
+      tabElementRef?.current &&
+      isOutOfViewport(tabElementRef?.current).any
+    ) {
+      tabElementRef?.current?.scrollIntoView(false);
+    }
+  }, [selectedForActivation]);
+
   return (
     <div
-      onClick={activateTab}
-      className="pt-4 pb-4 pl-1 pr-1 m-1 mb-2 text-white bg-gray-800 flex flex-row"
+      ref={tabElementRef}
+      onClick={() => activateTab({ windowId, tabId })}
+      onMouseEnter={(e) => setTabToActive(listIndex)}
+      className={`pt-4 pb-4 pl-1 pr-1 m-1 mb-2 text-white flex flex-row ${
+        selectedForActivation ? "bg-gray-700" : "bg-gray-800"
+      }`}
     >
       <div className="flex flex-col pl-2 pr-2 justify-center w-8">
         {iconUrl ? (
@@ -65,15 +82,15 @@ export default function Tab({
           ></HighlightedText>
         </div>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          closeTabHandler(tabId);
-        }}
-        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-      >
-        X
-      </button>
+      <div className="text-lg pr-4 pl-4 flex flex-col justify-center hover:text-red-600 cursor-pointer">
+        <FontAwesomeIcon
+          icon={faTimes}
+          onClick={(e) => {
+            e.stopPropagation();
+            closeTabHandler(tabId);
+          }}
+        ></FontAwesomeIcon>
+      </div>
     </div>
   );
 }
