@@ -15,9 +15,9 @@ interface Tab {
   tabId: number;
   highlightMatches?: readonly fuse.FuseResultMatch[];
   listIndex: number;
-  selectedForActivation: boolean;
   closeTabHandler: (tabIdToDelete: number) => void;
   setTabToActive: React.Dispatch<React.SetStateAction<number>>;
+  selectedForActivation: boolean;
 }
 
 export default function Tab({
@@ -29,9 +29,9 @@ export default function Tab({
   tabId,
   highlightMatches = [],
   listIndex,
-  selectedForActivation,
   closeTabHandler,
   setTabToActive,
+  selectedForActivation,
 }: Tab): React.ReactElement {
   const tabElementRef = useRef<HTMLDivElement | null>(null);
 

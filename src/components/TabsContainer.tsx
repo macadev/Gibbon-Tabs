@@ -1,51 +1,50 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Tab from "./Tab";
-import Fuse from "fuse.js";
 import { activateTab } from "../chrome/tabApi";
 
-// Does chrome have ts bindings?
-type ChromeTabs = any[];
-
 interface TabsContainerInterface {
-  searchQuery: string;
+  tabsToRender: any[];
+  closeTab: (tabIdToDelete: number) => void;
 }
 
 export default function TabsContainer({
-  searchQuery,
+  tabsToRender,
+  closeTab,
 }: TabsContainerInterface): React.ReactElement {
-  const [tabs, setTabs] = useState<ChromeTabs>([]);
   const [tabToActivate, setTabToActivate] = useState<number>(0);
 
-  let chrome: any = (window as any)["chrome"];
-
-  // Fetch the tabs and initialize fuse for fuzzy searching
   useEffect(() => {
-    chrome.tabs.query({}, function (tabs: any[]) {
-      setTabs(tabs);
-    });
-  }, []);
-
-  let closeTab = (tabIdToDelete: number) => {
-    chrome.tabs.remove(tabIdToDelete, function () {
-      setTabs(tabs.filter((tab) => tab.id !== tabIdToDelete));
-    });
-  };
+    setTabToActivate(0);
+  }, [tabsToRender]);
 
   let keyboardNavigationHandler = (e: KeyboardEvent) => {
-    e.preventDefault();
-
-    let keyPressed: string = e.key;
-    if ("ArrowDown" === keyPressed && tabToActivate < tabs.length - 1) {
+    // Down arrow
+    if (e.keyCode === 40 && tabToActivate < tabsToRender.length - 1) {
+      e.preventDefault();
       setTabToActivate((prevTabToActivate) => prevTabToActivate + 1);
     }
 
-    if ("ArrowUp" === keyPressed && tabToActivate > 0) {
+    // Up arrow
+    if (e.keyCode === 38 && tabToActivate > 0) {
+      e.preventDefault();
       setTabToActivate((prevTabToActivate) => prevTabToActivate - 1);
     }
 
-    if ("Enter" === keyPressed) {
-      let selectedTab = tabs[tabToActivate];
-      activateTab({ windowId: selectedTab.windowId, tabId: selectedTab.id });
+    // Enter key
+    if (e.keyCode == 13) {
+      let selectedTab = tabsToRender[tabToActivate];
+      activateTab({ windowId: selectedTab.windowId, tabId: selectedTab.tabId });
+    }
+
+    // Shift + backspace key
+    if (e.keyCode == 8 && e.shiftKey) {
+      let selectedTab = tabsToRender[tabToActivate];
+      closeTab(selectedTab.tabId);
+    }
+
+    // Escape key
+    if (e.keyCode == 27) {
+      window.close();
     }
   };
 
@@ -55,54 +54,26 @@ export default function TabsContainer({
     return () => {
       document.removeEventListener("keydown", keyboardNavigationHandler);
     };
-  }, [tabs, tabToActivate]);
+  }, [tabsToRender, tabToActivate]);
 
-  const fuse = useMemo(() => {
-    return new Fuse(tabs, {
-      shouldSort: true,
-      keys: ["title", "url"],
-      includeMatches: true,
-      findAllMatches: true,
-    });
-  }, [tabs]);
-
-  let tabsToDisplay: React.ReactElement[];
-  if (searchQuery === undefined || searchQuery.length === 0) {
-    tabsToDisplay = tabs.map((tab, index) => (
-      <Tab
-        key={tab.id}
-        title={tab.title}
-        url={tab.url}
-        active={tab.active}
-        iconUrl={tab.favIconUrl}
-        windowId={tab.windowId}
-        tabId={tab.id}
-        closeTabHandler={closeTab}
-        listIndex={index}
-        setTabToActive={setTabToActivate}
-        selectedForActivation={index === tabToActivate}
-      ></Tab>
-    ));
-  } else {
-    tabsToDisplay = fuse.search(searchQuery).map((match, index) => {
-      return (
+  return (
+    <div>
+      {tabsToRender.map((tab, index) => (
         <Tab
-          key={match.item.id}
-          title={match.item.title}
-          url={match.item.url}
-          active={match.item.active}
-          iconUrl={match.item.favIconUrl}
-          windowId={match.item.windowId}
-          tabId={match.item.id}
-          highlightMatches={match.matches}
+          key={tab.key}
+          title={tab.title}
+          url={tab.url}
+          active={tab.active}
+          iconUrl={tab.iconUrl}
+          windowId={tab.windowId}
+          tabId={tab.tabId}
+          highlightMatches={tab.highlightMatches}
           closeTabHandler={closeTab}
           listIndex={index}
           setTabToActive={setTabToActivate}
           selectedForActivation={index === tabToActivate}
         ></Tab>
-      );
-    });
-  }
-
-  return <div>{tabsToDisplay}</div>;
+      ))}
+    </div>
+  );
 }
