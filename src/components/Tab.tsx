@@ -63,7 +63,7 @@ export default function Tab({
         selectedForActivation ? "bg-gray-700" : "bg-gray-800"
       }`}
     >
-      <div className="flex flex-col pl-2 pr-2 justify-center w-8">
+      <div className="flex flex-col pl-2 pr-2 justify-center h-8 w-8">
         {iconUrl ? (
           <img className="object-contain max-w-none" src={iconUrl}></img>
         ) : null}

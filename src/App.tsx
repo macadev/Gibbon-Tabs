@@ -19,6 +19,7 @@ function App() {
   }, []);
 
   const fuse = useMemo(() => {
+    console.log(tabs);
     return new Fuse(tabs, {
       shouldSort: true,
       keys: ["title", "url"],
@@ -70,7 +71,7 @@ function App() {
 
   return (
     <div className="w-600 mx-auto bg-gray-900">
-      <ExtensionHeader setSearchQuery={setSearchQuery} />
+      <ExtensionHeader tabs={tabs} setSearchQuery={setSearchQuery} />
       <TabsContainer tabsToRender={tabsToRender} closeTab={closeTab} />
     </div>
   );
