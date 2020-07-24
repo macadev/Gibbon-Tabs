@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Tab from "./Tab";
 import { activateTab } from "../chrome/tabApi";
+import { useActiveWindowId } from "../hooks/useActiveWindowId";
 
 interface TabsContainerInterface {
   tabsToRender: any[];
@@ -12,6 +13,7 @@ export default function TabsContainer({
   closeTab,
 }: TabsContainerInterface): React.ReactElement {
   const [tabToActivate, setTabToActivate] = useState<number>(0);
+  const activeWindowId: number | undefined = useActiveWindowId();
 
   useEffect(() => {
     setTabToActivate(0);
@@ -72,6 +74,7 @@ export default function TabsContainer({
           listIndex={index}
           setTabToActive={setTabToActivate}
           selectedForActivation={index === tabToActivate}
+          isInActiveWindow={activeWindowId === tab.windowId}
         ></Tab>
       ))}
     </div>

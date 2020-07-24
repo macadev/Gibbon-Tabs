@@ -10,7 +10,7 @@ export default function HighlightedText({
   text,
   highlightMatches,
 }: HighlightedTextInterface) {
-  if (highlightMatches.length === 0) return <p>{text}</p>;
+  if (highlightMatches.length === 0) return <>{text}</>;
 
   let indicesToHighlight = highlightMatches[0].indices;
 
@@ -38,5 +38,5 @@ export default function HighlightedText({
     }
   });
 
-  return <p className="truncate">{result}</p>;
+  return <>{result}</>;
 }

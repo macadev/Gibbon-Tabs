@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import fuse from "fuse.js";
 import HighlightedText from "./HighlightedText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { activateTab } from "../chrome/tabApi";
 import { isOutOfViewport } from "../utils/viewport";
 
@@ -18,6 +18,7 @@ interface Tab {
   closeTabHandler: (tabIdToDelete: number) => void;
   setTabToActive: React.Dispatch<React.SetStateAction<number>>;
   selectedForActivation: boolean;
+  isInActiveWindow: boolean;
 }
 
 export default function Tab({
@@ -32,6 +33,7 @@ export default function Tab({
   closeTabHandler,
   setTabToActive,
   selectedForActivation,
+  isInActiveWindow,
 }: Tab): React.ReactElement {
   const tabElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -82,7 +84,18 @@ export default function Tab({
           ></HighlightedText>
         </div>
       </div>
-      <div className="text-lg pr-4 pl-4 flex flex-col justify-center hover:text-red-600 cursor-pointer">
+      {isInActiveWindow && (
+        <div className="text-base text-blue-600 pl-4 flex flex-col justify-center">
+          <FontAwesomeIcon
+            icon={faWindowMaximize}
+            onClick={(e) => {
+              e.stopPropagation();
+              closeTabHandler(tabId);
+            }}
+          ></FontAwesomeIcon>
+        </div>
+      )}
+      <div className="text-base pr-4 pl-2 flex flex-col justify-center hover:text-red-600 cursor-pointer">
         <FontAwesomeIcon
           icon={faTimes}
           onClick={(e) => {

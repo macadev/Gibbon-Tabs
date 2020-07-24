@@ -9,6 +9,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [tabs, setTabs] = useState<ChromeTabs>([]);
   const [tabsToRender, setTabsToRender] = useState<ChromeTabs>([]);
+  const [containerHeightClass, setContainerHeightClass] = useState<string>("");
 
   let chrome: any = (window as any)["chrome"];
 
@@ -70,8 +71,12 @@ function App() {
   };
 
   return (
-    <div className="w-600 mx-auto bg-gray-900">
-      <ExtensionHeader tabs={tabs} setSearchQuery={setSearchQuery} />
+    <div className={`font-gibbon w-600 mx-auto ${containerHeightClass}`}>
+      <ExtensionHeader
+        tabs={tabs}
+        setSearchQuery={setSearchQuery}
+        setContainerHeightClass={setContainerHeightClass}
+      />
       <TabsContainer tabsToRender={tabsToRender} closeTab={closeTab} />
     </div>
   );

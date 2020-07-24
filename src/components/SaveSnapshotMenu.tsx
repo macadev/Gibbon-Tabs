@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { chromeStorageGet, chromeStorageSet } from "../chrome/storageApi";
+import { isOutOfViewport } from "../utils/viewport";
+
+import { useActiveWindowId } from "../hooks/useActiveWindowId";
 
 interface SaveSnapshotMenu {
   tabs: any[];
   showSaveSnapshotMenu: boolean;
   setShowSaveSnapshotMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setContainerHeightClass: React.Dispatch<React.SetStateAction<string>>;
 }
 
 enum SnapshotType {
@@ -16,34 +21,6 @@ enum SnapshotSavingState {
   IDLE,
   SAVING,
   DONE_SAVING,
-}
-
-function chromeStorageSet(objectToSave: object) {
-  let chrome: any = (window as any)["chrome"];
-
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.set(objectToSave, () => {
-      if (chrome.runtime.lastError) {
-        reject("Failed to store object. It's too large to sync.");
-        return;
-      }
-      resolve();
-    });
-  });
-}
-
-function chromeStorageGet(storageKey: string) {
-  let chrome: any = (window as any)["chrome"];
-
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.get(storageKey, (data: any) => {
-      if (chrome.runtime.lastError) {
-        reject("Failed to get object.");
-        return;
-      }
-      resolve(data);
-    });
-  });
 }
 
 async function saveSnapshot(
@@ -117,14 +94,13 @@ async function saveSnapshot(
     );
     return;
   }
-
-  console.log("done saving snapshot", snapshot);
 }
 
 export default function SaveSnapshotMenu({
   tabs,
   showSaveSnapshotMenu,
   setShowSaveSnapshotMenu,
+  setContainerHeightClass,
 }: SaveSnapshotMenu) {
   let [snapshotType, setSnapshotType] = useState<SnapshotType>(
     SnapshotType.ACTIVE_WINDOW
@@ -136,14 +112,9 @@ export default function SaveSnapshotMenu({
 
   let [snapshotName, setSnapshotName] = useState<string>("");
 
-  let [activeWindowId, setActiveWindowId] = useState<number>();
+  let activeWindowId: number | undefined = useActiveWindowId();
 
-  let chrome: any = (window as any)["chrome"];
-  useEffect(() => {
-    chrome.windows.getCurrent({}, (windowData: any) => {
-      setActiveWindowId(windowData.id);
-    });
-  }, []);
+  const saveSnapshotsMenu = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (SnapshotSavingState.DONE_SAVING === snapshotSavingState) {
@@ -154,12 +125,26 @@ export default function SaveSnapshotMenu({
     }
   }, [snapshotSavingState]);
 
+  useEffect(() => {
+    if (
+      showSaveSnapshotMenu &&
+      saveSnapshotsMenu &&
+      saveSnapshotsMenu?.current &&
+      isOutOfViewport(saveSnapshotsMenu?.current).any
+    ) {
+      setContainerHeightClass("h-48");
+    }
+  }, [showSaveSnapshotMenu]);
+
   if (showSaveSnapshotMenu === false || activeWindowId === undefined) {
     return null;
   }
 
   return (
-    <div className="absolute flex flex-col bg-gray-900 text-white p-3 w-1/3 border-2 border-solid border-gray-700">
+    <div
+      ref={saveSnapshotsMenu}
+      className="absolute flex flex-col bg-gray-900 text-white p-3 w-1/3 border-2 border-solid border-gray-700"
+    >
       <input
         onChange={(e) => {
           setSnapshotName(e.target.value);
