@@ -14,7 +14,6 @@ export function activateTab({ windowId, tabId }: TabData) {
 }
 
 export function createWindow(urls: string[]) {
-  console.log(urls);
   var createData = {
     url: urls,
     focused: true,

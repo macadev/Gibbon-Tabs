@@ -16,7 +16,7 @@ interface Tab {
   highlightMatches?: readonly fuse.FuseResultMatch[];
   listIndex: number;
   closeTabHandler: (tabIdToDelete: number) => void;
-  setTabToActive: React.Dispatch<React.SetStateAction<number>>;
+  setTabToActivate: React.Dispatch<React.SetStateAction<number>>;
   selectedForActivation: boolean;
   isInActiveWindow: boolean;
 }
@@ -31,7 +31,7 @@ export default function Tab({
   highlightMatches = [],
   listIndex,
   closeTabHandler,
-  setTabToActive,
+  setTabToActivate,
   selectedForActivation,
   isInActiveWindow,
 }: Tab): React.ReactElement {
@@ -60,8 +60,8 @@ export default function Tab({
     <div
       ref={tabElementRef}
       onClick={() => activateTab({ windowId, tabId })}
-      onMouseEnter={(e) => setTabToActive(listIndex)}
-      className={`pt-4 pb-4 pl-1 pr-1 m-1 mb-2 text-white flex flex-row ${
+      onMouseEnter={(e) => setTabToActivate(listIndex)}
+      className={`pt-3 pb-3 pl-1 pr-1 m-1 mb-2 text-white flex flex-row ${
         selectedForActivation ? "bg-gray-700" : "bg-gray-800"
       }`}
     >
@@ -71,13 +71,13 @@ export default function Tab({
         ) : null}
       </div>
       <div className="flex-grow overflow-hidden">
-        <div className="text-sm truncate">
+        <div className="text-xs truncate">
           <HighlightedText
             text={title}
             highlightMatches={titleHighlightMatches}
           ></HighlightedText>
         </div>
-        <div className="text-xs truncate">
+        <div className="text-xxs truncate">
           <HighlightedText
             text={url}
             highlightMatches={urlHighlightMatches}

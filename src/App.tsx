@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import TabsContainer from "./components/TabsContainer";
 import ExtensionHeader from "./components/ExtensionHeader";
 import Fuse from "fuse.js";
@@ -10,6 +10,7 @@ function App() {
   const [tabs, setTabs] = useState<ChromeTabs>([]);
   const [tabsToRender, setTabsToRender] = useState<ChromeTabs>([]);
   const [containerHeightClass, setContainerHeightClass] = useState<string>("");
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   let chrome: any = (window as any)["chrome"];
 
@@ -20,7 +21,6 @@ function App() {
   }, []);
 
   const fuse = useMemo(() => {
-    console.log(tabs);
     return new Fuse(tabs, {
       shouldSort: true,
       keys: ["title", "url"],
@@ -64,6 +64,11 @@ function App() {
     }
   }, [tabs, searchQuery]);
 
+  let focusOnSearchInput = () => {
+    console.log("focusing");
+    searchInputRef?.current?.focus({ preventScroll: true });
+  };
+
   let closeTab = (tabIdToDelete: number) => {
     chrome.tabs.remove(tabIdToDelete, function () {
       setTabs(tabs.filter((tab) => tab.id !== tabIdToDelete));
@@ -76,8 +81,15 @@ function App() {
         tabs={tabs}
         setSearchQuery={setSearchQuery}
         setContainerHeightClass={setContainerHeightClass}
+        focusOnSearchInput={focusOnSearchInput}
+        searchInputRef={searchInputRef}
       />
-      <TabsContainer tabsToRender={tabsToRender} closeTab={closeTab} />
+      <TabsContainer
+        tabsToRender={tabsToRender}
+        closeTab={closeTab}
+        searchQuery={searchQuery}
+        focusOnSearchInput={focusOnSearchInput}
+      />
     </div>
   );
 }

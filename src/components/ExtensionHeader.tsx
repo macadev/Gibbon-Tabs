@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { faCameraRetro, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SaveSnapshotMenu from "./SaveSnapshotMenu";
@@ -9,12 +9,16 @@ interface ExtensionHeaderInterface {
   tabs: any[];
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   setContainerHeightClass: React.Dispatch<React.SetStateAction<string>>;
+  focusOnSearchInput: () => void;
+  searchInputRef: React.MutableRefObject<HTMLInputElement | null>;
 }
 
 export default function ExtensionHeader({
   tabs,
   setSearchQuery,
   setContainerHeightClass,
+  focusOnSearchInput,
+  searchInputRef,
 }: ExtensionHeaderInterface): React.ReactElement {
   let [showSaveSnapshotMenu, setShowSaveSnapshotMenu] = useState<boolean>(
     false
@@ -36,11 +40,19 @@ export default function ExtensionHeader({
     }
   }, [showManageSnapshotsMenu]);
 
+  useEffect(() => {
+    if (!showManageSnapshotsMenu && !showSaveSnapshotMenu) {
+      setContainerHeightClass("");
+      focusOnSearchInput();
+    }
+  }, [showManageSnapshotsMenu, showSaveSnapshotMenu]);
+
   return (
     <div className="flex flex-row items-center">
       <input
+        ref={searchInputRef}
         placeholder="Search text..."
-        className="bg-black m-4 p-2 w-4/12 text-white"
+        className="bg-black m-4 p-2 w-4/12 text-white outline-none"
         onChange={(event) => setSearchQuery(event.target.value)}
         autoFocus
       ></input>

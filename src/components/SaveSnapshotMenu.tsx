@@ -30,8 +30,7 @@ async function saveSnapshot(
   activeWindowId: number
 ) {
   if (snapshotName.length === 0) {
-    alert("Please specify a name for the snapshot");
-    return;
+    throw new Error("Please specify a name for the snapshot");
   }
 
   let urlsByWindow = tabs.reduce((urlsByWindowsAccumulator, tab) => {
@@ -63,20 +62,18 @@ async function saveSnapshot(
   try {
     await chromeStorageSet(snapshotKeyValueFormat);
   } catch (err) {
-    alert(
+    throw new Error(
       "Failed to save snapshot. It's too large to sync. Please remove some tabs and try again."
     );
-    return;
   }
 
   let tabSnapUIDsWrapper: any;
   try {
     tabSnapUIDsWrapper = await chromeStorageGet("tabSnapshotUIDs");
   } catch (err) {
-    alert(
+    throw new Error(
       "Failed to save snapshot. Couldn't retrieve snapshot IDs. Please try again later."
     );
-    return;
   }
 
   if (tabSnapUIDsWrapper.tabSnapshotUIDs === undefined) {
@@ -89,10 +86,9 @@ async function saveSnapshot(
       tabSnapshotUIDs: tabSnapUIDsWrapper.tabSnapshotUIDs,
     });
   } catch (err) {
-    alert(
+    throw new Error(
       "Failed to save snapshot. An error occurred while storing the snapshot ID. Please try again later."
     );
-    return;
   }
 }
 
@@ -197,7 +193,9 @@ export default function SaveSnapshotMenu({
               .then(() => {
                 setSnapshotSavingState(SnapshotSavingState.DONE_SAVING);
               })
-              .catch(() => {
+              .catch((err) => {
+                console.log(err.message);
+                alert(err.message);
                 setSnapshotSavingState(SnapshotSavingState.IDLE);
               });
           }}
