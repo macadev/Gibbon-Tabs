@@ -147,6 +147,7 @@ export default function SaveSnapshotMenu({
         }}
         placeholder="Snapshot name..."
         type="text"
+        maxLength={30}
         className="bg-black text-white p-1 mb-2"
         autoFocus
       ></input>

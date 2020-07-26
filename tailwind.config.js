@@ -1,5 +1,8 @@
 module.exports = {
-  purge: ["./src/**/*.html", "./src/**/*.jsx", "./src/**/*.tsx"],
+  purge: {
+    enabled: true,
+    content: ["./src/**/*.html", "./src/**/*.jsx", "./src/**/*.tsx"],
+  },
   theme: {
     extend: {},
     maxHeight: {
