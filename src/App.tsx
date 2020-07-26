@@ -65,7 +65,6 @@ function App() {
   }, [tabs, searchQuery]);
 
   let focusOnSearchInput = () => {
-    console.log("focusing");
     searchInputRef?.current?.focus({ preventScroll: true });
   };
 

@@ -16,8 +16,6 @@ export default function HighlightedText({
 
   let result: string = "";
 
-  console.log(text, indicesToHighlight);
-
   let matchIndex = 0;
   let match = indicesToHighlight[matchIndex];
   for (let i = 0; i < text.length; i++) {

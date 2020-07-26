@@ -194,7 +194,6 @@ export default function SaveSnapshotMenu({
                 setSnapshotSavingState(SnapshotSavingState.DONE_SAVING);
               })
               .catch((err) => {
-                console.log(err.message);
                 alert(err.message);
                 setSnapshotSavingState(SnapshotSavingState.IDLE);
               });
