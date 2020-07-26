@@ -53,7 +53,7 @@ export default function TabsContainer({
     }
 
     // Enter key
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       e.preventDefault();
       let selectedTab = tabsToRender[tabToActivate];
       activateTab({ windowId: selectedTab.windowId, tabId: selectedTab.tabId });
@@ -61,7 +61,7 @@ export default function TabsContainer({
     }
 
     // Shift + backspace key
-    if (e.keyCode == 8 && e.shiftKey) {
+    if (e.keyCode === 8 && e.shiftKey) {
       e.preventDefault();
       let selectedTab = tabsToRender[tabToActivate];
       closeTab(selectedTab.tabId);
@@ -69,7 +69,7 @@ export default function TabsContainer({
     }
 
     // Escape key
-    if (e.keyCode == 27) {
+    if (e.keyCode === 27) {
       window.close();
       return;
     }

@@ -14,29 +14,24 @@ export default function HighlightedText({
 
   let indicesToHighlight = highlightMatches[0].indices;
 
-  let result: any[] = [];
-  indicesToHighlight.map((indicesPair) => {
-    let boldMode = false;
-    let toBold = "";
-    for (let i = 0; i < text.length; i++) {
-      let char = text.charAt(i);
-      if (indicesPair && i == indicesPair[0]) {
-        boldMode = true;
-      }
+  let result: string = "";
 
-      if (boldMode) {
-        toBold += char;
-      } else {
-        result.push(char);
-      }
+  console.log(text, indicesToHighlight);
 
-      if (indicesPair && i == indicesPair[1]) {
-        result.push(<b className="text-yellow-300">{toBold}</b>);
-        boldMode = false;
-        toBold = "";
-      }
+  let matchIndex = 0;
+  let match = indicesToHighlight[matchIndex];
+  for (let i = 0; i < text.length; i++) {
+    let char = text.charAt(i);
+    if (match && i === match[0]) {
+      result += '<b style="color: #faf089;">';
     }
-  });
+    result += char;
+    if (match && i === match[1]) {
+      result += "</b>";
+      matchIndex++;
+      match = indicesToHighlight[matchIndex];
+    }
+  }
 
-  return <>{result}</>;
+  return <span dangerouslySetInnerHTML={{ __html: result }}></span>;
 }
