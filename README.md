@@ -31,7 +31,7 @@ A Chrome extension to help you navigate your tab jungle with ease. _Now written 
   - The internal sites you open at work every morning!
   - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you don't want to close, but you sure as hell don't want to take home at the end of the day either. Free your mind!
-- Snapshots are synchronized to your Google profile using [chrome.storage.sync](https://developer.chrome.com/extensions/storage) - I don't have access to your history. All data is stored securely in Google's servers.
+- Snapshots are synchronized to your Google profile using [chrome.storage.sync](https://developer.chrome.com/extensions/storage) - I don't have access to your history.
 
 ## Requirements
 
