@@ -101,7 +101,7 @@ _Then Gibbon Tabs is for You!_
 
 ## Why did you create this & tell me more about the technical crap?
 
-- I wrote Gibbon Tabs in 2016. It was the first side project that I ever shipped to real users. I built this extension to learn about JavaScript and CSS, which I barely understood at the time. I leanred a ton and wrote lots of very unmaintainable spaghetti-JavaScript (look through the old 'master' branch to see what I'm talking about). Despite the poor quality codebase, the product was amazingly performant. It was bug-free and delivered a user experience that I'm still proud of today.
+- I wrote Gibbon Tabs in 2016. It was the first side project that I ever shipped to real users. I built this extension to learn about JavaScript and CSS, which I barely understood at the time. I learned a ton and wrote lots of very unmaintainable spaghetti-JavaScript (look through the old 'master' branch to see what I'm talking about). The extension performed incredibly well despite the poor quality codebase. It delivered a user experience that I'm still proud of today.
 - I decided during quarantine in 2020 to rewrite the codebase using React.js and TypeScript. I did this to learn about both both of these _hot-very-hotman_ technologies. It was a really wonderful learning experience. The codebase is incredibly more maintainable (but still not quite where I would like it to be). I am now a convert into the power of React, and I also see the value of using TypeScript for large JavaScript projects.
 - Fuzzy searching is powered by this library: [Fuse](https://github.com/krisk/Fuse)
 - I used [tailwind](https://tailwindcss.com/) for the styling. God damn, tailwind is amazing. I can prototype beautiful UIs without having to write a single line of custom CSS.
