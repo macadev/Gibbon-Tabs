@@ -32,7 +32,6 @@ A Chrome extension to help you navigate your tab jungle with ease.
   - All the websites you use to procrastinate. Waste lots of time more effectively!
   - The giant hairy ball of tabs you don't want to close, but you sure as hell don't want to take home at the end of the day either. Free your mind!
 - Snapshots are synchronized to your Google profile using [chrome.storage.sync](https://developer.chrome.com/extensions/storage) - I don't have access to your history. All data is stored securely in Google's servers.
-- The "Overwrite Snapshot" widget lets you modify the contents of snapshots you created in the past.
 
 ## Requirements
 
@@ -76,8 +75,6 @@ A Chrome extension to help you navigate your tab jungle with ease.
 - There are no shortcuts for "Tab Snapshots". Just use it once and you'll learn how it works!
 - When you open the "Tab Snapshots" dropdown you will see a list of all the snapshots you have saved.
   - Click on the "x" icon next to a snapshot name to delete it.
-  - Click on the pencil icon to overwrite the contents of a snapshot.
-    - Through this feature you can add new tabs to snapshots you have created in the past!
 
 ## Why do I need this?
 
@@ -102,22 +99,20 @@ _Then Gibbon Tabs is for You!_
   <em>You using Gibbon Tabs.</em>
 </p>
 
-## Some technical details
+## Why did you create this & tell me more about the technical crap?
 
-- Fuzzy search library used: [Fuse](https://github.com/krisk/Fuse)
-- I wanted to implement this without using any javascript frameworks. It's all pure javascript.
-  - Some parts of the code got a bit Sphagetti-ed along the way. I don't have tons of experience with frontend. I learned a lot!
-- The CSS is a bit of a hack. I also learned a ton here.
+- I wrote Gibbon Tabs in 2016. It was the first side project that I ever shipped to real users. I built this extension to learn about JavaScript and CSS, which I barely understood at the time. I leanred a ton and wrote lots of very unmaintainable spaghetti-JavaScript (look through the old 'master' branch to see what I'm talking about). Despite the poor quality codebase, the product was amazingly performant. It was bug-free and delivered a user experience that I'm still proud of today.
+- I decided during quarantine in 2020 to rewrite the codebase using React.js and TypeScript. I did this to learn about both both of these _hot-very-hotman_ technologies. It was a really wonderful learning experience. The codebase is incredibly more maintainable (but still not quite where I would like it to be). I am now a convert into the power of React, and I also see the value of using TypeScript for large JavaScript projects.
+- Fuzzy searching is powered by this library: [Fuse](https://github.com/krisk/Fuse)
+- I used [tailwind](https://tailwindcss.com/) for the styling. God damn, tailwind is amazing. I can prototype beautiful UIs without having to write a single line of custom CSS.
 - What was the hardest part of this project? Writing this damn README.
 
-## Donate
-
-- If you love this project and want to help its continued development, consider donating some bitcoin to the following address [19R4F9Gas9S1Wa7Rw8UhppN5eBxyCLDpR2](https://blockchain.info/address/19R4F9Gas9S1Wa7Rw8UhppN5eBxyCLDpR2)
-  - Your donations will help me buy coffee and train rides to Montreal (A large chunk of this project was completed on the train to Montreal from Toronto, believe it or not. I am amazingly productive while on trains).
-  - I have many other ideas for developer tools that I think can have a pretty big impact on your workflow, so you can expect more awesome things to come.
-  - Thanks to the stranger who sent me 0.00123977 BTC. I made my first dollar on the internet! WOAH!
-
 ## Version changes
+- __2.0.0__
+  - Changes:
+    - Migrated the codebase to React and Typescript
+    - Removed feature to change contents of tab snapshots (will hopefully add later, I have spent enough time in this rewrite)
+
 - __1.1.2__
   - Changes:
     - Fix very small CSS issue with release 1.1.1
