@@ -4,7 +4,7 @@
 
 # Gibbon Tabs
 
-A Chrome extension to help you navigate your tab jungle with ease.
+A Chrome extension to help you navigate your tab jungle with ease. _Now written in React and TypeScript so others can contribute!_
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=X4AHNVJXIS0&t">
