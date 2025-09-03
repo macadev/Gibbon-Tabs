@@ -12,6 +12,5 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["tabs", "storage"],
-  "host_permissions": ["<all_urls>"]
+  "permissions": ["tabs", "storage"]
 }
